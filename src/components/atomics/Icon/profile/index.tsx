@@ -1,6 +1,5 @@
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import styled from 'styled-components';
-import { JSX, ReactElement } from 'React';
 
 const IconSizeContainer = styled.div`
   height: 32px;
