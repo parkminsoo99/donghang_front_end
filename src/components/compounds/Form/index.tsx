@@ -6,9 +6,13 @@ import styled from 'styled-components';
 import isNil from 'lodash/isNil';
 import { Flex } from 'antd';
 import { SubTitle } from '@/components/atomics/Typography';
-import { loginOnSubmit, userOnSubmit, passwordOnSubmit} from './submitFunction';
+import {
+  loginOnSubmit,
+  userOnSubmit,
+  passwordOnSubmit,
+} from './submitFunction';
 import { ReactElement } from 'react';
-import { FormProps } from "@/types/formProps";
+import { FormProps } from '@/types/formProps';
 const Container = styled.div`
   width: 100%;
   height: 600px;
@@ -19,7 +23,12 @@ const Container = styled.div`
   gap: 75px;
 `;
 
-type registerString = 'name' | 'email' | 'registerPassword' | 'loginPassword' | 'nickname';
+type registerString =
+  | 'name'
+  | 'email'
+  | 'registerPassword'
+  | 'loginPassword'
+  | 'nickname';
 
 interface InputProps {
   catergory: string;
@@ -36,26 +45,31 @@ export const Form = ({
   registerArray,
   label,
   catergory,
-  typeArray
+  typeArray,
 }: InputProps) => {
-
-  const inputs:ReactElement[] = []
+  const inputs: ReactElement[] = [];
   const { register, handleSubmit } = useForm<FormProps>();
 
-  var functionCatergory: SubmitHandler<FormProps> = loginOnSubmit
-  if(catergory === 'email') functionCatergory = loginOnSubmit
-  else if(catergory === 'user') functionCatergory = userOnSubmit
-  else if(catergory === 'password') functionCatergory = passwordOnSubmit
-  
+  let functionCatergory: SubmitHandler<FormProps> = loginOnSubmit;
+  if (catergory === 'email') functionCatergory = loginOnSubmit;
+  else if (catergory === 'user') functionCatergory = userOnSubmit;
+  else if (catergory === 'password') functionCatergory = passwordOnSubmit;
 
-  if(!isNil(registerArray) && !isNil(idArray) && !isNil(placeholderArray) && !isNil(typeArray)){
-    for(var i=0; i < registerArray.length; i++){
-      inputs.push(<Input
-        key={`${catergory}-${registerArray[i]}-${idArray[i]}-${placeholderArray[i]}-${typeArray[i]}`}
-        type={typeArray[i]}
-        placeholder={placeholderArray[i]}
-        {...register(registerArray[i])}
-      />)
+  if (
+    !isNil(registerArray) &&
+    !isNil(idArray) &&
+    !isNil(placeholderArray) &&
+    !isNil(typeArray)
+  ) {
+    for (let i = 0; i < registerArray.length; i++) {
+      inputs.push(
+        <Input
+          key={`${catergory}-${registerArray[i]}-${idArray[i]}-${placeholderArray[i]}-${typeArray[i]}`}
+          type={typeArray[i]}
+          placeholder={placeholderArray[i]}
+          {...register(registerArray[i])}
+        />
+      );
     }
   }
   return (

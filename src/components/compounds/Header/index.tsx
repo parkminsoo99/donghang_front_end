@@ -25,10 +25,10 @@ export const Header = () => {
   const content2 = (
     <Form
       catergory="user"
-      registerArray={['name','nickname','registerPassword']}
-      idArray={['name','nickname','password']}
-      placeholderArray={['이름','닉네임','비밀번호']}
-      typeArray={['text','nickname','password']}
+      registerArray={['name', 'nickname', 'registerPassword']}
+      idArray={['name', 'nickname', 'password']}
+      placeholderArray={['이름', '닉네임', '비밀번호']}
+      typeArray={['text', 'nickname', 'password']}
       label="사용자 정보를 입력해주세요."
     />
   );
