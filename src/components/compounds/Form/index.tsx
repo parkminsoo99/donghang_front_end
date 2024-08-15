@@ -3,60 +3,70 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '@/components/atomics/Input';
 import { Button } from '@/components/atomics/Button';
 import styled from 'styled-components';
-import { emailError } from './formVerification';
 import isNil from 'lodash/isNil';
-import customNotification from '@/components/atomics/Notification';
 import { Flex } from 'antd';
+import { SubTitle } from '@/components/atomics/Typography';
+import { loginOnSubmit, userOnSubmit, passwordOnSubmit} from './submitFunction';
+import { ReactElement } from 'react';
+import { FormProps } from "@/types/formProps";
 const Container = styled.div`
-  width: 200px;
-  height: 100px;
+  width: 100%;
+  height: 600px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 75px;
 `;
-interface LoginFormProps {
-  email?: string;
+
+type registerString = 'name' | 'email' | 'registerPassword' | 'loginPassword' | 'nickname';
+
+interface InputProps {
+  catergory: string;
+  idArray: string[];
+  placeholderArray: string[];
+  registerArray: registerString[];
+  typeArray: string[];
+  label: string;
 }
 
-interface PasswordFormProps {
-  password: string;
-}
+export const Form = ({
+  idArray,
+  placeholderArray,
+  registerArray,
+  label,
+  catergory,
+  typeArray
+}: InputProps) => {
 
-interface RegisterFormProps {
-  name: string;
-  nickname: string;
-  password: string;
-}
+  const inputs:ReactElement[] = []
+  const { register, handleSubmit } = useForm<FormProps>();
 
-export const Login = () => {
-  const { register, handleSubmit } = useForm<LoginFormProps>();
+  var functionCatergory: SubmitHandler<FormProps> = loginOnSubmit
+  if(catergory === 'email') functionCatergory = loginOnSubmit
+  else if(catergory === 'user') functionCatergory = userOnSubmit
+  else if(catergory === 'password') functionCatergory = passwordOnSubmit
+  
 
-  const onSubmit: SubmitHandler<LoginFormProps> = data => {
-    console.log(data);
-    const emailData = emailError(data.email);
-    console.log(emailData);
-    if (!isNil(emailData.errorDescription)) {
-      customNotification({
-        message: emailData.errorDescription,
-        placement: 'top',
-        type: 'error',
-      });
+  if(!isNil(registerArray) && !isNil(idArray) && !isNil(placeholderArray) && !isNil(typeArray)){
+    for(var i=0; i < registerArray.length; i++){
+      inputs.push(<Input
+        key={`${catergory}-${registerArray[i]}-${idArray[i]}-${placeholderArray[i]}-${typeArray[i]}`}
+        type={typeArray[i]}
+        placeholder={placeholderArray[i]}
+        {...register(registerArray[i])}
+      />)
     }
-  };
+  }
   return (
     <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <SubTitle level={2} label={label} />
+      <form onSubmit={handleSubmit(functionCatergory)}>
         <Flex gap={10} align="center" vertical>
-          <Input
-            id="email"
-            type="text"
-            placeholder="이메일 입력"
-            {...register('email')}
-          />
+          {inputs}
           <Button label="확인" />
         </Flex>
       </form>
     </Container>
   );
 };
-
-// export const Regsiter = () => {
-//   const { register, handleSubmit } = useForm<RegisterProps>;
-// };

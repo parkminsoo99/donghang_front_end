@@ -1,14 +1,13 @@
 import { cloneElement, FC, ReactNode } from 'react';
-import { Modal } from 'antd';
+import { Modal, Flex } from 'antd';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
 
 interface ModalProps {
-  title: string;
+  title?: string;
   content: JSX.Element;
   children?: ReactNode;
-  buttonTrigger: JSX.Element;
+  buttonTrigger?: JSX.Element;
 }
-
 export const CustomModal: FC<ModalProps> = ({
   buttonTrigger,
   title,
@@ -19,16 +18,21 @@ export const CustomModal: FC<ModalProps> = ({
 
   return (
     <>
-      {cloneElement(buttonTrigger, {
-        onClick: () => openModal(content),
-      })}
+      {buttonTrigger &&
+        cloneElement(buttonTrigger, {
+          onClick: () => openModal(content),
+        })}
       <Modal
-        title={title}
+        styles={{ body: { height: '600px' } }}
+        width={640}
         open={isModalOpen}
         onCancel={closeModal}
-        footer={[<button key="submit">test</button>]}
+        footer={null}
       >
-        {contentModal}
+        {title}
+        <Flex align="center" justify="center">
+          {contentModal}
+        </Flex>
       </Modal>
     </>
   );

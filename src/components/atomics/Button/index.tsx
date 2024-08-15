@@ -7,22 +7,27 @@ interface Props {
   readonly color?: string;
   readonly label: string;
 }
+
 const Container = styled.button`
+  width: 200px;
   color: #fff;
-  width: 100%;
-  height: 46px;
+  height: 48px;
   background-color: #000;
+  border-color: #000;
   border-style: solid;
   border-radius: 15px;
+  box-sizing: border-box; //padding과 border를 포함한 크기 계산
   &:hover {
     color: #fff;
-    border-radius: 15;
+    border-color: #000;
+    cursor: pointer;
+    border-style: solid;
+    border-radius: 15px;
     border: 0;
     background-color: #ffaaa4;
   }
-  justify-content: center;
-  align-items: center;
 `;
+
 export const Button = ({ color = '#fff', label, onClick }: Props) => {
   return (
     <Container color={color} onClick={onClick}>
