@@ -4,9 +4,9 @@ interface ErrorProps {
   errorDescription?: string;
 }
 
-type userEmailProps = string | undefined;
+type argProps = string | undefined;
 
-export function emailError(email: userEmailProps): ErrorProps {
+export function emailError(email: argProps): ErrorProps {
   const emailError: ErrorProps = {};
 
   if (isNil(email) || email.length == 0) {
@@ -16,12 +16,11 @@ export function emailError(email: userEmailProps): ErrorProps {
   }
   return emailError;
 }
-type userDetailPropsType = string | undefined;
 
 interface userDetailProps {
-  name?: userDetailPropsType;
-  userNickName?: userDetailPropsType;
-  password?: userDetailPropsType;
+  name?: argProps;
+  userNickName?: argProps;
+  password?: argProps;
 }
 export function userError({
   name,
@@ -50,9 +49,7 @@ export function userError({
   return userError;
 }
 
-type passwordEmailProps = string | undefined;
-
-export function passwordError(password: passwordEmailProps): ErrorProps {
+export function passwordError(password: argProps): ErrorProps {
   const passwordError: ErrorProps = {};
 
   if (isNil(password) || password.length == 0) {

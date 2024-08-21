@@ -13,6 +13,8 @@ import {
 } from './submitFunction';
 import { ReactElement } from 'react';
 import { FormProps } from '@/types/formProps';
+import { useModalStore } from '@/zustand/modalStore/modalStore';
+
 const Container = styled.div`
   width: 100%;
   height: 600px;
@@ -49,11 +51,22 @@ export const Form = ({
 }: InputProps) => {
   const inputs: ReactElement[] = [];
   const { register, handleSubmit } = useForm<FormProps>();
+  const { setContentIndex, nextContent } = useModalStore();
+  let functionCatergory: SubmitHandler<FormProps> = loginOnSubmit(
+    nextContent,
+    setContentIndex
+  );
 
-  let functionCatergory: SubmitHandler<FormProps> = loginOnSubmit;
-  if (catergory === 'email') functionCatergory = loginOnSubmit;
-  else if (catergory === 'user') functionCatergory = userOnSubmit;
-  else if (catergory === 'password') functionCatergory = passwordOnSubmit;
+  if (catergory === 'email') {
+    console.log('catergory', catergory);
+    functionCatergory = loginOnSubmit(nextContent, setContentIndex);
+  } else if (catergory === 'user') {
+    console.log('catergory', catergory);
+    functionCatergory = userOnSubmit(nextContent, setContentIndex);
+  } else if (catergory === 'password') {
+    console.log('catergory', catergory);
+    functionCatergory = passwordOnSubmit(nextContent, setContentIndex);
+  }
 
   if (
     !isNil(registerArray) &&
@@ -75,10 +88,15 @@ export const Form = ({
   return (
     <Container>
       <SubTitle level={2} label={label} />
-      <form onSubmit={handleSubmit(functionCatergory)}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          handleSubmit(functionCatergory)(e);
+        }}
+      >
         <Flex gap={10} align="center" vertical>
           {inputs}
-          <Button label="확인" />
+          <Button label="제출" />
         </Flex>
       </form>
     </Container>

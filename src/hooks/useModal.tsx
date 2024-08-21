@@ -4,7 +4,7 @@ import { useModalStore } from '@/zustand/modalStore/modalStore';
 
 interface ModalProps {
   title?: string;
-  content: JSX.Element;
+  content: JSX.Element[];
   children?: ReactNode;
   buttonTrigger?: JSX.Element;
 }
@@ -12,15 +12,15 @@ export const CustomModal: FC<ModalProps> = ({
   buttonTrigger,
   title,
   content,
-  children,
 }: ModalProps) => {
   const { isModalOpen, contentModal, openModal, closeModal } = useModalStore();
+  const { contentIndex } = useModalStore();
 
   return (
     <>
       {buttonTrigger &&
         cloneElement(buttonTrigger, {
-          onClick: () => openModal(content),
+          onClick: () => openModal(content, 0),
         })}
       <Modal
         styles={{ body: { height: '600px' } }}

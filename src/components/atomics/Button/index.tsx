@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 interface Props {
-  readonly onClick?: () => void;
+  readonly onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   readonly color?: string;
   readonly label: string;
 }
