@@ -23,8 +23,8 @@ export const loginOnSubmit: LoginOnSubmit =
         type: 'error',
       });
     } else {
-      const next = setContentIndex() ?? 0;
-      nextContent(next);
+      const next = setContentIndex();
+      if (typeof next === 'number') nextContent(next);
     }
   };
 
@@ -43,8 +43,8 @@ export const userOnSubmit: LoginOnSubmit =
         type: 'error',
       });
     } else {
-      const next = setContentIndex() ?? 0;
-      nextContent(next);
+      const next = setContentIndex();
+      if (typeof next === 'number') nextContent(next);
     }
   };
 
@@ -59,7 +59,7 @@ export const passwordOnSubmit: LoginOnSubmit =
         type: 'error',
       });
     } else {
-      const next = setContentIndex() ?? 0;
-      nextContent(next);
+      const next = setContentIndex();
+      if (typeof next === 'number') nextContent(next);
     }
   };
