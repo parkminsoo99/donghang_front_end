@@ -4,6 +4,7 @@ import type { SliderSingleProps } from 'antd';
 import styled from 'styled-components';
 import { SubTitle } from '../Typography';
 import { DistanceStore } from '@/zustand/DistanceStore/DistanceStore';
+import { xxl, xl, lg, md, sm, xs } from '@/constants/size';
 interface SliderProps {
   title: string;
 }
@@ -14,10 +15,20 @@ const Container = styled.div`
   .ant-slider .ant-slider-mark-text-active {
     color: #fe724c;
   }
-  height: 200px;
-  width: 500px;
-  padding: 10px;
+  height: 100px;
+  width: 450px;
+  padding: 30px;
   background-color: #fff;
+  @media (max-width: ${xs}) {
+    width: 250px;
+    .ant-slider .ant-slider-mark-text {
+      color: #000;
+      font-size: 10px;
+    }
+    .ant-slider .ant-slider-mark-text-active {
+      color: #fe724c;
+    }
+  }
 `;
 const marks: SliderSingleProps['marks'] = {
   0.5: '0.5km',

@@ -10,12 +10,39 @@ import { useEffect } from 'react';
 import { MenuStore } from '@/zustand/MenuStore/MenuStore';
 import { CustomMenu } from '@/components/atomics/Menu';
 import { Add, Home, Map, Video } from '@/components/atomics/Icon';
+import { DistanceFiltering } from '@/components/compounds/DistanceFiltering';
+import Image from 'next/image';
+
+const Container = styled.div`
+  display: flex;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-top: 34px;
+  margin-bottom: 34px;
+  align-items: center;
+  justify-content: space-between;
+`;
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
+  border-radius: 20px;
+  justify-content: center;
+  width: 85px;
+  height: 40px;
+  border: 0.5px solid #4f4f4f;
+  &:hover {
+    box-shadow: 1px 1px 1px #4f4f4f;
+  }
 `;
-
-const MenuContainer = styled(IconContainer)`
+const FilteringContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const MenuContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+  width: 100px;
   gap: 15px;
 `;
 export const Header = () => {
@@ -74,12 +101,23 @@ export const Header = () => {
   }, []);
 
   return (
-    <IconContainer>
-      <CustomModal buttonTrigger={buttonTrigger} content={contentArray} />
-      <ThreeBars
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e)}
+    <Container>
+      <FilteringContainer>
+        <DistanceFiltering />
+      </FilteringContainer>
+      <Image
+        src="/images/betaLogo.png"
+        width={80}
+        height={80}
+        alt="Picture of the author"
       />
-      <CustomMenu titleArray={titleArray} />
-    </IconContainer>
+      <IconContainer>
+        <CustomModal buttonTrigger={buttonTrigger} content={contentArray} />
+        <ThreeBars
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e)}
+        />
+        <CustomMenu titleArray={titleArray} />
+      </IconContainer>
+    </Container>
   );
 };

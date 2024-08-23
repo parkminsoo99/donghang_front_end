@@ -3,8 +3,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import styled from 'styled-components';
 
 const IconSizeContainer = styled.button`
-  height: 32px;
-  width: 32px;
+  height: 28px;
+  width: 28px;
   border-color: #fff;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@ export const Filter = ({ onClick }: AccountProps) => {
   if (!onClick) return;
   return (
     <IconSizeContainer onClick={e => onClick(e)}>
-      <TuneIcon sx={{ fontSize: 32, color: '#FFAAA4' }} />
+      <TuneIcon sx={{ fontSize: 28, color: '#FFAAA4' }} />
     </IconSizeContainer>
   );
 };

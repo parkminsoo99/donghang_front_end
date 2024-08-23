@@ -14,7 +14,6 @@ export const CustomModal: FC<ModalProps> = ({
   content,
 }: ModalProps) => {
   const { isModalOpen, contentModal, openModal, closeModal } = useModalStore();
-  const { contentIndex } = useModalStore();
 
   return (
     <>
