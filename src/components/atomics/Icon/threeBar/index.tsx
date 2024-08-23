@@ -4,8 +4,13 @@ import styled from 'styled-components';
 const Container = styled.button`
   border-color: #fff;
   background-color: #fff;
-  border: 0;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content:center;
+  width: 24px;
+  height: 24px;
+  border:0;
 `;
 
 interface ThreeBarProps {
