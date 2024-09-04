@@ -115,10 +115,9 @@ const initializeData = (
     positions.push(pixel);
     count++;
   }
-  console.log('positions', positions);
   setPosition(positions);
   setItemCount(count);
-  setCurrentIdx(count - 1);
+  setCurrentIdx(0);
 };
 
 type totalFoodContainerType = HTMLDivElement;
@@ -142,16 +141,24 @@ export const MapFoodFiltering: FC = () => {
     PreviousBtn: null,
     NextBtn: null,
   });
-
-  const resizeObserver = new ResizeObserver(entries => {
-    for (const entry of entries) {
-      const width = entry.contentRect.width;
-      console.log('width', width);
-      const newCount = Math.ceil(1500 / width);
-      console.log(newCount);
-      initializeData(width, setPosition, setItemCount, setCurrentIdx);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const resizeObserver = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          const width = entry.contentRect.width;
+          initializeData(width, setPosition, setItemCount, setCurrentIdx);
+        }
+      });
+      if (targetRef.current && elements.totalFoodContainer) {
+        resizeObserver.observe(elements.totalFoodContainer);
+      }
+      return () => {
+        if (targetRef.current && elements.totalFoodContainer) {
+          resizeObserver.unobserve(elements.totalFoodContainer);
+        }
+      };
     }
-  });
+  }, [elements.totalFoodContainer]);
 
   useEffect(() => {
     const totalFoodContainer = document.querySelector(
@@ -180,17 +187,6 @@ export const MapFoodFiltering: FC = () => {
       setCurrentIdx(prevIdx => prevIdx - 1);
     }
   };
-
-  useEffect(() => {
-    if (targetRef.current && elements.totalFoodContainer) {
-      resizeObserver.observe(elements.totalFoodContainer);
-    }
-    return () => {
-      if (targetRef.current && elements.totalFoodContainer) {
-        resizeObserver.unobserve(elements.totalFoodContainer);
-      }
-    };
-  }, [elements.totalFoodContainer]);
 
   useEffect(() => {
     if (totalFoodContainerRef.current) {
