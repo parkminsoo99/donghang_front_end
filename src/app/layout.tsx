@@ -5,6 +5,7 @@ import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import StyledComponentsRegistry from './lib/registry';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Header } from '@/components/compounds/Header';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -14,14 +15,17 @@ export default function RootLayout({
 }>) {
   const queryClient = new QueryClient();
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <QueryClientProvider client={queryClient}>
-          <StyledComponentsRegistry>
-            <AntdRegistry>{children}</AntdRegistry>
-          </StyledComponentsRegistry>
-        </QueryClientProvider>
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <StyledComponentsRegistry>
+        <AntdRegistry>
+          <html lang="en">
+            <body className={inter.className}>
+              <Header />
+              {children}
+            </body>
+          </html>
+        </AntdRegistry>
+      </StyledComponentsRegistry>
+    </QueryClientProvider>
   );
 }

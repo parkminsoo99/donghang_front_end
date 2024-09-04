@@ -5,7 +5,6 @@ const IconSizeContainer = styled.div`
   height: 24px;
   width: 24px;
 `;
-
 export const SearchIcon = () => {
   return (
     <IconSizeContainer>

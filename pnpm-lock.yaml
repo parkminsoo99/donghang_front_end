@@ -29,6 +29,9 @@ importers:
       '@mui/material':
         specifier: ^5.16.7
         version: 5.16.7(@emotion/react@11.13.0(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.0(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@naver-maps/react':
+        specifier: ^1.0.0
+        version: 1.0.0(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.51.23
         version: 5.51.23(react@18.3.1)
@@ -50,6 +53,9 @@ importers:
       react-hook-form:
         specifier: ^7.52.2
         version: 7.52.2(react@18.3.1)
+      react-icons:
+        specifier: ^5.3.0
+        version: 5.3.0(react@18.3.1)
       styled-components:
         specifier: ^6.1.12
         version: 6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -60,6 +66,9 @@ importers:
       '@types/lodash':
         specifier: ^4.17.7
         version: 4.17.7
+      '@types/navermaps':
+        specifier: ^3.7.5
+        version: 3.7.5
       '@types/node':
         specifier: ^20
         version: 20.14.14
@@ -413,6 +422,11 @@ packages:
       '@types/react':
         optional: true
 
+  '@naver-maps/react@1.0.0':
+    resolution: {integrity: sha512-+yafUcsMhHlZVG2+QaunIjj5wMEsdm5B5TcwlbtLsK5WpO7nwWyGShjjWbBhg9UtK3gYyySnRW5H/c3kuNW77Q==}
+    peerDependencies:
+      react: ^18
+
   '@next/env@14.2.6':
     resolution: {integrity: sha512-bs5DFKV+08EjWrl8EB+KKqev1ZTNONH1vFCaHh911aaB362NnP32UDTbE9VQhyiAgbFqJsfDkSxFERNDDb3j0g==}
 
@@ -568,6 +582,9 @@ packages:
     peerDependencies:
       react: ^18.0.0
 
+  '@types/geojson@7946.0.14':
+    resolution: {integrity: sha512-WCfD5Ht3ZesJUsONdhvm84dmzWOiOzOAqOncN0++w0lBw1o8OuDNJF2McvvCef/yBqb/HYRahp1BYtODFQ8bRg==}
+
   '@types/hoist-non-react-statics@3.3.5':
     resolution: {integrity: sha512-SbcrWzkKBw2cdwRTwQAswfpB9g9LJWfjtUeW/jvNwbhC8cpmmNYVePa+ncbUe0rGTQ7G3Ff6mYUN2VMfLVr+Sg==}
 
@@ -576,6 +593,9 @@ packages:
 
   '@types/lodash@4.17.7':
     resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
+
+  '@types/navermaps@3.7.5':
+    resolution: {integrity: sha512-RzqYi0K5xhs45+KLkeoWjz2niDjVwKMYS1/LKns2LH9L7LEMVabdmyhP7n/6fzdJnbHc1wD1Dz+lFKOgq4yzJQ==}
 
   '@types/node@20.14.14':
     resolution: {integrity: sha512-d64f00982fS9YoOgJkAMolK7MN8Iq3TDdVjchbYHdEmjth/DHowx82GnoA+tVUAN+7vxfYUgAzi+JXbKNd2SDQ==}
@@ -1956,6 +1976,11 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
 
+  react-icons@5.3.0:
+    resolution: {integrity: sha512-DnUk8aFbTyQPSkCfF8dbX6kQjXA9DktMeJqfjrg6cK9vwQVMxmcA3BfP4QoiztVmEHtwlTgLFsPuH2NskKT6eg==}
+    peerDependencies:
+      react: '*'
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -2673,6 +2698,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.3
 
+  '@naver-maps/react@1.0.0(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+
   '@next/env@14.2.6': {}
 
   '@next/eslint-plugin-next@14.2.5':
@@ -2810,6 +2839,8 @@ snapshots:
       '@tanstack/query-core': 5.51.21
       react: 18.3.1
 
+  '@types/geojson@7946.0.14': {}
+
   '@types/hoist-non-react-statics@3.3.5':
     dependencies:
       '@types/react': 18.3.3
@@ -2818,6 +2849,10 @@ snapshots:
   '@types/json5@0.0.29': {}
 
   '@types/lodash@4.17.7': {}
+
+  '@types/navermaps@3.7.5':
+    dependencies:
+      '@types/geojson': 7946.0.14
 
   '@types/node@20.14.14':
     dependencies:
@@ -4575,6 +4610,10 @@ snapshots:
       scheduler: 0.23.2
 
   react-hook-form@7.52.2(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
+  react-icons@5.3.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
