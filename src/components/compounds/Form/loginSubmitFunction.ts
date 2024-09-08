@@ -1,18 +1,19 @@
-import { emailError, userError, passwordError } from './formVerification';
+import { emailError, userError, passwordError } from './loginFormVerification';
 import { SubmitHandler } from 'react-hook-form';
 import customNotification from '@/components/atomics/Notification';
 import isNil from 'lodash/isNil';
-import { FormProps } from '@/types/formProps';
+import { LoginFormProps } from '@/types/formProps';
 
 type SetContentIndexType = () => void;
 type MyFunctionType = (index: number) => void;
 type LoginOnSubmit = (
   nextContent: MyFunctionType,
   setContentIndex: SetContentIndexType
-) => SubmitHandler<FormProps>;
+) => SubmitHandler<LoginFormProps>;
 
 export const loginOnSubmit: LoginOnSubmit =
   (nextContent, setContentIndex) => data => {
+    console.log('??', nextContent, setContentIndex);
     console.log(data);
     const emailData = emailError(data.email);
     console.log(emailData);

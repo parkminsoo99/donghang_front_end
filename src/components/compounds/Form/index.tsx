@@ -10,9 +10,9 @@ import {
   loginOnSubmit,
   userOnSubmit,
   passwordOnSubmit,
-} from './submitFunction';
+} from './loginSubmitFunction';
 import { ReactElement } from 'react';
-import { FormProps } from '@/types/formProps';
+import { LoginFormProps } from '@/types/formProps';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
 
 const Container = styled.div`
@@ -41,7 +41,7 @@ interface InputProps {
   label: string;
 }
 
-export const Form = ({
+export const LoginForm = ({
   idArray,
   placeholderArray,
   registerArray,
@@ -50,21 +50,18 @@ export const Form = ({
   typeArray,
 }: InputProps) => {
   const inputs: ReactElement[] = [];
-  const { register, handleSubmit } = useForm<FormProps>();
+  const { register, handleSubmit } = useForm<LoginFormProps>();
   const { setContentIndex, nextContent } = useModalStore();
-  let functionCatergory: SubmitHandler<FormProps> = loginOnSubmit(
+  let functionCatergory: SubmitHandler<LoginFormProps> = loginOnSubmit(
     nextContent,
     setContentIndex
   );
 
   if (catergory === 'email') {
-    console.log('catergory', catergory);
     functionCatergory = loginOnSubmit(nextContent, setContentIndex);
   } else if (catergory === 'user') {
-    console.log('catergory', catergory);
     functionCatergory = userOnSubmit(nextContent, setContentIndex);
   } else if (catergory === 'password') {
-    console.log('catergory', catergory);
     functionCatergory = passwordOnSubmit(nextContent, setContentIndex);
   }
 

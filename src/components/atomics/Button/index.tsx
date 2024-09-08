@@ -6,10 +6,11 @@ interface Props {
   readonly onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   readonly color?: string;
   readonly label: string;
+  readonly width?: number;
 }
 
-const Container = styled.button`
-  width: 200px;
+const Container = styled.button<{ width?: number }>`
+  width: ${({ width }) => width}px;
   color: #fff;
   height: 48px;
   background-color: #000;
@@ -28,9 +29,14 @@ const Container = styled.button`
   }
 `;
 
-export const Button = ({ color = '#fff', label, onClick }: Props) => {
+export const Button = ({
+  color = '#fff',
+  label,
+  onClick,
+  width = 200,
+}: Props) => {
   return (
-    <Container color={color} onClick={onClick}>
+    <Container color={color} onClick={onClick} width={width}>
       {label}
     </Container>
   );

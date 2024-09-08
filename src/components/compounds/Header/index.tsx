@@ -4,7 +4,7 @@ import { ProfileIcon } from '@/components/atomics/Icon/profile';
 import { ThreeBars } from '@/components/atomics/Icon/threeBar';
 import styled from 'styled-components';
 import { CustomModal } from '@/hooks/useModal';
-import { Form } from '../Form';
+import { LoginForm } from '../Form';
 import { useModalContentStore } from '@/zustand/modalContentStore/modalContentStore';
 import { useEffect } from 'react';
 import { MenuStore } from '@/zustand/MenuStore/MenuStore';
@@ -22,6 +22,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
@@ -34,11 +35,13 @@ const IconContainer = styled.div`
     box-shadow: 1px 1px 1px #4f4f4f;
   }
 `;
+
 const FilteringContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 const MenuContainer = styled.div`
   display: inline-flex;
   align-items: center;
@@ -67,7 +70,7 @@ export const Header = () => {
     </MenuContainer>,
   ];
   const contentArray = [
-    <Form
+    <LoginForm
       key="emailForm"
       catergory="email"
       registerArray={['email']}
@@ -76,7 +79,7 @@ export const Header = () => {
       typeArray={['text']}
       label="이메일을 입력해주세요."
     />,
-    <Form
+    <LoginForm
       key="passwordForm"
       catergory="password"
       registerArray={['loginPassword']}
@@ -85,7 +88,7 @@ export const Header = () => {
       typeArray={['password']}
       label="비밀번호를 입력해주세요."
     />,
-    <Form
+    <LoginForm
       key="userForm"
       catergory="user"
       registerArray={['name', 'nickname', 'registerPassword']}
@@ -110,6 +113,7 @@ export const Header = () => {
         width={80}
         height={80}
         alt="Picture of the author"
+        priority
       />
       <IconContainer>
         <CustomModal buttonTrigger={buttonTrigger} content={contentArray} />
