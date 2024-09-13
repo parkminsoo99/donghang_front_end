@@ -4,16 +4,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Font } from '@/components/atomics/Font';
 import { SubTitle } from '@/components/atomics/Typography';
-import {
-  Profile,
-  MyVideo,
-  SavedVideo,
-} from '@/components/compounds/UserProfile/index';
+import { Profile } from '@/components/compounds/UserProfile/index';
+
+import { MyVideo, SavedVideo } from '@/components/compounds/UserProfile/index';
 const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* 화면 전체 높이 설정 */
+  height: 100vh;
   background-color: #f0f0f0;
 `;
 

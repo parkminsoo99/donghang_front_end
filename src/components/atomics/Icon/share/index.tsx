@@ -1,21 +1,22 @@
 import { VscShare } from 'react-icons/vsc';
 import styled from 'styled-components';
 
-const IconSizeContainer = styled.div`
-  height: 28px;
-  width: 28px;
+const IconSizeContainer = styled.button`
   cursor: pointer;
-  color: #fff;
+  background: none;
+  border: 0;
+  padding: 0;
 `;
 
 interface AccountProps {
   onClick?: () => void;
+  size: number;
 }
 
-export const Share = ({ onClick }: AccountProps) => {
+export const Share = ({ onClick, size }: AccountProps) => {
   return (
     <IconSizeContainer>
-      <VscShare onClick={onClick} size={28} />
+      <VscShare onClick={onClick} size={size} color="#fff" />
     </IconSizeContainer>
   );
 };

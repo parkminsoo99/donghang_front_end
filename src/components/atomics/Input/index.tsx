@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { forwardRef, InputHTMLAttributes } from 'react';
+
 const InputContainer = styled.input<{
   width: number;
   height: number;
-  borderRadius: number;
+  radius: number;
 }>`
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
-  border-radius: ${({ borderRadius }) => borderRadius}px;
+  border-radius: ${({ radius }) => radius}px;
   border-color: #c7c7c7;
   color: #4f4f4f;
   border-style: solid;
@@ -15,7 +16,11 @@ const InputContainer = styled.input<{
   padding-left: 15px;
 `;
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps
+  extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    'width' | 'height' | 'borderRadius'
+  > {
   id?: string;
   type?: string;
   placeholder?: string;
@@ -25,13 +30,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const { width = 200, height = 44, borderRadius = 15, ...rest } = props;
+
   return (
     <InputContainer
       ref={ref}
-      {...props}
-      width={props.width || 200}
-      height={props.height || 44}
-      borderRadius={props.borderRadius || 15}
+      width={width}
+      height={height}
+      radius={borderRadius}
+      {...rest}
     />
   );
 });

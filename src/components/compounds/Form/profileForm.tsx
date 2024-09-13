@@ -11,6 +11,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProfileFormProps } from '@/types/formProps';
 import type { GetProp, UploadProps } from 'antd';
 import { useState } from 'react';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -129,7 +130,7 @@ export const ProfileForm = ({
   ) {
     for (let i = 0; i < registerArray.length; i++) {
       inputs.push(
-        <DescriptionAndInputContainer>
+        <DescriptionAndInputContainer key={i}>
           <FontContainer>
             <Font font={16} label={placeholderArray[i]} thick="bold" />
           </FontContainer>

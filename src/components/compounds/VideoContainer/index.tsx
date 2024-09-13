@@ -66,7 +66,7 @@ export const VideoContainer = () => {
           <Pause />
           <SaveShareIconContainer>
             <Save />
-            <Share />
+            <Share size={28} />
           </SaveShareIconContainer>
         </VideoBottomContainer>
       </Video>
