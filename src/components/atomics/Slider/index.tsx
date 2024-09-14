@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { SubTitle } from '../Typography';
 import { DistanceStore } from '@/zustand/DistanceStore/DistanceStore';
 import { xxl, xl, lg, md, sm, xs } from '@/constants/size';
+import { ConfigProvider } from 'antd';
 interface SliderProps {
   title: string;
 }
@@ -41,21 +42,44 @@ const marks: SliderSingleProps['marks'] = {
   4.0: '4.0km',
 };
 
+const SliderStyle = styled(Slider)`
+  .trackBg {
+    background-color: #ffd3b6;
+  }
+`;
+
 export const CustomSlider = ({ title }: SliderProps) => {
   const { distanceValue, setDistanceValue } = DistanceStore();
   console.log(distanceValue);
   return (
     <Container>
       <SubTitle level={2} label={title} />
-      <Slider
-        marks={marks}
-        step={null}
-        defaultValue={0.5}
-        max={4}
-        min={0.5}
-        value={distanceValue}
-        onChange={setDistanceValue}
-      />
+      <ConfigProvider
+        theme={{
+          components: {
+            Slider: {
+              trackBg: '#FFD3B6',
+              trackHoverBg: '#FFD3B6',
+              handleActiveColor: '#FFAAA5',
+              handleActiveOutlineColor: 'null',
+              handleColor: '#FFAAA5',
+              dotActiveBorderColor: '#FFAAA5',
+              handleLineWidth: 1,
+              handleLineWidthHover: 2,
+            },
+          },
+        }}
+      >
+        <SliderStyle
+          marks={marks}
+          step={null}
+          defaultValue={0.5}
+          max={4}
+          min={0.5}
+          value={distanceValue}
+          onChange={setDistanceValue}
+        />
+      </ConfigProvider>
     </Container>
   );
 };

@@ -19,3 +19,14 @@ export const DistanceFiltering = () => {
     </>
   );
 };
+
+export const DistanceFilteringForHome = () => {
+  return (
+    <>
+      <CustomePopOver
+        inputContent={<CustomSlider title="내 동네" />}
+        style={{ height: '41px' }}
+      />
+    </>
+  );
+};
