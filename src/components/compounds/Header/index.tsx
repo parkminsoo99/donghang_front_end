@@ -11,7 +11,9 @@ import { MenuStore } from '@/zustand/MenuStore/MenuStore';
 import { CustomMenu } from '@/components/atomics/Menu';
 import { Add, Home, Map, Video } from '@/components/atomics/Icon';
 import { DistanceFiltering } from '@/components/compounds/DistanceFiltering';
+import { Font } from '@/components/atomics/Font';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Container = styled.div`
   display: flex;
@@ -42,31 +44,41 @@ const FilteringContainer = styled.div`
   justify-content: center;
 `;
 
-const MenuContainer = styled.div`
+// const MenuContainer = styled.div`
+//   display: inline-flex;
+//   align-items: center;
+//   width: 100px;
+//   gap: 15px;
+// `;
+const MenuContainer = styled(Link)`
   display: inline-flex;
   align-items: center;
   width: 100px;
   gap: 15px;
+  text-decoration: none;
+  align-items: center;
+  color: black;
 `;
 export const Header = () => {
   const buttonTrigger = <ProfileIcon />;
   const { ContentArray } = useModalContentStore();
   const { setAnchorEl } = MenuStore();
   const titleArray = [
-    <MenuContainer key="HomeMenu">
-      <Home />홈
+    <MenuContainer href="/" key="HomeMenu">
+      <Home />
+      <Font font={16} label="홈" />
     </MenuContainer>,
-    <MenuContainer key="MapMenu">
+    <MenuContainer href="/map" key="MapMenu">
       <Map />
-      지도
+      <Font font={16} label="지도" />
     </MenuContainer>,
-    <MenuContainer key="VideoMenu">
+    <MenuContainer href="/videos" key="VideoMenu">
       <Video />
-      영상
+      <Font font={16} label="영상" />
     </MenuContainer>,
-    <MenuContainer key="MakingMenu">
+    <MenuContainer href="/make" key="MakingMenu">
       <Add />
-      만들기
+      <Font font={16} label="만들기" />
     </MenuContainer>,
   ];
   const contentArray = [
@@ -79,6 +91,15 @@ export const Header = () => {
       typeArray={['text']}
       label="이메일을 입력해주세요."
     />,
+    // <LoginForm
+    //   key="passwordForm"
+    //   catergory="password"
+    //   registerArray={['loginPassword']}
+    //   idArray={['password']}
+    //   placeholderArray={['비밀번호']}
+    //   typeArray={['password']}
+    //   label="비밀번호를 입력해주세요."
+    // />,
     <LoginForm
       key="passwordForm"
       catergory="password"
@@ -86,7 +107,7 @@ export const Header = () => {
       idArray={['password']}
       placeholderArray={['비밀번호']}
       typeArray={['password']}
-      label="비밀번호를 입력해주세요."
+      label="인증번호 6자리를 입력하시오."
     />,
     <LoginForm
       key="userForm"

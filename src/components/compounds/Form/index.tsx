@@ -33,12 +33,12 @@ type registerString =
   | 'nickname';
 
 interface InputProps {
-  catergory: string;
-  idArray: string[];
-  placeholderArray: string[];
-  registerArray: registerString[];
-  typeArray: string[];
-  label: string;
+  catergory?: string;
+  idArray?: string[];
+  placeholderArray?: string[];
+  registerArray?: registerString[];
+  typeArray?: string[];
+  label?: string;
 }
 
 export const LoginForm = ({
