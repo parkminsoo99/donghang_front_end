@@ -2,11 +2,28 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { FC, useEffect, useRef, useState } from 'react';
+const foodList = [
+  ['all', '전체'],
+  ['chicken', '치킨'],
+  ['bakery', '베이커리'],
+  ['cafeAndDesert', '카페·디저트'],
+  ['chinese', '중식'],
+  ['fish', '해산물'],
+  ['hamburger', '햄버거'],
+  ['japan', '일식'],
+  ['korea', '한식'],
+  ['meat', '고기'],
+  ['noodle', '죽·국수'],
+  ['salad', '샐러드'],
+  ['schoolFood', '분식'],
+  ['westenFood', '양식'],
+] as string[][];
 
 interface Props {
   src: string;
   alt: string;
   label: string;
+  key: number;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
 const FoodFilteringContainer = styled.div`
@@ -107,14 +124,16 @@ const initializeData = (
   const positions = [0];
   for (let i = 0; i < DEFAULT_TOTAL_VALUE; i++) {
     pixel = pixel + i * width;
+    console.log('pixel', width);
     if (pixel + width > DEFAULT_TOTAL_VALUE) {
-      positions.push(DEFAULT_TOTAL_VALUE - width);
+      positions.push(DEFAULT_TOTAL_VALUE - width + 115);
       count++;
       break;
     }
     positions.push(pixel);
     count++;
   }
+  console.log('positions', positions);
   setPosition(positions);
   setItemCount(count);
   setCurrentIdx(0);
@@ -141,6 +160,7 @@ export const MapFoodFiltering: FC = () => {
     PreviousBtn: null,
     NextBtn: null,
   });
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const resizeObserver = new ResizeObserver(entries => {
@@ -207,23 +227,14 @@ export const MapFoodFiltering: FC = () => {
           ref={totalFoodContainerRef}
           className="partitialFoodContainer"
         >
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="치킨" />
-          <MapFood
-            src="chickenOriginal.png"
-            alt="Chicken"
-            label="카페·디저트"
-          />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="베이커리" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="햄버거" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="분식" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="샐러드" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="양식" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="중식" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="해산물" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="햄버거" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="죽·국수" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="분식" />
-          <MapFood src="chickenOriginal.png" alt="Chicken" label="일식" />
+          {foodList.map((value, index) => (
+            <MapFood
+              key={index}
+              src={`${value[0]}.png`}
+              alt={value[1]}
+              label={value[1]}
+            />
+          ))}
         </PartitialContainer>
       </TotalContainer>
       <ButtonStyledContainer

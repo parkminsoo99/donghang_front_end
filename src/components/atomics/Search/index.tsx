@@ -23,7 +23,7 @@ const SeachContainer = styled.div`
 
 const InSeachContainer = styled.div`
   display: flex;
-  gap: 3px;
+  gap: 8px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -40,6 +40,7 @@ const InputContainer = styled.input`
   border-width: 0;
   background-color: #fcfcfd;
   font-size: 18px;
+  padding: 0;
   &:focus {
     outline: none;
   }
