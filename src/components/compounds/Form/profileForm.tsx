@@ -1,6 +1,6 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Input } from '@/components/atomics/Input';
+import { CustomInput } from '@/components/atomics/Input';
 import { Button } from '@/components/atomics/Button';
 import styled from 'styled-components';
 import isNil from 'lodash/isNil';
@@ -135,7 +135,7 @@ export const ProfileForm = ({
             <Font font={16} label={placeholderArray[i]} thick="bold" />
           </FontContainer>
           <InputContainer className="InputContainer">
-            <Input
+            <CustomInput
               key={`${registerArray[i]}-${idArray[i]}-${placeholderArray[i]}-${typeArray[i]}`}
               type={typeArray[i]}
               placeholder={placeholderArray[i]}

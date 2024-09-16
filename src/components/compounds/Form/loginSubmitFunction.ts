@@ -1,4 +1,4 @@
-import { emailError, userError, passwordError } from './loginFormVerification';
+import { emailError, userError } from './loginFormVerification';
 import { SubmitHandler } from 'react-hook-form';
 import customNotification from '@/components/atomics/Notification';
 import isNil from 'lodash/isNil';
@@ -35,7 +35,6 @@ export const userOnSubmit: LoginOnSubmit =
     const userData = userError({
       name: data.name,
       userNickName: data.nickname,
-      password: data.registerPassword,
     });
     if (!isNil(userData.errorDescription)) {
       customNotification({
@@ -44,23 +43,14 @@ export const userOnSubmit: LoginOnSubmit =
         type: 'error',
       });
     } else {
+      //get token logic
       const next = setContentIndex();
       if (typeof next === 'number') nextContent(next);
     }
   };
-
-export const passwordOnSubmit: LoginOnSubmit =
+export const PinCodeOnSubmit: LoginOnSubmit =
   (nextContent, setContentIndex) => data => {
     console.log(data);
-    const passwordData = passwordError(data.loginPassword);
-    if (!isNil(passwordData.errorDescription)) {
-      customNotification({
-        message: passwordData.errorDescription,
-        placement: 'top',
-        type: 'error',
-      });
-    } else {
-      const next = setContentIndex();
-      if (typeof next === 'number') nextContent(next);
-    }
+    const next = setContentIndex();
+    if (typeof next === 'number') nextContent(next);
   };

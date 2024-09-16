@@ -4,7 +4,7 @@ import { ProfileIcon } from '@/components/atomics/Icon/profile';
 import { ThreeBars } from '@/components/atomics/Icon/threeBar';
 import styled from 'styled-components';
 import { CustomModal } from '@/hooks/useModal';
-import { LoginForm } from '../Form';
+import { LoginForm, PinCodeForm } from '../Form/logainForm';
 import { useModalContentStore } from '@/zustand/modalContentStore/modalContentStore';
 import { useEffect } from 'react';
 import { MenuStore } from '@/zustand/MenuStore/MenuStore';
@@ -91,31 +91,14 @@ export const Header = () => {
       typeArray={['text']}
       label="이메일을 입력해주세요."
     />,
-    // <LoginForm
-    //   key="passwordForm"
-    //   catergory="password"
-    //   registerArray={['loginPassword']}
-    //   idArray={['password']}
-    //   placeholderArray={['비밀번호']}
-    //   typeArray={['password']}
-    //   label="비밀번호를 입력해주세요."
-    // />,
-    <LoginForm
-      key="passwordForm"
-      catergory="password"
-      registerArray={['loginPassword']}
-      idArray={['password']}
-      placeholderArray={['비밀번호']}
-      typeArray={['password']}
-      label="인증번호 6자리를 입력하시오."
-    />,
+    <PinCodeForm key="PinCodeForm" label="인증번호 6자리를 입력하시오." />,
     <LoginForm
       key="userForm"
       catergory="user"
-      registerArray={['name', 'nickname', 'registerPassword']}
-      idArray={['name', 'nickname', 'password']}
-      placeholderArray={['이름', '닉네임', '비밀번호']}
-      typeArray={['text', 'nickname', 'password']}
+      registerArray={['name', 'nickname']}
+      idArray={['name', 'nickname']}
+      placeholderArray={['이름', '닉네임']}
+      typeArray={['text', 'nickname']}
       label="사용자 정보를 입력해주세요."
     />,
   ];

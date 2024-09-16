@@ -29,18 +29,20 @@ interface InputProps
   borderRadius?: number;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { width = 200, height = 44, borderRadius = 15, ...rest } = props;
+export const CustomInput = forwardRef<HTMLInputElement, InputProps>(
+  (props, ref) => {
+    const { width = 200, height = 44, borderRadius = 15, ...rest } = props;
 
-  return (
-    <InputContainer
-      ref={ref}
-      width={width}
-      height={height}
-      radius={borderRadius}
-      {...rest}
-    />
-  );
-});
+    return (
+      <InputContainer
+        ref={ref}
+        width={width}
+        height={height}
+        radius={borderRadius}
+        {...rest}
+      />
+    );
+  }
+);
 
-Input.displayName = 'Input';
+CustomInput.displayName = 'Input';

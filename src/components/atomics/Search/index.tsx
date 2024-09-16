@@ -48,6 +48,7 @@ const InputContainer = styled.input`
     font-size: 15px;
   }
 `;
+
 export const Search = ({ placeHolder }: Props) => {
   return (
     <SeachContainer>

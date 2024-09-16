@@ -23,7 +23,7 @@ export const useModalStore = create<ModalStoreProps>((set, get) => ({
     set(() => ({ contentModal: content }));
   },
   setContentIndex: () => {
-    const newIndex = get().contentIndex + 1; // get()을 사용하여 현재 상태를 가져옴
+    const newIndex = get().contentIndex + 1;
     set(() => ({ contentIndex: newIndex }));
     return newIndex;
   },
