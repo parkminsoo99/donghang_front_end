@@ -1,0 +1,32 @@
+export const foodLists = [
+  ['all', '전체'],
+  ['chicken', '치킨'],
+  ['bakery', '베이커리'],
+  ['cafeAndDesert', '카페·디저트'],
+  ['chinese', '중식'],
+  ['fish', '해산물'],
+  ['hamburger', '햄버거'],
+  ['japan', '일식'],
+  ['korea', '한식'],
+  ['meat', '고기'],
+  ['noodle', '죽·국수'],
+  ['salad', '샐러드'],
+  ['schoolFood', '분식'],
+  ['westenFood', '양식'],
+] as string[][];
+
+export const foodListsWithOutAll = [
+  ['chicken', '치킨'],
+  ['bakery', '베이커리'],
+  ['cafeAndDesert', '카페·디저트'],
+  ['chinese', '중식'],
+  ['fish', '해산물'],
+  ['hamburger', '햄버거'],
+  ['japan', '일식'],
+  ['korea', '한식'],
+  ['meat', '고기'],
+  ['noodle', '죽·국수'],
+  ['salad', '샐러드'],
+  ['schoolFood', '분식'],
+  ['westenFood', '양식'],
+] as string[][];

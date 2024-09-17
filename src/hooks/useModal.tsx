@@ -8,11 +8,12 @@ interface ModalProps {
   children?: ReactNode;
   buttonTrigger?: JSX.Element;
 }
+
 export const CustomModal: FC<ModalProps> = ({
   buttonTrigger,
   title,
   content,
-}: ModalProps) => {
+}) => {
   const { isModalOpen, contentModal, openModal, closeModal } = useModalStore();
 
   return (

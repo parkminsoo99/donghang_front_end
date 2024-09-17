@@ -14,6 +14,8 @@ import { DistanceFiltering } from '@/components/compounds/DistanceFiltering';
 import { Font } from '@/components/atomics/Font';
 import Image from 'next/image';
 import Link from 'next/link';
+import test from 'node:test';
+import { useModalStore } from '@/zustand/modalStore/modalStore';
 
 const Container = styled.div`
   display: flex;
@@ -44,12 +46,6 @@ const FilteringContainer = styled.div`
   justify-content: center;
 `;
 
-// const MenuContainer = styled.div`
-//   display: inline-flex;
-//   align-items: center;
-//   width: 100px;
-//   gap: 15px;
-// `;
 const MenuContainer = styled(Link)`
   display: inline-flex;
   align-items: center;
@@ -59,10 +55,27 @@ const MenuContainer = styled(Link)`
   align-items: center;
   color: black;
 `;
+const VideoRegisterContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+  width: 100px;
+  gap: 15px;
+  text-decoration: none;
+  align-items: center;
+  color: black;
+`;
+
 export const Header = () => {
   const buttonTrigger = <ProfileIcon />;
   const { ContentArray } = useModalContentStore();
   const { setAnchorEl } = MenuStore();
+  const { openModal } = useModalStore();
+  const TempArray = [<div key="111">111</div>];
+
+  const VideoResiterModalOpen = () => {
+    openModal(TempArray, 0);
+  };
+
   const titleArray = [
     <MenuContainer href="/" key="HomeMenu">
       <Home />
@@ -76,11 +89,12 @@ export const Header = () => {
       <Video />
       <Font font={16} label="영상" />
     </MenuContainer>,
-    <MenuContainer href="/make" key="MakingMenu">
+    <VideoRegisterContainer onClick={VideoResiterModalOpen} key="MakingMenu">
       <Add />
       <Font font={16} label="만들기" />
-    </MenuContainer>,
+    </VideoRegisterContainer>,
   ];
+
   const contentArray = [
     <LoginForm
       key="emailForm"
