@@ -14,7 +14,7 @@ import { DistanceFiltering } from '@/components/compounds/DistanceFiltering';
 import { Font } from '@/components/atomics/Font';
 import Image from 'next/image';
 import Link from 'next/link';
-import test from 'node:test';
+import { VideoRegister } from '@/components/compounds/VideoRegister';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
 
 const Container = styled.div`
@@ -70,10 +70,10 @@ export const Header = () => {
   const { ContentArray } = useModalContentStore();
   const { setAnchorEl } = MenuStore();
   const { openModal } = useModalStore();
-  const TempArray = [<div key="111">111</div>];
+  const videoRegisterArray = [<VideoRegister key="videoRegister" />];
 
   const VideoResiterModalOpen = () => {
-    openModal(TempArray, 0);
+    openModal(videoRegisterArray, 0);
   };
 
   const titleArray = [

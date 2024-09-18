@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { FC, useEffect, useRef, useState } from 'react';
+import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { foodLists } from '@/constants/foodLists';
 
 const foodList = foodLists;
@@ -9,7 +9,8 @@ interface Props {
   src: string;
   alt: string;
   label: string;
-  key: number;
+  style?: CSSProperties;
+  marginvalue?: number;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
 const FoodFilteringContainer = styled.div`
@@ -37,9 +38,10 @@ const FoodFlexContainer = styled.div`
   gap: 8px;
 `;
 
-const FoodDescriptionContainer = styled.p`
+const FoodDescriptionContainer = styled.p<{ marginvalue: number }>`
   font-size: 20px;
   font-weight: bold;
+  margin: ${props => props.marginvalue || 20}px 0;
 `;
 
 const ButtonStyledContainer = styled.button`
@@ -62,12 +64,14 @@ const ButtonStyledContainer = styled.button`
   }
 `;
 
-const MapFood: FC<Props> = ({ src, alt, label }) => {
+export const MapFood: FC<Props> = ({ src, alt, label, style, marginvalue }) => {
   return (
-    <FoodFilteringContainer className={alt}>
+    <FoodFilteringContainer className={alt} style={style}>
       <FoodFlexContainer>
         <Image src={`/images/${src}`} width={24} height={24} alt={alt} />
-        <FoodDescriptionContainer>{label}</FoodDescriptionContainer>
+        <FoodDescriptionContainer marginvalue={marginvalue}>
+          {label}
+        </FoodDescriptionContainer>
       </FoodFlexContainer>
     </FoodFilteringContainer>
   );

@@ -4,14 +4,10 @@ import { CustomInput } from '@/components/atomics/Input';
 import { Button } from '@/components/atomics/Button';
 import styled from 'styled-components';
 import isNil from 'lodash/isNil';
-import { Flex, Upload, message } from 'antd';
 import { Font } from '@/components/atomics/Font';
 import { ReactElement } from 'react';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProfileFormProps } from '@/types/formProps';
-import type { GetProp, UploadProps } from 'antd';
-import { useState } from 'react';
-
+import { CustomUpload } from '@/components/atomics/CustomUpload';
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -19,9 +15,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   padding: 20px 0;
 `;
+
 type registerString =
   | 'profileName'
   | 'profileNickName'
@@ -71,25 +68,6 @@ const FormContainer = styled.form`
   gap: 40px;
 `;
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result as string));
-  reader.readAsDataURL(img);
-};
-const beforeUpload = (file: FileType) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-};
-
 export const ProfileForm = ({
   idArray,
   placeholderArray,
@@ -99,28 +77,6 @@ export const ProfileForm = ({
 }: InputProps) => {
   const inputs: ReactElement[] = [];
   const { register, handleSubmit } = useForm<ProfileFormProps>();
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
-
-  const handleChange: UploadProps['onChange'] = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      getBase64(info.file.originFileObj as FileType, url => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
-
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
 
   if (
     !isNil(registerArray) &&
@@ -154,22 +110,13 @@ export const ProfileForm = ({
   }
   return (
     <Container>
-      <Upload
-        name="avatar"
+      <CustomUpload
         listType="picture-circle"
-        className="custom-upload"
-        showUploadList={false}
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-        beforeUpload={beforeUpload}
-        onChange={handleChange}
         maxCount={1}
-      >
-        {imageUrl ? (
-          <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
-        ) : (
-          uploadButton
-        )}
-      </Upload>
+        action="test"
+        width={300}
+        height={300}
+      />
       <FormContainer
         onSubmit={e => {
           e.preventDefault();

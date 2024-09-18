@@ -6,8 +6,6 @@ import { Share } from '@/components/atomics/Icon';
 import { Search } from '@/components/atomics/Search';
 import { DistanceFilteringForHome } from '@/components/compounds/DistanceFiltering';
 import { SubTitle } from '@/components/atomics/Typography';
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
 import {
   custom_main_pixel,
   custom_main_input_pixel,

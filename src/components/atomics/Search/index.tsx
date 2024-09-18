@@ -3,14 +3,18 @@ import { SearchIcon } from '../Icon';
 import { custom_main_input_pixel } from '@/constants/size';
 interface Props {
   placeHolder?: string;
+  width?: number;
+  height?: number;
+  customfont?: number;
+  mobilefont?: number;
 }
 
-const SeachContainer = styled.div`
+const SeachContainer = styled.div<{ height: number; width: number }>`
   border-radius: 10px;
   border-color: #efefef;
   background-color: #fcfcfd;
-  width: 331px;
-  height: 60px;
+  width: ${props => props.width || 331}px;
+  height: ${props => props.height || 60}px;
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -31,7 +35,10 @@ const InSeachContainer = styled.div`
   height: 100%;
 `;
 
-const InputContainer = styled.input`
+const InputContainer = styled.input<{
+  $customfont?: number;
+  $mobilefont?: number;
+}>`
   border-color: #fff;
   border: 0;
   padding-left: 10px;
@@ -39,22 +46,35 @@ const InputContainer = styled.input`
   height: 100%;
   border-width: 0;
   background-color: #fcfcfd;
-  font-size: 18px;
+  font-size: ${props => props.$customfont || 18}px;
   padding: 0;
   &:focus {
     outline: none;
   }
   @media (max-width: ${custom_main_input_pixel}) {
-    font-size: 15px;
+    font-size: ${props => props.$mobilefont || 15}px;
   }
 `;
 
-export const Search = ({ placeHolder }: Props) => {
+export const Search = ({
+  placeHolder,
+  width,
+  height,
+  customfont,
+  mobilefont,
+}: Props) => {
+  console.log(customfont, mobilefont);
   return (
-    <SeachContainer>
+    <SeachContainer width={width} height={height}>
       <InSeachContainer>
         <SearchIcon IconColor="#767F9D" />
-        <InputContainer type="text" placeholder={placeHolder} max={20} />
+        <InputContainer
+          type="text"
+          $customfont={customfont}
+          $mobilefont={mobilefont}
+          placeholder={placeHolder}
+          max={20}
+        />
       </InSeachContainer>
     </SeachContainer>
   );
