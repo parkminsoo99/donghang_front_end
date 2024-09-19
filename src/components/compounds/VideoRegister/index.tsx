@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { Search } from '@/components/atomics/Search';
 import { SubTitle } from '@/components/atomics/Typography';
+
 import {
-  foodListsFirst,
-  foodListsSecond,
-  foodListsThird,
-  foodListsForth,
-} from '@/constants/foodLists';
+  MobileSubKindOfFoodContainerReturn,
+  SubKindOfFoodContainerReturn,
+} from './subContainerComponent';
 import { CustomUpload } from '@/components/atomics/CustomUpload';
 import { CustomDescription } from '@/components/atomics/Description';
-import { MapFood } from '../MapFoodFiltering';
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/atomics/Button';
+import { custom_video_register_pixel } from '@/constants/size';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,6 +24,9 @@ const TopContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 25px;
+  @media (max-width: ${custom_video_register_pixel}) {
+    gap: 10px;
+  }
 `;
 const TopRightContainer = styled.div`
   display: flex;
@@ -46,15 +49,25 @@ const KindOfFoodContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 5px;
-`;
-const SubKindOfFoodContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+  @media (max-width: ${custom_video_register_pixel}) {
+    gap: 10px;
+  }
 `;
 
 export const VideoRegister = () => {
-  const FoodMargin: number = 10;
+  const [windowWitdth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isMobile = windowWitdth >= 550;
+  console.log(isMobile);
   return (
     <Container>
       <TopContainer>
@@ -64,19 +77,25 @@ export const VideoRegister = () => {
           action="test"
           width={200}
           height={200}
+          mobileHeight={155}
+          mobileWidth={130}
         />
         <TopRightContainer>
           <Search
             width={330}
             height={40}
             customfont={12}
-            mobilefont={8}
+            mobilefont={12}
+            mobileHeight={40}
+            mobileWidth={200}
             placeHolder="주소 검색"
           />
           <CustomDescription
+            placeHolder="설명을 작성해주세요."
+            mobileHeight={100}
+            mobileWidth={200}
             width={330}
             height={145}
-            placeHolder="설명을 작성해주세요."
           />
         </TopRightContainer>
       </TopContainer>
@@ -84,50 +103,8 @@ export const VideoRegister = () => {
         <SubTitle label="분류" level={3} />
       </SubTitleContainer>
       <KindOfFoodContainer>
-        <SubKindOfFoodContainer>
-          {foodListsFirst.map((value, index) => (
-            <MapFood
-              key={index}
-              src={`${value[0]}.png`}
-              alt={value[1]}
-              label={value[1]}
-              marginvalue={FoodMargin}
-            />
-          ))}
-        </SubKindOfFoodContainer>
-        <SubKindOfFoodContainer>
-          {foodListsSecond.map((value, index) => (
-            <MapFood
-              key={index}
-              src={`${value[0]}.png`}
-              alt={value[1]}
-              label={value[1]}
-              marginvalue={FoodMargin}
-            />
-          ))}
-        </SubKindOfFoodContainer>
-        <SubKindOfFoodContainer>
-          {foodListsThird.map((value, index) => (
-            <MapFood
-              key={index}
-              src={`${value[0]}.png`}
-              alt={value[1]}
-              label={value[1]}
-              marginvalue={FoodMargin}
-            />
-          ))}
-        </SubKindOfFoodContainer>
-        <SubKindOfFoodContainer>
-          {foodListsForth.map((value, index) => (
-            <MapFood
-              key={index}
-              src={`${value[0]}.png`}
-              alt={value[1]}
-              label={value[1]}
-              marginvalue={FoodMargin}
-            />
-          ))}
-        </SubKindOfFoodContainer>
+        {(isMobile && SubKindOfFoodContainerReturn()) ||
+          MobileSubKindOfFoodContainerReturn()}
       </KindOfFoodContainer>
       <Button label="제출" width={150} />
     </Container>

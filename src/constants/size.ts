@@ -6,3 +6,4 @@ export const sm = '576px';
 export const xs = '576px';
 export const custom_main_pixel = '910px';
 export const custom_main_input_pixel = '480px';
+export const custom_video_register_pixel = '610px';

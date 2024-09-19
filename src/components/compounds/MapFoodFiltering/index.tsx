@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { foodLists } from '@/constants/foodLists';
-
+import { custom_video_register_pixel } from '@/constants/size';
 const foodList = foodLists;
 interface Props {
   src: string;
@@ -11,6 +11,7 @@ interface Props {
   label: string;
   style?: CSSProperties;
   marginvalue?: number;
+  mobilemarginvalue?: number;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
 const FoodFilteringContainer = styled.div`
@@ -22,11 +23,14 @@ const FoodFilteringContainer = styled.div`
   align-items: center;
   border: 1px solid #000;
   box-sizing: border-box;
-  padding: 0px 25px;
+  padding: 15px 25px;
   &:hover {
     color: #fff;
     border: 1px solid #f4eae0;
     background-color: #f3dfc8;
+  }
+  @media (max-width: ${custom_video_register_pixel}) {
+    padding: 5px 20px;
   }
 `;
 
@@ -36,12 +40,21 @@ const FoodFlexContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  @media (max-width: ${custom_video_register_pixel}) {
+    gap: 4px;
+  }
 `;
 
-const FoodDescriptionContainer = styled.p<{ marginvalue: number }>`
+const FoodDescriptionContainer = styled.p<{
+  $marginvalue: number;
+  $mobilemarginvalue: number;
+}>`
   font-size: 20px;
   font-weight: bold;
-  margin: ${props => props.marginvalue || 20}px 0;
+  margin: ${props => props.$marginvalue || 20}px 0;
+  @media (max-width: ${custom_video_register_pixel}) {
+    margin: ${props => props.$mobilemarginvalue || 10}px 0;
+  }
 `;
 
 const ButtonStyledContainer = styled.button`
@@ -63,15 +76,30 @@ const ButtonStyledContainer = styled.button`
     cursor: pointer;
   }
 `;
+const LabelContainer = styled.p`
+  box-sizing: content-box;
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+`;
 
-export const MapFood: FC<Props> = ({ src, alt, label, style, marginvalue }) => {
+export const MapFood: FC<Props> = ({
+  src,
+  alt,
+  label,
+  style,
+  marginvalue,
+  mobilemarginvalue,
+}) => {
   return (
     <FoodFilteringContainer className={alt} style={style}>
       <FoodFlexContainer>
         <Image src={`/images/${src}`} width={24} height={24} alt={alt} />
-        <FoodDescriptionContainer marginvalue={marginvalue}>
-          {label}
-        </FoodDescriptionContainer>
+        <FoodDescriptionContainer
+          $marginvalue={marginvalue}
+          $mobilemarginvalue={mobilemarginvalue}
+        ></FoodDescriptionContainer>
+        <LabelContainer>{label}</LabelContainer>
       </FoodFlexContainer>
     </FoodFilteringContainer>
   );

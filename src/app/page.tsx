@@ -1,17 +1,9 @@
 'use client';
-import { Button } from '@/components/atomics/Button';
-import { useEmailInputQuery } from '@/reactQuery/Login/emailInputQuery';
 import styled from 'styled-components';
-import { Share } from '@/components/atomics/Icon';
 import { Search } from '@/components/atomics/Search';
 import { DistanceFilteringForHome } from '@/components/compounds/DistanceFiltering';
 import { SubTitle } from '@/components/atomics/Typography';
-import {
-  custom_main_pixel,
-  custom_main_input_pixel,
-  xs,
-  lg,
-} from '@/constants/size';
+import { custom_main_pixel, custom_main_input_pixel } from '@/constants/size';
 
 const InputAndFilteringContainer = styled.div`
   display: flex;
@@ -92,23 +84,6 @@ const RightImageContainer = styled.img`
   }
 `;
 export default function Home() {
-  const emailMutation = useEmailInputQuery();
-  //   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setWindowWidth(window.innerWidth);
-  //   };
-
-  //   window.addEventListener('resize', handleResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
-
-  // const isMainImage = windowWidth >= 910;
-
   return (
     <MainContainer className="MainContainer">
       <SubContainer className="SubContainer">

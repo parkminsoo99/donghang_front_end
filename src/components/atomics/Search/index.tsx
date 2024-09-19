@@ -1,15 +1,25 @@
 import styled from 'styled-components';
 import { SearchIcon } from '../Icon';
-import { custom_main_input_pixel } from '@/constants/size';
+import {
+  custom_main_input_pixel,
+  custom_video_register_pixel,
+} from '@/constants/size';
 interface Props {
   placeHolder?: string;
   width?: number;
   height?: number;
   customfont?: number;
   mobilefont?: number;
+  readonly mobileWidth?: number;
+  readonly mobileHeight?: number;
 }
 
-const SeachContainer = styled.div<{ height: number; width: number }>`
+const SeachContainer = styled.div<{
+  width: number;
+  height: number;
+  $mobilewidth: number;
+  $mobileheight: number;
+}>`
   border-radius: 10px;
   border-color: #efefef;
   background-color: #fcfcfd;
@@ -19,9 +29,9 @@ const SeachContainer = styled.div<{ height: number; width: number }>`
   align-items: center;
   padding: 0 20px;
   box-sizing: border-box;
-  @media (max-width: ${custom_main_input_pixel}) {
-    width: 270px;
-    height: 40px;
+  @media (max-width: ${custom_video_register_pixel}) {
+    width: ${props => props.$mobilewidth || 270}px;
+    height: ${props => props.$mobileheight || 40}px;
   }
 `;
 
@@ -62,10 +72,17 @@ export const Search = ({
   height,
   customfont,
   mobilefont,
+  mobileHeight,
+  mobileWidth,
 }: Props) => {
   console.log(customfont, mobilefont);
   return (
-    <SeachContainer width={width} height={height}>
+    <SeachContainer
+      width={width}
+      height={height}
+      $mobileheight={mobileHeight}
+      $mobilewidth={mobileWidth}
+    >
       <InSeachContainer>
         <SearchIcon IconColor="#767F9D" />
         <InputContainer

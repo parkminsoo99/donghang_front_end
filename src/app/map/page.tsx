@@ -39,6 +39,10 @@ const initialNaverMapScript = ({ src, callback }: initialScriptProps) => {
   script.onload = () => callback();
   document.head.appendChild(script);
 };
+const MapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 export default function Map() {
   let mapInstance: naver.maps.Map | null = null;
 
@@ -97,10 +101,6 @@ export default function Map() {
       initNavermap();
     }
   }, []);
-  const MapContainer = styled.div`
-    width: 100%;
-    height: 100%;
-  `;
 
   return (
     <>

@@ -5,6 +5,7 @@ import type { GetProp, UploadProps } from 'antd';
 import { useState } from 'react';
 import './upload.css';
 import styled from 'styled-components';
+import { custom_video_register_pixel } from '@/constants/size';
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 type listTypeType = 'picture-card' | 'picture-circle' | 'picture' | undefined;
 interface CustomUploadProps {
@@ -14,11 +15,24 @@ interface CustomUploadProps {
   action?: string;
   width?: number;
   height?: number;
+  mobileWidth?: number;
+  mobileHeight?: number;
 }
-const UploadContainer = styled(Upload)<{ width: number; height: number }>`
+const UploadContainer = styled(Upload)<{
+  width: number;
+  height: number;
+  $mobilewidth: number;
+  $mobileheight: number;
+}>`
   .ant-upload.ant-upload-select {
     width: ${props => props.width || 150}px !important;
     height: ${props => props.height || 150}px !important;
+  }
+  @media (max-width: ${custom_video_register_pixel}) {
+    .ant-upload.ant-upload-select {
+      width: ${props => props.$mobilewidth || 150}px !important;
+      height: ${props => props.$mobileheight || 150}px !important;
+    }
   }
 `;
 
@@ -29,6 +43,8 @@ export const CustomUpload = ({
   action,
   width,
   height,
+  mobileWidth,
+  mobileHeight,
 }: CustomUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
@@ -80,6 +96,8 @@ export const CustomUpload = ({
       maxCount={maxCount || 1}
       width={width}
       height={height}
+      $mobileheight={mobileHeight}
+      $mobilewidth={mobileWidth}
     >
       {imageUrl ? (
         <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
