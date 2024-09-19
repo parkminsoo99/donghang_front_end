@@ -1,15 +1,2 @@
 
-.ant-upload-list.ant-upload-list-picture-card{
-    display: grid !important;
-    grid-template-columns: 190px 190px 190px !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap:0 !important;
-    overflow: hidden !important;
-} 
-.ant-upload-list-item-container{
-    width: 190px !important;
-    height: 190px !important;
-    display: block !important;
-    z-index: 499;
-}
+

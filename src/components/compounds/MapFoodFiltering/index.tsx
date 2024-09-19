@@ -12,9 +12,11 @@ interface Props {
   style?: CSSProperties;
   marginvalue?: number;
   mobilemarginvalue?: number;
+  paddingvalue?: number;
+  gapvalue?: number;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
-const FoodFilteringContainer = styled.div`
+const FoodFilteringContainer = styled.div<{ paddingvalue: number }>`
   display: inline-block;
   border-radius: 40px;
   flex-shrink: 0;
@@ -23,25 +25,25 @@ const FoodFilteringContainer = styled.div`
   align-items: center;
   border: 1px solid #000;
   box-sizing: border-box;
-  padding: 15px 25px;
+  padding: 10px 25px;
   &:hover {
     color: #fff;
     border: 1px solid #f4eae0;
     background-color: #f3dfc8;
   }
   @media (max-width: ${custom_video_register_pixel}) {
-    padding: 5px 20px;
+    padding: 10px ${props => props.paddingvalue || 25}px;
   }
 `;
 
-const FoodFlexContainer = styled.div`
+const FoodFlexContainer = styled.div<{ gapvalue: number }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;
   @media (max-width: ${custom_video_register_pixel}) {
-    gap: 4px;
+    gap: ${props => props.gapvalue || 8}px;
   }
 `;
 
@@ -53,7 +55,7 @@ const FoodDescriptionContainer = styled.p<{
   font-weight: bold;
   margin: ${props => props.$marginvalue || 20}px 0;
   @media (max-width: ${custom_video_register_pixel}) {
-    margin: ${props => props.$mobilemarginvalue || 10}px 0;
+    margin: ${props => props.$mobilemarginvalue || 20}px 0;
   }
 `;
 
@@ -90,10 +92,16 @@ export const MapFood: FC<Props> = ({
   style,
   marginvalue,
   mobilemarginvalue,
+  paddingvalue,
+  gapvalue,
 }) => {
   return (
-    <FoodFilteringContainer className={alt} style={style}>
-      <FoodFlexContainer>
+    <FoodFilteringContainer
+      paddingvalue={paddingvalue}
+      className={alt}
+      style={style}
+    >
+      <FoodFlexContainer gapvalue={gapvalue}>
         <Image src={`/images/${src}`} width={24} height={24} alt={alt} />
         <FoodDescriptionContainer
           $marginvalue={marginvalue}
@@ -144,7 +152,7 @@ const initializeData = (
     pixel = pixel + i * width;
     console.log('pixel', width);
     if (pixel + width > DEFAULT_TOTAL_VALUE) {
-      positions.push(DEFAULT_TOTAL_VALUE - width + 115);
+      positions.push(DEFAULT_TOTAL_VALUE - width + 160);
       count++;
       break;
     }

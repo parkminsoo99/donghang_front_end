@@ -7,6 +7,7 @@ import { SubTitle } from '@/components/atomics/Typography';
 import { Profile } from '@/components/compounds/UserProfile/index';
 
 import { MyVideo, SavedVideo } from '@/components/compounds/UserProfile/index';
+import { xs, md } from '@/constants/size';
 const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -31,6 +32,12 @@ const Main = styled.div`
   box-shadow:
     5px 5px 10px 0px rgba(0, 0, 0, 0.25),
     -5px -5px 10px 0px rgba(0, 0, 0, 0.25);
+  @media (max-width: ${md}) {
+    width: 576px;
+  }
+  @media (max-width: ${xs}) {
+    width: 375px;
+  }
 `;
 
 const SiderContainer = styled.div`

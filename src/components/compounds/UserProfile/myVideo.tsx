@@ -7,7 +7,11 @@ import './profile.css';
 import { DeleteIcon } from '@/components/atomics/Icon/delete';
 import { Share } from '@/components/atomics/Icon';
 import { WatchIcon } from '@/components/atomics/Icon';
+import { md, xs } from '@/constants/size';
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+const originalWidth = 190;
+const mdWidth = 150;
+const xsWidth = 90;
 const ImageContainer = styled.div`
   overflow: hidden !important;
   width: 100%;
@@ -18,6 +22,12 @@ const ImageContainer = styled.div`
   }
   &:hover {
     opacity: 0.5;
+  }
+  .ant-upload-list-item-container {
+    width: 190px !important;
+    height: 190px !important;
+    display: block !important;
+    z-index: 499;
   }
 `;
 
@@ -43,6 +53,52 @@ const Container = styled.div`
 `;
 const SubContainer = styled.div`
   padding: 14px 0;
+  .ant-upload-list-item-container {
+    width: ${originalWidth}px !important;
+    height: ${originalWidth}px !important;
+    display: block !important;
+    z-index: 499;
+  }
+  .ant-upload-list.ant-upload-list-picture-card {
+    display: grid !important;
+    grid-template-columns: ${originalWidth}px ${originalWidth}px ${originalWidth}px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+  }
+  @media (max-width: ${md}) {
+    .ant-upload-list-item-container {
+      width: ${mdWidth}px !important;
+      height: ${mdWidth}px !important;
+      display: block !important;
+      z-index: 499;
+    }
+    .ant-upload-list.ant-upload-list-picture-card {
+      display: grid !important;
+      grid-template-columns: ${mdWidth}px ${mdWidth}px ${mdWidth}px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0 !important;
+      overflow: hidden !important;
+    }
+  }
+  @media (max-width: ${xs}) {
+    .ant-upload-list-item-container {
+      width: ${xsWidth}px !important;
+      height: ${xsWidth}px !important;
+      display: block !important;
+      z-index: 499;
+    }
+    .ant-upload-list.ant-upload-list-picture-card {
+      display: grid !important;
+      grid-template-columns: ${xsWidth}px ${xsWidth}px ${xsWidth}px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0 !important;
+      overflow: hidden !important;
+    }
+  }
 `;
 
 const ImgStyle = styled.img`
@@ -50,13 +106,13 @@ const ImgStyle = styled.img`
   height: 100% !important;
   transition: opacity 0.3s;
 `;
-
+const MobileIconSize = 15;
 const IconSet = () => {
   return (
     <>
-      <Share size={24} />
-      <WatchIcon size={27} />
-      <DeleteIcon size={26} />
+      <Share mobilesize={MobileIconSize} size={24} />
+      <WatchIcon mobilesize={MobileIconSize} size={27} />
+      <DeleteIcon mobilesize={MobileIconSize} size={26} />
     </>
   );
 };

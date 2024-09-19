@@ -48,9 +48,9 @@ const KindOfFoodContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 10px;
   @media (max-width: ${custom_video_register_pixel}) {
-    gap: 10px;
+    gap: 5px;
   }
 `;
 
@@ -66,7 +66,7 @@ export const VideoRegister = () => {
     };
   }, []);
 
-  const isMobile = windowWitdth >= 550;
+  const isMobile = windowWitdth >= 611;
   console.log(isMobile);
   return (
     <Container>

@@ -8,6 +8,7 @@ import { Font } from '@/components/atomics/Font';
 import { ReactElement } from 'react';
 import { ProfileFormProps } from '@/types/formProps';
 import { CustomUpload } from '@/components/atomics/CustomUpload';
+import { xs } from '@/constants/size';
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -15,8 +16,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
-  padding: 20px 0;
+  gap: 20px;
+  padding: 0;
 `;
 
 type registerString =
@@ -39,11 +40,13 @@ const InputContainer = styled.div`
   align-items: start;
   justify-content: center;
   gap: 14px;
+  width: 100%;
 `;
+
 const InputWithDescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 30px;
 `;
 const DescriptionAndInputContainer = styled.div`
   display: flex;
@@ -51,13 +54,19 @@ const DescriptionAndInputContainer = styled.div`
   gap: 50px;
   align-items: start;
   justify-content: center;
+  @media (max-width: ${xs}) {
+    gap: 5px;
+  }
 `;
 const FontContainer = styled.div`
   padding-top: 6px;
-  width: 60px;
+  width: 100px;
   align-items: center;
   display: flex;
   justify-content: center;
+  @media (max-width: ${xs}) {
+    width: 60px;
+  }
 `;
 
 const FormContainer = styled.form`
@@ -88,7 +97,12 @@ export const ProfileForm = ({
       inputs.push(
         <DescriptionAndInputContainer key={i}>
           <FontContainer>
-            <Font font={16} label={placeholderArray[i]} thick="bold" />
+            <Font
+              mobilefont={13}
+              font={16}
+              label={placeholderArray[i]}
+              thick="bold"
+            />
           </FontContainer>
           <InputContainer className="InputContainer">
             <CustomInput
@@ -99,9 +113,16 @@ export const ProfileForm = ({
               width={300}
               borderRadius={3}
               height={32}
+              mobileheight={32}
+              mobilewidth={200}
             />
             {sideFont[i] && (
-              <Font font={11} label={sideFont[i]} color="#8E8E8E" />
+              <Font
+                mobilefont={7}
+                font={11}
+                label={sideFont[i]}
+                color="#8E8E8E"
+              />
             )}
           </InputContainer>
         </DescriptionAndInputContainer>
@@ -114,8 +135,8 @@ export const ProfileForm = ({
         listType="picture-circle"
         maxCount={1}
         action="test"
-        width={300}
-        height={300}
+        width={150}
+        height={150}
       />
       <FormContainer
         onSubmit={e => {
