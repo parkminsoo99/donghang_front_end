@@ -69,12 +69,18 @@ export const Header = () => {
   const buttonTrigger = <ProfileIcon />;
   const { ContentArray } = useModalContentStore();
   const { setAnchorEl } = MenuStore();
-  const { openModal } = useModalStore();
+  const { openModal,setUniqueModal } = useModalStore();
   const videoRegisterArray = [<VideoRegister key="videoRegister" />];
 
   const VideoResiterModalOpen = () => {
+    setUniqueModal('');
     openModal(videoRegisterArray, 0);
   };
+  const onClickProFileIcon = () => {
+    setUniqueModal('');
+    openModal(contentArray,0);
+  }
+ 
 
   const titleArray = [
     <MenuContainer href="/" key="HomeMenu">
@@ -134,7 +140,7 @@ export const Header = () => {
         priority
       />
       <IconContainer>
-        <CustomModal buttonTrigger={buttonTrigger} content={contentArray} />
+        <ProfileIcon onClick={onClickProFileIcon}/>
         <ThreeBars
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e)}
         />

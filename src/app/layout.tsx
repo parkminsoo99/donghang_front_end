@@ -6,6 +6,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import StyledComponentsRegistry from './lib/registry';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Header } from '@/components/compounds/Header';
+import { CustomModal } from '@/hooks/useModal';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -21,6 +22,7 @@ export default function RootLayout({
           <html lang="en">
             <body className={inter.className}>
               <Header />
+              <CustomModal />
               {children}
             </body>
           </html>

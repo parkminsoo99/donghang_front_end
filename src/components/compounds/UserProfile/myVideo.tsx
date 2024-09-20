@@ -3,10 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Image, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import styled from 'styled-components';
-import './profile.css';
-import { DeleteIcon } from '@/components/atomics/Icon/delete';
-import { Share } from '@/components/atomics/Icon';
-import { WatchIcon } from '@/components/atomics/Icon';
+import { IconSet } from './IconSet';
 import { md, xs } from '@/constants/size';
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const originalWidth = 190;
@@ -16,7 +13,7 @@ const ImageContainer = styled.div`
   overflow: hidden !important;
   width: 100%;
   height: 100%;
-  position: relative; /* Add this line */
+  position: relative;
   &:hover .delete-icon {
     opacity: 1;
   }
@@ -106,16 +103,6 @@ const ImgStyle = styled.img`
   height: 100% !important;
   transition: opacity 0.3s;
 `;
-const MobileIconSize = 15;
-const IconSet = () => {
-  return (
-    <>
-      <Share mobilesize={MobileIconSize} size={24} />
-      <WatchIcon mobilesize={MobileIconSize} size={27} />
-      <DeleteIcon mobilesize={MobileIconSize} size={26} />
-    </>
-  );
-};
 
 const getBase64 = (file: FileType): Promise<string> =>
   new Promise((resolve, reject) => {
