@@ -9,10 +9,9 @@ interface ModalProps {
   buttonTrigger?: JSX.Element;
 }
 
-export const CustomModal: FC<ModalProps> = ({
-  title,
-}) => {
-  const { isModalOpen, contentModal, closeModal, uniqueModal } = useModalStore();
+export const CustomModal: FC<ModalProps> = ({ title }) => {
+  const { isModalOpen, contentModal, closeModal, uniqueModal } =
+    useModalStore();
 
   return (
     <Modal

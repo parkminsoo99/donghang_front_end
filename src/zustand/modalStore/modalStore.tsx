@@ -7,7 +7,7 @@ interface ModalStoreProps {
   closeModal: () => void;
   openModal: (content: JSX.Element[], index: number) => void;
   contentModal: JSX.Element | null;
-  setUniqueModal:(uniqueModalString:string) => void;
+  setUniqueModal: (uniqueModalString: string) => void;
   setContentIndex: () => number;
   contentIndex: number;
   nextContent: (index: number) => void;
@@ -25,9 +25,9 @@ export const useModalStore = create<ModalStoreProps>((set, get) => ({
     const content = useModalContentStore.getState().Content[index];
     set(() => ({ contentModal: content }));
   },
-  setUniqueModal: (uniqueModalString: string) => 
+  setUniqueModal: (uniqueModalString: string) =>
     set(() => ({
-      uniqueModal: uniqueModalString
+      uniqueModal: uniqueModalString,
     })),
   setContentIndex: () => {
     const newIndex = get().contentIndex + 1;
