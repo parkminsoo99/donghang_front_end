@@ -1,6 +1,6 @@
 import { WatchIcon } from '@/components/atomics/Icon';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
-import { WatchIconContent } from './watchIconContent';
+import { ContentInWatchIcon } from './watchContent';
 import { CustomModal } from '@/hooks/useModal';
 import { useEffect } from 'react';
 
@@ -13,7 +13,7 @@ export const WatchVideoIconWithModal = ({
   size,
 }: WatchIconProps) => {
   const { openModal, setUniqueModal } = useModalStore();
-  const contentArray = [<WatchIconContent key="WatchIconContent" />];
+  const contentArray = [<ContentInWatchIcon key="ContentInWatchIcon" />];
   const onClickWatchIcon = () => {
     setUniqueModal('Video');
     openModal(contentArray, 0);

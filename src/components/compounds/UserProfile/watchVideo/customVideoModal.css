@@ -1,0 +1,25 @@
+.ant-modal-content{
+    padding: 0 !important;
+}
+
+.ant-modal-close{
+    top: -50px !important;
+    border-radius: 20px !important;
+    background-color: #fff !important;
+}
+
+.ant-modal{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.ant-flex{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.ant-modal-wrap{
+    align-items: start !important;
+    justify-content: center !important;
+    display: flex;
+}

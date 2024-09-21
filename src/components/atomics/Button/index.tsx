@@ -17,7 +17,7 @@ const Container = styled.button<{ width?: number }>`
   border-color: #000;
   border-style: solid;
   border-radius: 15px;
-  box-sizing: border-box; //padding과 border를 포함한 크기 계산
+  box-sizing: border-box;
   &:hover {
     color: #fff;
     border-color: #000;
