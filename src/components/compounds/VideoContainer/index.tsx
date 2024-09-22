@@ -59,9 +59,9 @@ const PauseChatPositionContainer = styled.div`
 
 export const VideoTemplate = () => {
   return (
-    <Container className='Container'>
-      <VideoContainer className='VideoContainer'>
-        <Video radius={40}/>
+    <Container className="Container">
+      <VideoContainer className="VideoContainer">
+        <Video radius={40} />
         <VideoBottomContainer>
           <p style={{ color: '#fff' }}>이름</p>
           <SaveShareIconContainer>

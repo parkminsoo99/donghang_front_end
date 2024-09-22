@@ -7,22 +7,22 @@ const Container = styled.div`
   justify-content: center;
   display: flex;
   align-items: center;
-  height:100%;
+  height: 100%;
   width: 100%;
 `;
-const VideoContainer = styled.video<{radius:number}>`
+const VideoContainer = styled.video<{ radius: number }>`
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  border-radius: ${(props) => props.radius || 0}px;
+  object-fit: cover;
+  border-radius: ${props => props.radius || 0}px;
 `;
 const PlayIcon = styled.div`
   position: absolute;
 `;
-interface VideoProps{
-    radius:number;
+interface VideoProps {
+  radius: number;
 }
-export const Video = ({radius} : VideoProps) => {
+export const Video = ({ radius }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoElement = videoRef && videoRef.current;
 
