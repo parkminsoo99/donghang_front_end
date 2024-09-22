@@ -2,8 +2,6 @@ import { IoBookmarkOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 
 const IconSizeContainer = styled.div<{ $color: string }>`
-  height: 28px;
-  width: 28px;
   cursor: pointer;
   color: ${props => props.$color || '#fff'};
 `;
@@ -11,12 +9,13 @@ const IconSizeContainer = styled.div<{ $color: string }>`
 interface AccountProps {
   onClick?: () => void;
   color?: string;
+  size?: number;
 }
 
-export const Save = ({ onClick, color }: AccountProps) => {
+export const Save = ({ onClick, color, size }: AccountProps) => {
   return (
     <IconSizeContainer $color={color}>
-      <IoBookmarkOutline onClick={onClick} size={28} />
+      <IoBookmarkOutline onClick={onClick} size={size || 28} />
     </IconSizeContainer>
   );
 };

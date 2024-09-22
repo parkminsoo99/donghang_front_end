@@ -13,3 +13,4 @@ export * from './share';
 export * from './chat';
 export * from './watch';
 export * from './modify';
+export * from './play';

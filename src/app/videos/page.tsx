@@ -1,6 +1,6 @@
 'use client';
 import styled from 'styled-components';
-import { VideoContainer } from '@/components/compounds/VideoContainer';
+import { VideoTemplate } from '@/components/compounds/VideoContainer';
 const Container = styled.div`
   background-color: #000;
   align-items: center;
@@ -12,7 +12,7 @@ const Container = styled.div`
 export default function Videos() {
   return (
     <Container>
-      <VideoContainer />
+      <VideoTemplate />
     </Container>
   );
 }

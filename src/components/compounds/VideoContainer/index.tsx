@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Video } from './video';
 import {
   Chat,
   Pause,
@@ -13,7 +14,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const Video = styled.div`
+const VideoContainer = styled.div`
   width: 430px;
   height: 670px;
   flex-shrink: 0;
@@ -33,7 +34,6 @@ const VideoBottomContainer = styled.div`
   flex-direction: row;
   height: 70px;
   width: 430px;
-  background-color: rgba(255, 255, 255, 0.1);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -57,19 +57,19 @@ const PauseChatPositionContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.15);
 `;
 
-export const VideoContainer = () => {
+export const VideoTemplate = () => {
   return (
-    <Container>
-      <Video>
+    <Container className='Container'>
+      <VideoContainer className='VideoContainer'>
+        <Video radius={40}/>
         <VideoBottomContainer>
           <p style={{ color: '#fff' }}>이름</p>
-          <Pause />
           <SaveShareIconContainer>
             <Save />
             <Share size={28} />
           </SaveShareIconContainer>
         </VideoBottomContainer>
-      </Video>
+      </VideoContainer>
       <PauseChatPositionContainer>
         <Heart />
         <Chat />

@@ -1,10 +1,8 @@
 'use client';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { IoMdHeartEmpty } from 'react-icons/io';
 import styled from 'styled-components';
 
 const IconSizeContainer = styled.div<{ $color: string }>`
-  height: 32px;
-  width: 32px;
   cursor: pointer;
   color: ${props => props.$color || '#fff'};
 `;
@@ -12,12 +10,13 @@ const IconSizeContainer = styled.div<{ $color: string }>`
 interface AccountProps {
   onClick?: () => void;
   color?: string;
+  size?: number;
 }
 
-export const Heart = ({ onClick, color }: AccountProps) => {
+export const Heart = ({ onClick, color, size }: AccountProps) => {
   return (
     <IconSizeContainer $color={color}>
-      <FavoriteBorderOutlinedIcon onClick={onClick} sx={{ fontSize: 32 }} />
+      <IoMdHeartEmpty onClick={onClick} size={size || 28} />
     </IconSizeContainer>
   );
 };

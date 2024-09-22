@@ -1,8 +1,7 @@
 import { Modify } from '@/components/atomics/Icon/modify';
-import { Avatar } from 'antd';
 import { Font } from '@/components/atomics/Font';
 import styled from 'styled-components';
-
+import { CustomAvatar } from '@/components/atomics/Avatar';
 const UserProfileWithIconContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -56,7 +55,7 @@ export const WriterHeaderInfo = () => {
   return (
     <AvatarWithFont>
       <AvatarContainer>
-        <Avatar size={30}>{testImage}</Avatar>
+        <CustomAvatar userImage={testImage} />
       </AvatarContainer>
       <UserProfileWithDescriptionContainer>
         <UserProfileWithIconContainer>
