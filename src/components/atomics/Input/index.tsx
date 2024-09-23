@@ -46,7 +46,7 @@ interface InputProps
   mobilewidth?: number;
   mobileheight?: number;
   bordercolor?: string;
-  isOutline: boolean;
+  isOutline?: boolean;
   font?: number;
 }
 
