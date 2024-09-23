@@ -11,6 +11,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100%;
   width: 100%;
+  position: relative;
 `;
 const LeftSideContainer = styled.div`
   width: 45%;
