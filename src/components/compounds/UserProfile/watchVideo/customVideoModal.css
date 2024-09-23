@@ -19,7 +19,7 @@
 }
 
 .ant-modal-wrap{
-    align-items: start !important;
+    align-items: flex-start !important;
     justify-content: center !important;
     display: flex;
 }
