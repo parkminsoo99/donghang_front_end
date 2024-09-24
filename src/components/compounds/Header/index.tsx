@@ -7,7 +7,7 @@ import { CustomModal } from '@/hooks/useModal';
 import { LoginForm, PinCodeForm } from '../Form/logainForm';
 import { useModalContentStore } from '@/zustand/modalContentStore/modalContentStore';
 import { useEffect } from 'react';
-import { MenuStore } from '@/zustand/MenuStore/MenuStore';
+import { useMenuStore } from '@/zustand/MenuStore/MenuStore';
 import { CustomMenu } from '@/components/atomics/Menu';
 import { Add, Home, Map, Video } from '@/components/atomics/Icon';
 import { DistanceFiltering } from '@/components/compounds/DistanceFiltering';
@@ -68,8 +68,9 @@ const VideoRegisterContainer = styled.div`
 export const Header = () => {
   const buttonTrigger = <ProfileIcon />;
   const { ContentArray } = useModalContentStore();
-  const { setAnchorEl } = MenuStore();
+  const { setAnchorEl } = useMenuStore();
   const { openModal, setUniqueModal } = useModalStore();
+  const menuKey = 'header-menu';
   const videoRegisterArray = [<VideoRegister key="videoRegister" />];
 
   const VideoResiterModalOpen = () => {
@@ -141,9 +142,11 @@ export const Header = () => {
       <IconContainer>
         <ProfileIcon onClick={onClickProFileIcon} />
         <ThreeBars
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e)}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+            setAnchorEl(menuKey, e)
+          }
         />
-        <CustomMenu titleArray={titleArray} />
+        <CustomMenu titleArray={titleArray} menuKey={menuKey} />
       </IconContainer>
     </Container>
   );

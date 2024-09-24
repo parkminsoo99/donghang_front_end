@@ -1,4 +1,4 @@
-import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
+import { IoMdHeart } from 'react-icons/io';
 import styled from 'styled-components';
 
 const IconSizeContainer = styled.div<{ $color: string }>`
@@ -15,10 +15,10 @@ interface AccountProps {
   size?: number;
 }
 
-export const Chat = ({ onClick, color, size }: AccountProps) => {
+export const FilledHeart = ({ onClick, color, size }: AccountProps) => {
   return (
     <IconSizeContainer $color={color}>
-      <IoChatbubbleEllipsesOutline onClick={onClick} size={size || 28} />
+      <IoMdHeart onClick={onClick} size={size || 28} />
     </IconSizeContainer>
   );
 };

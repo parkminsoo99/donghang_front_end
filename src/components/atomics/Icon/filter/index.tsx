@@ -1,10 +1,8 @@
 'use client';
-import TuneIcon from '@mui/icons-material/Tune';
+import { LiaSlidersHSolid } from 'react-icons/lia';
 import styled from 'styled-components';
 
 const IconSizeContainer = styled.button`
-  height: 28px;
-  width: 28px;
   border-color: #fff;
   justify-content: center;
   align-items: center;
@@ -22,7 +20,7 @@ export const Filter = ({ onClick }: AccountProps) => {
   if (!onClick) return;
   return (
     <IconSizeContainer onClick={e => onClick(e)}>
-      <TuneIcon sx={{ fontSize: 28, color: '#FFAAA4' }} />
+      <LiaSlidersHSolid color="#FFAAA4" size={28} />
     </IconSizeContainer>
   );
 };

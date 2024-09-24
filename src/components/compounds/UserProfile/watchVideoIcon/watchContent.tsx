@@ -12,6 +12,7 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   position: relative;
+  flex-grow: 1;
 `;
 const LeftSideContainer = styled.div`
   width: 45%;
@@ -22,8 +23,10 @@ const LeftSideImage = styled.img`
   height: 100%;
 `;
 const RightSideContainer = styled.div`
+  display: flex;
   width: 55%;
   height: 100%;
+  flex-direction: column;
 `;
 export const ContentInWatchIcon: FC = () => {
   return (

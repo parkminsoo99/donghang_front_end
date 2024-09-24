@@ -1,8 +1,6 @@
 import { WatchIcon } from '@/components/atomics/Icon';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
 import { ContentInWatchIcon } from './watchContent';
-import { CustomModal } from '@/hooks/useModal';
-import { useEffect } from 'react';
 
 interface WatchIconProps {
   mobilesize?: number;
