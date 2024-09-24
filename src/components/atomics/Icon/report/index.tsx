@@ -1,6 +1,5 @@
-'use client';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import styled from 'styled-components';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 
 const IconSizeContainer = styled.div`
   cursor: pointer;
@@ -10,10 +9,10 @@ interface AccountProps {
   onClick?: () => void;
 }
 
-export const Add = ({ onClick }: AccountProps) => {
+export const Report = ({ onClick }: AccountProps) => {
   return (
     <IconSizeContainer>
-      <AddBoxOutlinedIcon onClick={onClick} sx={{ fontSize: 20 }} />
+      <ReportProblemOutlinedIcon onClick={onClick} sx={{ fontSize: 32 }} />
     </IconSizeContainer>
   );
 };

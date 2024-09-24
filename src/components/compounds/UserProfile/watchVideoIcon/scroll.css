@@ -1,0 +1,15 @@
+body{
+-ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.box{
+    -ms-overflow-style: none;
+}
+.box::-webkit-scrollbar{
+    display:none;
+}

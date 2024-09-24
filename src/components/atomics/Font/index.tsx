@@ -24,7 +24,7 @@ const FontContainer = styled.div<{
   color: ${props => props.$color || '#000'};
   font-weight: ${props => props.$thick || 'normal'};
   display: inline-block;
-  cursor: ${props => (props.$buttonmode ? 'pointer' : 'none')};
+  cursor: ${props => (props.$buttonmode ? 'pointer' : 'auto')};
   @media (max-width: ${xs}) {
     font-size: ${props => props.$mobilefont}px;
   }

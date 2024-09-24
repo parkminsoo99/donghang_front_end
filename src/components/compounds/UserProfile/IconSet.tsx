@@ -1,7 +1,7 @@
 import { DeleteIcon } from '@/components/atomics/Icon/delete';
 import { Share } from '@/components/atomics/Icon';
 import { WatchIcon } from '@/components/atomics/Icon';
-import { WatchVideoIconWithModal } from './watchVideo/watchVideo';
+import { WatchVideoIconWithModal } from './watchVideoIcon/watchVideoIcon';
 const MobileIconSize = 15;
 
 export const IconSet = () => {

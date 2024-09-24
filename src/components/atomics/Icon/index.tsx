@@ -14,3 +14,6 @@ export * from './chat';
 export * from './watch';
 export * from './modify';
 export * from './play';
+export * from './dot';
+export * from './report';
+export * from './filledHeart';

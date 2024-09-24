@@ -19,13 +19,15 @@ interface AccountProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   size?: number;
   mobilesize?: number;
+  color?: string;
 }
 
 const DeleteIconContainer = styled(DeleteOutlineIcon)<{
   $size: number;
   $mobilesize: number;
+  $color: string;
 }>`
-  color: #fff;
+  color: ${props => props.$color || '#fff'};
   font-size: ${props => `${props.$size}px`};
 
   @media (max-width: ${xs}) {
@@ -33,10 +35,19 @@ const DeleteIconContainer = styled(DeleteOutlineIcon)<{
   }
 `;
 
-export const DeleteIcon = ({ onClick, size, mobilesize }: AccountProps) => {
+export const DeleteIcon = ({
+  onClick,
+  size,
+  mobilesize,
+  color,
+}: AccountProps) => {
   return (
     <IconSizeContainer onClick={onClick}>
-      <DeleteIconContainer $size={size} $mobilesize={mobilesize} />
+      <DeleteIconContainer
+        $size={size}
+        $mobilesize={mobilesize}
+        $color={color}
+      />
     </IconSizeContainer>
   );
 };

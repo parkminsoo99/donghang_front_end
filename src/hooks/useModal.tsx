@@ -20,6 +20,7 @@ export const CustomModal: FC<ModalProps> = ({ title }) => {
       open={isModalOpen}
       onCancel={closeModal}
       footer={null}
+      maskClosable={false}
     >
       {title}
       <Flex align="center" justify="center">

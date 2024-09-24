@@ -7,17 +7,17 @@ const InputContainer = styled.input<{
   radius: number;
   $mobilewidth: number;
   $mobileheight: number;
-  bordercolor: string;
+  $bordercolor: string;
   $isOutline: boolean;
   $font: number;
 }>`
   width: ${props => props.width}px;
   height: ${props => props.height}px;
   border-radius: ${({ radius }) => radius}px;
-  border-color: ${props => props.bordercolor || '#c7c7c7'};
+  border-color: ${props => props.$bordercolor || '#c7c7c7'};
   color: #4f4f4f;
   border-style: solid;
-  flex-grow: 1;
+  width: 100%;
   box-sizing: border-box;
   padding-left: 15px;
   font-size: ${props => props.$font || 13}px;
@@ -69,7 +69,7 @@ export const CustomInput = forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         $font={font}
         $isOutline={isOutline}
-        bordercolor={bordercolor}
+        $bordercolor={bordercolor}
         width={width}
         height={height}
         radius={borderRadius}

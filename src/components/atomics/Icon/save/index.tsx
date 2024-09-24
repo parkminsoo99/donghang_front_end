@@ -4,6 +4,9 @@ import styled from 'styled-components';
 const IconSizeContainer = styled.div<{ $color: string }>`
   cursor: pointer;
   color: ${props => props.$color || '#fff'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 interface AccountProps {
