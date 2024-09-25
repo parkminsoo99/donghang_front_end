@@ -4,6 +4,9 @@ import styled from 'styled-components';
 
 const IconSizeContainer = styled.div`
   cursor: pointer;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 `;
 
 interface AccountProps {
