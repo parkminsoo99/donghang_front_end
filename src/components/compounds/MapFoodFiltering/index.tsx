@@ -61,6 +61,7 @@ const FoodDescriptionContainer = styled.p<{
 
 const ButtonStyledContainer = styled.button`
   display: inline-block;
+  position: relative !important;
   flex-shrink: 0;
   align-items: center;
   padding: 8px;
@@ -117,6 +118,8 @@ const Container = styled.div`
   padding: 0 20px;
   display: flex;
   justify-content: center;
+  top: 15px;
+  position: relative;
   align-items: center;
   gap: 14px;
 `;
