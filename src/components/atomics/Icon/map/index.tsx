@@ -2,20 +2,27 @@
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';
 import styled from 'styled-components';
 
-const IconSizeContainer = styled.div`
-  height: 20px;
-  width: 20px;
+const IconSizeContainer = styled.div<{ $color: string }>`
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${props => props.$color || '#000'};
 `;
 
 interface AccountProps {
   onClick?: () => void;
+  size?: number;
+  color?: string;
 }
 
-export const Map = ({ onClick }: AccountProps) => {
+export const Map = ({ onClick, size, color }: AccountProps) => {
   return (
-    <IconSizeContainer>
-      <TravelExploreOutlinedIcon onClick={onClick} sx={{ fontSize: 20 }} />
+    <IconSizeContainer $color={color}>
+      <TravelExploreOutlinedIcon
+        onClick={onClick}
+        sx={{ fontSize: size || 20 }}
+      />
     </IconSizeContainer>
   );
 };

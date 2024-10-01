@@ -19,7 +19,7 @@ interface EmailValidationResponse {
   message?: string;
   // Add more fields as needed based on your API response
 }
-export const emailValidateData = async (): Promise<
+const emailValidateData = async (): Promise<
   AxiosResponse<EmailValidationResponse>
 > => {
   try {

@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { Search } from '@/components/atomics/Search';
 import { SubTitle } from '@/components/atomics/Typography';
-
+import { CustomAutoComplete } from '@/components/atomics/AutoComplete';
 import {
   MobileSubKindOfFoodContainerReturn,
   SubKindOfFoodContainerReturn,
 } from './subContainerComponent';
 import { CustomUpload } from '@/components/atomics/CustomUpload';
 import { CustomDescription } from '@/components/atomics/Description';
-
+import { useAddressQuery } from '@/reactQuery/Search/addressSearch';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/atomics/Button';
 import { custom_video_register_pixel } from '@/constants/size';
+import { fetchAddress } from '@/reactQuery/Search/addressSearch';
+import { useSearchInputStore } from '@/zustand/FoodSearchStore/InputStore';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,6 +57,7 @@ const KindOfFoodContainer = styled.div`
 
 export const VideoRegister = () => {
   const [windowWitdth, setWindowWidth] = useState(window.innerWidth);
+  const { userInput, setUserInput } = useSearchInputStore();
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -65,9 +67,8 @@ export const VideoRegister = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
   const isMobile = windowWitdth >= 611;
-  console.log(isMobile);
+
   return (
     <Container>
       <TopContainer>
@@ -81,13 +82,14 @@ export const VideoRegister = () => {
           mobileWidth={130}
         />
         <TopRightContainer>
-          <Search
+          <CustomAutoComplete
             width={330}
             height={40}
             customfont={12}
             mobilefont={12}
             mobileHeight={40}
             mobileWidth={200}
+            query={fetchAddress}
             placeHolder="주소 검색"
           />
           <CustomDescription
