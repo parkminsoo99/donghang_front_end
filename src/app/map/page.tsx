@@ -18,7 +18,6 @@ import './map.css';
 import { createGlobalStyle } from 'styled-components';
 import { VideoList } from './videoList';
 import { useNaverMap } from '@/hooks/useNaverMap';
-import { MapAnimation } from '@/components/atomics/Animations/mapAnimation';
 import { useMyPositionStore } from '@/zustand/MyPositionStore/myPositionStore';
 
 const GlobalStyle = createGlobalStyle`
