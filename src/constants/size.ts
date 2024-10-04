@@ -7,3 +7,6 @@ export const xs = '576px';
 export const custom_main_pixel = '910px';
 export const custom_main_input_pixel = '480px';
 export const custom_video_register_pixel = '610px';
+export const custom_map_side_bar_pixel_large = '910px';
+export const custom_map_side_bar_pixel_medium = '625px';
+export const custom_map_side_bar_pixel_small = '480px';

@@ -4,7 +4,7 @@ import { xs } from '@/constants/size';
 import React from 'react';
 interface Props {
   font: number;
-  label: string;
+  label: string | number;
   color?: string;
   thick?: string;
   mobilefont?: number;

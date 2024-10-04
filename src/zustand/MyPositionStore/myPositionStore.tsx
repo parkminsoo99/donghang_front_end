@@ -35,8 +35,6 @@ export const useMyPositionStore = create<Props>(set => ({
         },
         {
           enableHighAccuracy: true,
-          maximumAge: 30000,
-          timeout: 27000,
         }
       );
     });

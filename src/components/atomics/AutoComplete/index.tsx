@@ -7,6 +7,7 @@ import {
   custom_main_input_pixel,
 } from '@/constants/size';
 import { AxiosResponse } from 'axios';
+import './AutoComplete.css';
 
 import { useSearchInputStore } from '@/zustand/FoodSearchStore/InputStore';
 interface CustomAutoCompleteProp {
@@ -31,7 +32,7 @@ const AutoCompleteContainer = styled(AutoComplete)<{
   border-radius: 10px;
   border-color: #efefef;
   background-color: #fcfcfd;
-  width: ${props => props.width || 331}px !important;
+  width: ${props => `${props.width}px` || `${100}%`}!important;
   height: ${props => props.height || 60}px !important;
   display: flex;
   align-items: center;
@@ -39,7 +40,7 @@ const AutoCompleteContainer = styled(AutoComplete)<{
   box-sizing: border-box;
   font-size: ${props => props.$customfont || 18}px;
   @media (max-width: ${custom_video_register_pixel}) {
-    width: ${props => props.$mobilewidth || 270}px !important;
+    width: ${props => `${props.$mobilewidth}px` || `${100}%`} !important;
     height: ${props => props.$mobileheight || 40}px !important;
   }
   @media (max-width: ${custom_main_input_pixel}) {

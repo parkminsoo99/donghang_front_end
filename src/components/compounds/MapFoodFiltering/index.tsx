@@ -3,7 +3,13 @@ import Image from 'next/image';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { foodLists } from '@/constants/foodLists';
-import { custom_video_register_pixel } from '@/constants/size';
+import {
+  custom_video_register_pixel,
+  custom_map_side_bar_pixel_large,
+  custom_map_side_bar_pixel_medium,
+  custom_map_side_bar_pixel_small,
+} from '@/constants/size';
+
 const foodList = foodLists;
 interface Props {
   src: string;
@@ -114,7 +120,7 @@ export const MapFood: FC<Props> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ $isSideBarShow: boolean }>`
   padding: 0 20px;
   display: flex;
   justify-content: center;
@@ -122,8 +128,21 @@ const Container = styled.div`
   position: relative;
   align-items: center;
   gap: 14px;
+  width: ${props => (props.$isSideBarShow ? '80%' : '95%')};
+  ${props =>
+    props.$isSideBarShow &&
+    `
+    @media (max-width: ${custom_map_side_bar_pixel_large}){
+      width: 75%;
+    }
+    @media (max-width: ${custom_map_side_bar_pixel_medium}){
+      width: 70%;
+    }
+    @media (max-width: ${custom_map_side_bar_pixel_small}){
+      width: 47%;
+    }
+  `}
 `;
-
 const TotalContainer = styled.div`
   overflow: hidden;
   cursor: grab;
@@ -169,8 +188,12 @@ const initializeData = (
 };
 
 type totalFoodContainerType = HTMLDivElement;
-
-export const MapFoodFiltering: FC = () => {
+interface MapFoodFilteringProps {
+  isSideBarShow: boolean;
+}
+export const MapFoodFiltering: FC<MapFoodFilteringProps> = ({
+  isSideBarShow,
+}) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [position, setPosition] = useState<number[]>([]);
@@ -244,7 +267,11 @@ export const MapFoodFiltering: FC = () => {
   }, [currentIdx, position]);
 
   return (
-    <Container ref={targetRef} className="Container">
+    <Container
+      $isSideBarShow={isSideBarShow}
+      ref={targetRef}
+      className="Container"
+    >
       <ButtonStyledContainer
         className="PreviousBtn"
         onClick={() => ButtonClick('PREVIOUS')}

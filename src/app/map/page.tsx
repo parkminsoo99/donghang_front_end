@@ -16,10 +16,10 @@ import styled from 'styled-components';
 import { MapFoodFiltering } from '@/components/compounds/MapFoodFiltering';
 import './map.css';
 import { createGlobalStyle } from 'styled-components';
-import { VideoList } from './videoList';
 import { useNaverMap } from '@/hooks/useNaverMap';
 import { useMyPositionStore } from '@/zustand/MyPositionStore/myPositionStore';
-
+import { MapSideBar } from '@/components/compounds/MapSideBar/mapSideBar';
+import { List } from '@/components/atomics/Icon';
 const GlobalStyle = createGlobalStyle`
   body {
     overflow: hidden;
@@ -31,6 +31,12 @@ const MapContainer = styled.div`
   position: absolute !important;
 `;
 
+const SideBarWithFiltering = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: start;
+`;
 export default function FoodMap() {
   const [mapElement, setMapElement] = useState<HTMLElement | null>(null);
   const pinArray = [
@@ -40,6 +46,7 @@ export default function FoodMap() {
   ];
   const [isMapReady, setIsMapReady] = useState(true);
   const { LatLng, setLatLng } = useMyPositionStore();
+  const mapRef = useRef(null);
   const { markerList, callNaverMap, mapInstanceRef } = useNaverMap({
     pinArray: pinArray,
     mapElement: mapElement,
@@ -61,13 +68,18 @@ export default function FoodMap() {
       initializeMap();
     }
   }, [mapElement, callNaverMap]);
-  const handleClick = (e: naver.maps.PointerEvent) => {
-    console.log('Click event 발생', e);
-  };
-
+  // const handleClick = (e: naver.maps.PointerEvent) => {
+  //   console.log('Click event 발생', e);
+  // };
+  // console.log("mapRef",document.querySelector('.nmap-sidenav'))
   return (
     <>
-      <MapContainer id="map" />
+      {isMapReady && (
+        <Skeleton.Node active={isMapReady}>
+          <GlobalStyle />
+        </Skeleton.Node>
+      )}
+      <MapContainer ref={mapRef} id="map" />
       <BodyMap
         mapElement={mapElement}
         mapInstanceRef={mapInstanceRef}
@@ -86,6 +98,11 @@ interface BodyMapProps {
 const BodyMap = ({ mapElement, mapInstanceRef, isMapReady }: BodyMapProps) => {
   const [isShowVideoList, setIsShowVideoList] = useState(false);
   const showVideoRef = useRef<boolean>(false);
+  const mapSideBarRef = useRef<HTMLDivElement>(null);
+  const [isShow, setIsShow] = useState(false);
+  const onClickEvent = () => {
+    setIsShow(!isShow);
+  };
   // console.log("mapInstanceRef",mapElement, mapInstanceRef)
   // const handleClick = (e) => {
   //   console.log('Click event 발생', e);
@@ -99,16 +116,19 @@ const BodyMap = ({ mapElement, mapInstanceRef, isMapReady }: BodyMapProps) => {
       // mapInstanceRef.current.addListener('click', handleClick);
     }
   }, [mapInstanceRef]);
+  // if(MapSideBar){
+  //   const mapFilteringWidth = document.querySelector('.map-side-bar').clientWidth;
+  //   console.log("mapFilteringWidth",mapFilteringWidth)
+  // }
+
   return (
     <>
-      {isMapReady && (
-        <Skeleton.Node active={isMapReady}>
-          <GlobalStyle />
-        </Skeleton.Node>
-      )}
       <GlobalStyle />
-      <MapFoodFiltering />
-      {isShowVideoList && <VideoList />}
+      <SideBarWithFiltering>
+        <MapSideBar isShow={isShow} className="map-side-bar" />
+        <MapFoodFiltering isSideBarShow={isShow} />
+        <List onClick={onClickEvent} size={28} color="#FFAAA4" />
+      </SideBarWithFiltering>
     </>
   );
 };
