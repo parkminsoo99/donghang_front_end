@@ -24,7 +24,7 @@ const ContentContainer = styled.div`
   }
 `;
 
-export const CustomePopOver = ({ inputContent, style }: PopOverProps) => {
+export const CustomPopOver = ({ inputContent, style }: PopOverProps) => {
   const [open, setOpen] = useState(false);
   const [arrow, setArrow] = useState<'Show' | 'Hide' | 'Center'>('Show');
   const hide = () => {

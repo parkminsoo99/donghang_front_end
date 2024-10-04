@@ -3,7 +3,48 @@
     width: 100% !important;
     height: 100% !important;
   }
-  .ant-skeleton-image{
+.ant-skeleton-image{
     width:100% !important;
     height: 100% !important; 
-  }
+}
+
+.MuiCollapse-wrapperInner.MuiCollapse-horizontal{
+    width: 100% !important;
+}
+.MuiCollapse-wrapper.MuiCollapse-horizontal{
+    width: 100% !important;
+}
+.MuiCollapse-root.MuiCollapse-horizontal {
+    width: 20% !important;
+    height: 700px !important;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: scroll;
+    box-shadow: 
+        5px 5px 10px 0px rgba(0, 0, 0, 0.20),
+        5px 5px 10px 0px rgba(0, 0, 0, 0.1);
+    position: relative;
+    left: 0;
+}
+
+@media (max-width: 910px) {
+    .MuiCollapse-root.MuiCollapse-horizontal {
+        width: 25% !important;
+    }
+}
+
+@media (max-width: 625px) {
+    .MuiCollapse-root.MuiCollapse-horizontal {
+        width: 30% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .MuiCollapse-root.MuiCollapse-horizontal {
+        width: 53% !important;
+    }
+}

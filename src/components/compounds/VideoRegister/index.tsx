@@ -7,7 +7,6 @@ import {
 } from './subContainerComponent';
 import { CustomUpload } from '@/components/atomics/CustomUpload';
 import { CustomDescription } from '@/components/atomics/Description';
-import { useAddressQuery } from '@/reactQuery/Search/addressSearch';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/atomics/Button';
 import { custom_video_register_pixel } from '@/constants/size';

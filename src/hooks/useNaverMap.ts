@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { LatLng, ZoomControlStyle, NaverMap, Marker } from '@/types/naverMap';
 import { useMyPositionStore } from '@/zustand/MyPositionStore/myPositionStore';
 import { Position } from '@/components/atomics/Icon';
+import { useIsMapClick } from '@/zustand/MapClickStore/IsMapClick';
 interface useNaverMapProps {
   pinArray: number[][];
   mapElement: HTMLElement;
@@ -19,6 +20,7 @@ export const useNaverMap = ({
   const src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`;
   const markerList = [] as Marker[];
   const mapInstanceRef = useRef<NaverMap | null>(null);
+  const { isMapClick, setIsMapClick } = useIsMapClick();
   const { LatLng, setLatLng } = useMyPositionStore();
   const initialNaverMapScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -87,31 +89,38 @@ export const useNaverMap = ({
       mapInstanceRef.current = mapInstance;
       const locationBtnHtml = `<div style="background-color: #000; cursor:pointer"><p style="color: #fff;">GetMyPosition<p></div>`;
 
-      const customControl = new naver.maps.CustomControl(locationBtnHtml, {
-        position: naver.maps.Position.RIGHT_CENTER,
-      });
-      naver.maps.Event.once(mapInstance, 'init', function () {
-        customControl.setMap(mapInstance);
+      //   const customControl = new naver.maps.CustomControl(locationBtnHtml, {
+      //     position: naver.maps.Position.RIGHT_CENTER,
+      //   });
+      //   const customVideLost = '<VideoList />';
 
-        naver.maps.Event.addDOMListener(
-          customControl.getElement(),
-          'click',
-          function () {
-            const handleClick = async () => {
-              try {
-                const latLng = await setLatLng();
-                mapInstance.setCenter(
-                  new naver.maps.LatLng(1269198601, 376184131)
-                );
-              } catch (error) {
-                console.error('Error fetching location:', error);
-              }
-            };
+      //   naver.maps.Event.once(mapInstance, 'init', function () {
+      //     customControl.setMap(mapInstance);
 
-            handleClick();
-          }
-        );
-      });
+      //     naver.maps.Event.addDOMListener(
+      //       customControl.getElement(),
+      //       'click',
+      //       function () {
+      //         const handleClick = async () => {
+      //           try {
+
+      //             const latLng = await setLatLng();
+      //             mapInstance.setCenter(
+      //               new naver.maps.LatLng(1269198601, 376184131)
+      //             );
+      //           } catch (error) {
+      //             console.error('Error fetching location:', error);
+      //           }
+      //         };
+
+      //         handleClick();
+      //       }
+      //     );
+      //   });
+      //   naver.maps.Event.addListener(mapInstance, 'click', function(e){
+      //     setIsMapClick()
+      //     console.log("isMapClick",isMapClick)
+      //   })
 
       new naver.maps.Marker({
         position: new naver.maps.LatLng(userLat, userLng),
