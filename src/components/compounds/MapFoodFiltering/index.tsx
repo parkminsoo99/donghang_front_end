@@ -3,12 +3,7 @@ import Image from 'next/image';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { foodLists } from '@/constants/foodLists';
-import {
-  custom_video_register_pixel,
-  custom_map_side_bar_pixel_large,
-  custom_map_side_bar_pixel_medium,
-  custom_map_side_bar_pixel_small,
-} from '@/constants/size';
+import { custom_video_register_pixel } from '@/constants/size';
 
 const foodList = foodLists;
 interface Props {
@@ -120,29 +115,17 @@ export const MapFood: FC<Props> = ({
   );
 };
 
-const Container = styled.div<{ $isSideBarShow: boolean }>`
+const Container = styled.div<{ $open: boolean; $drawerWidth: number }>`
   padding: 0 20px;
   display: flex;
   justify-content: center;
   top: 15px;
   position: relative;
   align-items: center;
+  width: 100% !important;
   gap: 14px;
-  width: ${props => (props.$isSideBarShow ? '80%' : '95%')};
-  ${props =>
-    props.$isSideBarShow &&
-    `
-    @media (max-width: ${custom_map_side_bar_pixel_large}){
-      width: 75%;
-    }
-    @media (max-width: ${custom_map_side_bar_pixel_medium}){
-      width: 70%;
-    }
-    @media (max-width: ${custom_map_side_bar_pixel_small}){
-      width: 47%;
-    }
-  `}
 `;
+
 const TotalContainer = styled.div`
   overflow: hidden;
   cursor: grab;
@@ -174,14 +157,13 @@ const initializeData = (
     pixel = pixel + i * width;
     console.log('pixel', width);
     if (pixel + width > DEFAULT_TOTAL_VALUE) {
-      positions.push(DEFAULT_TOTAL_VALUE - width + 160);
+      positions.push(DEFAULT_TOTAL_VALUE - width + 170);
       count++;
       break;
     }
     positions.push(pixel);
     count++;
   }
-  console.log('positions', positions);
   setPosition(positions);
   setItemCount(count);
   setCurrentIdx(0);
@@ -189,10 +171,12 @@ const initializeData = (
 
 type totalFoodContainerType = HTMLDivElement;
 interface MapFoodFilteringProps {
-  isSideBarShow: boolean;
+  open: boolean;
+  drawerWidth: number;
 }
 export const MapFoodFiltering: FC<MapFoodFilteringProps> = ({
-  isSideBarShow,
+  open,
+  drawerWidth,
 }) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -268,8 +252,9 @@ export const MapFoodFiltering: FC<MapFoodFilteringProps> = ({
 
   return (
     <Container
-      $isSideBarShow={isSideBarShow}
+      $open={open}
       ref={targetRef}
+      $drawerWidth={drawerWidth}
       className="Container"
     >
       <ButtonStyledContainer

@@ -14,16 +14,10 @@ const Container = styled.div`
   justify-content: center;
   gap: 5px;
   z-index: 9999;
-  @media (max-width: ${custom_map_side_bar_pixel_large}) {
-    height: 180px;
-  }
 `;
 const UpperContainer = styled.div`
   width: 100%;
   height: 78%;
-  @media (max-width: ${custom_map_side_bar_pixel_large}) {
-    height: 60%;
-  }
 `;
 
 const DownContainer = styled.div`
@@ -34,9 +28,6 @@ const DownContainer = styled.div`
   width: 97%;
   height: 22%;
   gap: 3px;
-  @media (max-width: ${custom_map_side_bar_pixel_large}) {
-    height: 40%;
-  }
 `;
 const ImageContainer = styled.div`
   width: 98%;
