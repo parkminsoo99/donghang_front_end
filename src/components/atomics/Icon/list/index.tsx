@@ -27,7 +27,7 @@ interface AccountProps {
   color?: string;
 }
 
-export const List = ({ onClick, size, color }: AccountProps) => {
+export const CustomList = ({ onClick, size, color }: AccountProps) => {
   return (
     <IconSizeContainer className="menu-icon" $color={color}>
       <MenuIcon onClick={onClick} sx={{ fontSize: size || 20 }} />

@@ -16,7 +16,7 @@ const Container = styled.div`
   .ant-slider .ant-slider-mark-text-active {
     color: #fe724c;
   }
-  height: 100px;
+  height: 100%;
   width: 450px;
   padding: 30px;
   background-color: #fff;
