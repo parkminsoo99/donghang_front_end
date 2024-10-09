@@ -2,11 +2,11 @@ import { Input } from 'antd';
 const { TextArea } = Input;
 import styled from 'styled-components';
 import { custom_video_register_pixel } from '@/constants/size';
-const onChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-) => {
-  console.log('Change:', e.target.value);
-};
+// const onChange = (
+//   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+// ) => {
+//   console.log('Change:', e.target.value);
+// };
 
 interface DescriptionProps {
   readonly placeHolder: string;
@@ -14,6 +14,9 @@ interface DescriptionProps {
   readonly height: number;
   readonly mobileWidth?: number;
   readonly mobileHeight?: number;
+  readonly onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 const TextAreaContainer = styled(TextArea)<{
   width: number;
@@ -36,6 +39,7 @@ export const CustomDescription = ({
   height,
   mobileHeight,
   mobileWidth,
+  onChange,
 }: DescriptionProps) => (
   <>
     <TextAreaContainer

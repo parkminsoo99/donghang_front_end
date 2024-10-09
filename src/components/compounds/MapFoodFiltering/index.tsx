@@ -4,7 +4,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { foodLists } from '@/constants/foodLists';
 import { custom_video_register_pixel } from '@/constants/size';
-
+import CustomNotification from '@/components/atomics/Notification';
 const foodList = foodLists;
 interface Props {
   src: string;
@@ -15,6 +15,7 @@ interface Props {
   mobilemarginvalue?: number;
   paddingvalue?: number;
   gapvalue?: number;
+  isModal?: boolean;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
 const FoodFilteringContainer = styled.div<{ paddingvalue: number }>`
@@ -27,7 +28,13 @@ const FoodFilteringContainer = styled.div<{ paddingvalue: number }>`
   border: 1px solid #000;
   box-sizing: border-box;
   padding: 10px 25px;
+  cursor: pointer;
   &:hover {
+    color: #fff;
+    border: 1px solid #f4eae0;
+    background-color: #f3dfc8;
+  }
+  &.active {
     color: #fff;
     border: 1px solid #f4eae0;
     background-color: #f3dfc8;
@@ -96,20 +103,46 @@ export const MapFood: FC<Props> = ({
   mobilemarginvalue,
   paddingvalue,
   gapvalue,
+  isModal = false,
 }) => {
+  const onClickFoodTag = () => {
+    if (isModal) {
+      const foodTagClassName = document.querySelector(`.modal-${alt}`);
+      const activeElements = document.querySelectorAll('.active');
+      if (foodTagClassName.classList.contains('active'))
+        foodTagClassName.classList.remove('active');
+      else if (activeElements.length <= 0) {
+        console.log('foodTagClassName', foodTagClassName);
+        foodTagClassName.classList.add('active');
+      } else {
+        CustomNotification({
+          placement: 'top',
+          message: '태그는 하나만 지정 가능합니다.',
+          type: 'warning',
+        });
+      }
+    } else {
+      const foodTagClassName = document.querySelector(`.${alt}`);
+      console.log('foodTagClassName', foodTagClassName);
+      if (foodTagClassName.classList.contains('active'))
+        foodTagClassName.classList.remove('active');
+      else foodTagClassName.classList.add('active');
+    }
+  };
   return (
     <FoodFilteringContainer
       paddingvalue={paddingvalue}
-      className={alt}
+      className={isModal ? `modal-${alt}` : alt}
       style={style}
+      onClick={onClickFoodTag}
     >
-      <FoodFlexContainer gapvalue={gapvalue}>
+      <FoodFlexContainer className="inner-container" gapvalue={gapvalue}>
         <Image src={`/images/${src}`} width={24} height={24} alt={alt} />
         <FoodDescriptionContainer
           $marginvalue={marginvalue}
           $mobilemarginvalue={mobilemarginvalue}
         ></FoodDescriptionContainer>
-        <LabelContainer>{label}</LabelContainer>
+        <LabelContainer className="tag-description">{label}</LabelContainer>
       </FoodFlexContainer>
     </FoodFilteringContainer>
   );

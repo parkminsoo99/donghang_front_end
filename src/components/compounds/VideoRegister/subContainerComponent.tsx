@@ -36,6 +36,7 @@ export const MobileSubKindOfFoodContainerReturn = () => {
             mobilemarginvalue={MobileFoodMargin}
             paddingvalue={FoodPadding}
             gapvalue={FoodGapValye}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -50,6 +51,7 @@ export const MobileSubKindOfFoodContainerReturn = () => {
             mobilemarginvalue={MobileFoodMargin}
             paddingvalue={FoodPadding}
             gapvalue={FoodGapValye}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -64,6 +66,7 @@ export const MobileSubKindOfFoodContainerReturn = () => {
             mobilemarginvalue={MobileFoodMargin}
             paddingvalue={FoodPadding}
             gapvalue={FoodGapValye}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -78,6 +81,7 @@ export const MobileSubKindOfFoodContainerReturn = () => {
             mobilemarginvalue={MobileFoodMargin}
             paddingvalue={FoodPadding}
             gapvalue={FoodGapValye}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -92,6 +96,7 @@ export const MobileSubKindOfFoodContainerReturn = () => {
             mobilemarginvalue={MobileFoodMargin}
             paddingvalue={FoodPadding}
             gapvalue={FoodGapValye}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -110,6 +115,7 @@ export const SubKindOfFoodContainerReturn = () => {
             label={value[1]}
             marginvalue={FoodMargin}
             mobilemarginvalue={MobileFoodMargin}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -122,6 +128,7 @@ export const SubKindOfFoodContainerReturn = () => {
             label={value[1]}
             marginvalue={FoodMargin}
             mobilemarginvalue={MobileFoodMargin}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -134,6 +141,7 @@ export const SubKindOfFoodContainerReturn = () => {
             label={value[1]}
             marginvalue={FoodMargin}
             mobilemarginvalue={MobileFoodMargin}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
@@ -146,6 +154,7 @@ export const SubKindOfFoodContainerReturn = () => {
             label={value[1]}
             marginvalue={FoodMargin}
             mobilemarginvalue={MobileFoodMargin}
+            isModal={true}
           />
         ))}
       </SubKindOfFoodContainer>
