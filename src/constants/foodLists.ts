@@ -15,6 +15,23 @@ export const foodLists = [
   ['westenFood', '양식'],
 ] as string[][];
 
+export const foodListHastTable = {
+  전체: 'all',
+  치킨: 'chicken',
+  베이커리: 'bakery',
+  '카페·디저트': 'cafeAndDesert',
+  중식: 'chinese',
+  해산물: 'fish',
+  햄버거: 'hamburger',
+  '돈까스·회·일식': 'japan',
+  한식: 'korea',
+  고기: 'meat',
+  '죽·국수': 'noodle',
+  샐러드: 'salad',
+  분식: 'schoolFood',
+  양식: 'westenFood',
+};
+
 export const foodListsWithOutAll = [
   ['chicken', '치킨'],
   ['bakery', '베이커리'],

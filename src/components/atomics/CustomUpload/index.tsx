@@ -40,7 +40,7 @@ export const CustomUpload = ({
   listType,
   fileType,
   maxCount,
-  action,
+  action = '/api/video/upload',
   width,
   height,
   mobileWidth,

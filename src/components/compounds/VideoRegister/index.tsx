@@ -12,6 +12,9 @@ import { Button } from '@/components/atomics/Button';
 import { custom_video_register_pixel } from '@/constants/size';
 import { fetchAddress } from '@/reactQuery/Search/addressSearch';
 import { useSearchInputStore } from '@/zustand/FoodSearchStore/InputStore';
+import { v4 as uuidv4 } from 'uuid';
+import CustomNotification from '@/components/atomics/Notification';
+import { foodListHastTable } from '@/constants/foodLists';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,7 +59,9 @@ const KindOfFoodContainer = styled.div`
 
 export const VideoRegister = () => {
   const [windowWitdth, setWindowWidth] = useState(window.innerWidth);
+  const [userDescriptionInput, setUserDescriptionInput] = useState('');
   const { userInput, setUserInput } = useSearchInputStore();
+  const [userAddressInput, setUserAddressInput] = useState('');
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -67,6 +72,57 @@ export const VideoRegister = () => {
     };
   }, []);
   const isMobile = windowWitdth >= 611;
+  const userInputValue = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setUserDescriptionInput(e.target.value);
+  };
+  // const onSelect = (data: string) => {
+  //   console.log('onSelect', data);
+  //   setUserInput(data);
+  // };
+  const onClick = () => {
+    const submitTagName = document.querySelector(
+      '.active > .inner-container > .tag-description'
+    ).textContent;
+    const submitUserInput = userDescriptionInput;
+    let lat;
+    let lng;
+    let restaurant;
+    userInput.map(value => {
+      if (
+        value.title.toLowerCase().trim().replace(/\s+/g, '') ===
+        userAddressInput.toLowerCase().trim().replace(/\s+/g, '')
+      ) {
+        restaurant = value.title;
+        lat = value.mapx;
+        lng = value.mapy;
+      }
+    });
+    if (lat != undefined || lng != undefined) {
+      const submitUid = uuidv4();
+      const submitImageValue = {
+        uid: submitUid,
+        name: `video-${submitUid}`,
+        url: 'http://www.naver.com',
+        content: submitUserInput,
+        lat: lat,
+        lng: lng,
+        catergory: foodListHastTable[submitTagName],
+        restaurant: restaurant,
+      };
+      console.log('submitImageValue', submitImageValue);
+    } else {
+      CustomNotification({
+        message: '정확한 주소를 입력해주세요.',
+        placement: 'top',
+        type: 'warning',
+      });
+    }
+  };
+  const onChangeAddress = (e: string) => {
+    setUserAddressInput(e);
+  };
 
   return (
     <Container>
@@ -74,7 +130,6 @@ export const VideoRegister = () => {
         <CustomUpload
           listType="picture-card"
           maxCount={1}
-          action="test"
           width={200}
           height={200}
           mobileHeight={155}
@@ -90,6 +145,7 @@ export const VideoRegister = () => {
             mobileWidth={200}
             query={fetchAddress}
             placeHolder="주소 검색"
+            onChange={(e: string) => onChangeAddress(e)}
           />
           <CustomDescription
             placeHolder="설명을 작성해주세요."
@@ -97,6 +153,9 @@ export const VideoRegister = () => {
             mobileWidth={200}
             width={330}
             height={145}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+            ) => userInputValue(e)}
           />
         </TopRightContainer>
       </TopContainer>
@@ -107,7 +166,7 @@ export const VideoRegister = () => {
         {(isMobile && SubKindOfFoodContainerReturn()) ||
           MobileSubKindOfFoodContainerReturn()}
       </KindOfFoodContainer>
-      <Button label="제출" width={150} />
+      <Button label="제출" width={150} onClick={onClick} />
     </Container>
   );
 };

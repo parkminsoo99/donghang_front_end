@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import { AutoComplete, Flex } from 'antd';
 import type { AutoCompleteProps } from 'antd';
 import styled from 'styled-components';
@@ -19,6 +19,8 @@ interface CustomAutoCompleteProp {
   query: (text: string) => Promise<AxiosResponse<any, any>>;
   readonly mobileWidth?: number;
   readonly mobileHeight?: number;
+  readonly onSelect?: (data: string) => void;
+  readonly onChange?: (e: string) => void;
 }
 
 const AutoCompleteContainer = styled(AutoComplete)<{
@@ -61,6 +63,8 @@ export const CustomAutoComplete = ({
   mobileHeight,
   mobileWidth,
   query,
+  onSelect,
+  onChange,
 }: CustomAutoCompleteProp) => {
   const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
   const { setUserInput } = useSearchInputStore();
@@ -72,13 +76,14 @@ export const CustomAutoComplete = ({
       </Flex>
     ),
   });
+  const notFoundContentNode: ReactNode = <div>Not Found Address</div>;
 
   const getPanelValue = async (searchText: string) => {
     const keywordArray: any[] = [];
     const queryData = await query(searchText);
-
     if (isAxiosResponse(queryData)) {
       const returnArray = queryData.data.items;
+      setUserInput(returnArray);
       if (returnArray) {
         returnArray.forEach((item: any) => {
           if (item && item.title) {
@@ -90,11 +95,6 @@ export const CustomAutoComplete = ({
     return keywordArray;
   };
 
-  const onSelect = (data: string) => {
-    console.log('onSelect', data);
-    setUserInput(data);
-  };
-
   const onSearch = async (text: string) => {
     if (text) {
       const results = await getPanelValue(text);
@@ -103,16 +103,18 @@ export const CustomAutoComplete = ({
       setOptions([]);
     }
   };
-
   return (
     <>
       <AutoCompleteContainer
+        className="auto-complete"
+        onChange={onChange}
         $customfont={customfont}
         $mobilefont={mobilefont}
         width={width}
         height={height}
         $mobileheight={mobileHeight}
         $mobilewidth={mobileWidth}
+        notFoundContent={notFoundContentNode}
         options={options}
         onSelect={onSelect}
         onSearch={onSearch}

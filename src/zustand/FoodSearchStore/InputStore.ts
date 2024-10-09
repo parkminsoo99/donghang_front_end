@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
 interface InputStoreProps {
-  userInput: string;
-  setUserInput: (userInput: string) => void;
+  userInput: any[];
+  setUserInput: (userInput: any[]) => void;
 }
 export const useSearchInputStore = create<InputStoreProps>(set => ({
-  userInput: '',
+  userInput: [],
   setUserInput: userInput => set(() => ({ userInput: userInput })),
 }));
