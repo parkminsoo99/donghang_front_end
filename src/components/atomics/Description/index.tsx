@@ -44,7 +44,7 @@ export const CustomDescription = ({
   <>
     <TextAreaContainer
       showCount
-      maxLength={300}
+      maxLength={100}
       onChange={onChange}
       placeholder={placeHolder}
       height={height}

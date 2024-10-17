@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
-import { CustomSpinner } from '@/components/atomics/Spinner/indext';
 
 export const fetchAddress = async (
   text: string

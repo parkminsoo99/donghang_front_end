@@ -5,6 +5,7 @@ export async function POST(request: NextRequest) {
   try {
     const requestFromData = await request.formData();
     const avatarFile = requestFromData.get('avatar') as File | null;
+    console.log('avatarFile', avatarFile);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/image/upload`,
       {
