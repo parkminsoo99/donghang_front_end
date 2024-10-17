@@ -1,8 +1,15 @@
-import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import styled from 'styled-components';
 const IconSizeContainer = styled.div`
   cursor: pointer;
-  color: #fff;
+  background-color: #000;
+  z-index: 9999 !important;
+  border-radius: 80px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 interface AccountProps {
@@ -11,8 +18,8 @@ interface AccountProps {
 
 export const Play = ({ onClick }: AccountProps) => {
   return (
-    <IconSizeContainer>
-      <PlayCircleFilledRoundedIcon onClick={onClick} sx={{ fontSize: 52 }} />
+    <IconSizeContainer className="PlayIcon">
+      <PlayArrowIcon onClick={onClick} sx={{ fontSize: 48, color: '#fff' }} />
     </IconSizeContainer>
   );
 };

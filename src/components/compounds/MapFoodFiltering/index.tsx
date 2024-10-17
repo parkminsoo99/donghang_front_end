@@ -5,6 +5,10 @@ import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { foodLists } from '@/constants/foodLists';
 import { custom_video_register_pixel } from '@/constants/size';
 import CustomNotification from '@/components/atomics/Notification';
+import { foodListHastTable } from '@/constants/foodLists';
+import { useMyPositionStore } from '@/zustand/MyPositionStore/myPositionStore';
+import { DistanceStore } from '@/zustand/DistanceStore/DistanceStore';
+import { fetchGetRestaurantsByFiltering } from '@/reactQuery/NaverMap/naverGetRestaurantsByFiltering';
 const foodList = foodLists;
 interface Props {
   src: string;
@@ -16,6 +20,7 @@ interface Props {
   paddingvalue?: number;
   gapvalue?: number;
   isModal?: boolean;
+  setPinArrayReal?: (PinArrayReal: any[]) => void;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
 const FoodFilteringContainer = styled.div<{ paddingvalue: number }>`
@@ -28,6 +33,7 @@ const FoodFilteringContainer = styled.div<{ paddingvalue: number }>`
   border: 1px solid #000;
   box-sizing: border-box;
   padding: 10px 25px;
+  z-index: 999;
   cursor: pointer;
   &:hover {
     color: #fff;
@@ -104,15 +110,38 @@ export const MapFood: FC<Props> = ({
   paddingvalue,
   gapvalue,
   isModal = false,
+  setPinArrayReal,
 }) => {
-  const onClickFoodTag = () => {
+  const { LatLng } = useMyPositionStore();
+  const { distanceValue, setDistanceValue } = DistanceStore();
+  let lat: number;
+  let lng: number;
+  const retrunFetchFoodFliteringData = () => {
+    const returnFoodList = Array.from(document.querySelectorAll('.active')).map(
+      value => {
+        const kindofFood = value.className.split(' ');
+        const foodItem = foodListHastTable[kindofFood[2]];
+        return foodItem;
+      }
+    ) as string[];
+    if (LatLng) {
+      lat = LatLng.lat;
+      lng = LatLng.lng;
+    } else {
+      lat = 37.5665;
+      lng = 126.978;
+    }
+
+    return { returnFoodList };
+  };
+  const onClickFoodTag = async () => {
+    //모달에 있는 푸드리스트
     if (isModal) {
       const foodTagClassName = document.querySelector(`.modal-${alt}`);
       const activeElements = document.querySelectorAll('.active');
       if (foodTagClassName.classList.contains('active'))
         foodTagClassName.classList.remove('active');
       else if (activeElements.length <= 0) {
-        console.log('foodTagClassName', foodTagClassName);
         foodTagClassName.classList.add('active');
       } else {
         CustomNotification({
@@ -121,12 +150,32 @@ export const MapFood: FC<Props> = ({
           type: 'warning',
         });
       }
+      //모달에 없는 푸드 리스트 즉, 맵 푸드리스트
     } else {
       const foodTagClassName = document.querySelector(`.${alt}`);
-      console.log('foodTagClassName', foodTagClassName);
-      if (foodTagClassName.classList.contains('active'))
+      if (foodTagClassName.classList.contains('active')) {
         foodTagClassName.classList.remove('active');
-      else foodTagClassName.classList.add('active');
+        const foodItems = retrunFetchFoodFliteringData();
+        const data = await fetchGetRestaurantsByFiltering({
+          lat: lat,
+          lng: lng,
+          distance: distanceValue,
+          foodList: foodItems.returnFoodList,
+        });
+        const filteredData: [] = data.data;
+        setPinArrayReal(filteredData);
+      } else {
+        foodTagClassName.classList.add('active');
+        const foodItems = retrunFetchFoodFliteringData();
+        const data = await fetchGetRestaurantsByFiltering({
+          lat: lat,
+          lng: lng,
+          distance: distanceValue,
+          foodList: foodItems.returnFoodList,
+        });
+        const filteredData: [] = data.data;
+        setPinArrayReal(filteredData);
+      }
     }
   };
   return (
@@ -157,6 +206,7 @@ const Container = styled.div<{ $open: boolean; $drawerWidth: number }>`
   align-items: center;
   width: 100% !important;
   gap: 14px;
+  z-index: 9999;
 `;
 
 const TotalContainer = styled.div`
@@ -190,7 +240,7 @@ const initializeData = (
     pixel = pixel + i * width;
     console.log('pixel', width);
     if (pixel + width > DEFAULT_TOTAL_VALUE) {
-      positions.push(DEFAULT_TOTAL_VALUE - width + 170);
+      positions.push(DEFAULT_TOTAL_VALUE - width + 215);
       count++;
       break;
     }
@@ -206,10 +256,12 @@ type totalFoodContainerType = HTMLDivElement;
 interface MapFoodFilteringProps {
   open: boolean;
   drawerWidth: number;
+  setPinArrayReal: (PinArrayReal: any[]) => void;
 }
 export const MapFoodFiltering: FC<MapFoodFilteringProps> = ({
   open,
   drawerWidth,
+  setPinArrayReal,
 }) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -303,6 +355,7 @@ export const MapFoodFiltering: FC<MapFoodFilteringProps> = ({
         >
           {foodList.map((value, index) => (
             <MapFood
+              setPinArrayReal={setPinArrayReal}
               key={index}
               src={`${value[0]}.png`}
               alt={value[1]}

@@ -12,7 +12,7 @@ import { CustomList } from '@/components/atomics/Icon';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { VideoItem } from '@/components/compounds/MapSideBar/videoItem';
+import { VideoItem } from '@/components/compounds/MapSideContent/videoItem';
 import { useEffect } from 'react';
 import { CustomAutoComplete } from '@/components/atomics/AutoComplete';
 import styled from 'styled-components';
@@ -26,7 +26,8 @@ import {
   custom_map_side_bar_pixel_small,
 } from '@/constants/size';
 import { MapFoodFiltering } from '../MapFoodFiltering';
-
+import { AxiosResponse } from 'axios';
+import { swappedFoodListHastTable } from '@/constants/foodLists';
 const Main = styled.main<{ open?: boolean; $drawerWidth: number }>`
   width: ${props =>
     props.open ? `calc(100vw - ${props.$drawerWidth}px)` : '100vw'};
@@ -58,7 +59,7 @@ const DrawerHeader = styled.div`
 
 const Container = styled.div`
   width: 100% !important;
-  height: inherit !important;
+  height: calc(100vh - 213px);
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -82,65 +83,55 @@ const CustomAutoCompleteContainer = styled.div`
 `;
 const VideoItemsContainer = styled.div`
   width: 100%;
-  gap: 10px;
   display: flex;
   flex-direction: column;
   padding: 10px 0;
-  z-index: 9999999;
+  z-index: 99;
 `;
-export default function MapSideBar() {
+interface MapSideContentProps {
+  videoArray: AxiosResponse<any, any>;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  setPinArrayReal: (PinArrayReal: any[]) => void;
+}
+export default function MapSideContent({
+  videoArray,
+  open,
+  setOpen,
+  setPinArrayReal,
+}: MapSideContentProps) {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
   const [drawerWidth, setDrawerWidth] = useState(230);
-  const temp_array = [
-    {
-      name: '엽기떡볶이1',
-      tag: '한식',
-      description: '너무 맜있어요.',
-      numberOfHeart: 312,
-    },
-    {
-      name: '엽기떡볶이1',
-      tag: '분식',
-      description: '너무 맜있어요.',
-      numberOfHeart: 123,
-    },
-    {
-      name: '엽기떡볶이1',
-      tag: '분식',
-      description: '너무 맜있어요.',
-      numberOfHeart: 123,
-    },
-    {
-      name: '엽기떡볶이1',
-      tag: '분식',
-      description: '너무 맜있어요.',
-      numberOfHeart: 123,
-    },
-    {
-      name: '엽기떡볶이1',
-      tag: '분식',
-      description: '너무 맜있어요.',
-      numberOfHeart: 123,
-    },
-  ];
-  const IterationItem = () => {
-    const ItemArray = [];
-    for (let i = 0; i < temp_array.length; i++) {
-      ItemArray.push(
-        <React.Fragment key={`ItemArray-${i}`}>
+  const videoListarray = [];
+  const [itemArray, setItemArray] = useState<JSX.Element[]>([]);
+
+  useEffect(() => {
+    if (videoArray) {
+      console.log('videoArray', videoArray);
+      const videoListarray = videoArray.data.videos.map(value => ({
+        name: videoArray.data.name,
+        tag: swappedFoodListHastTable[value.category],
+        description: value.content,
+        url: value.url,
+        numberOfHeart: 312,
+      }));
+      console.log('videoListarray', videoListarray);
+      const items = videoListarray.map((video, index) => (
+        <React.Fragment key={`ItemArray-${index}`}>
           <VideoItem
-            tag={temp_array[i].tag}
-            name={temp_array[i].name}
-            description={temp_array[i].description}
-            numberOfHeart={temp_array[i].numberOfHeart}
+            videoUrl={video.url}
+            tag={video.tag}
+            name={video.name}
+            description={video.description}
+            numberOfHeart={video.numberOfHeart}
           />
           <Divider />
         </React.Fragment>
-      );
+      ));
+
+      setItemArray(items);
     }
-    return ItemArray;
-  };
+  }, [videoArray]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -150,16 +141,7 @@ export default function MapSideBar() {
   };
   const updateDrawerWidth = () => {
     const width = window.innerWidth;
-    console.log('width', width);
-    if (width > 910) {
-      setDrawerWidth(230);
-    } else if (width > 625) {
-      setDrawerWidth(200);
-    } else if (width > 425) {
-      setDrawerWidth(170);
-    } else {
-      setDrawerWidth(150);
-    }
+    setDrawerWidth(width / 2.5);
   };
 
   useEffect(() => {
@@ -174,7 +156,14 @@ export default function MapSideBar() {
   console.log('drawerWidth', drawerWidth);
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          '& .MuiDrawer-root': {
+            zIndex: 999,
+          },
+        }}
+      >
         <CssBaseline />
         <Drawer
           sx={{
@@ -214,12 +203,16 @@ export default function MapSideBar() {
                   placeHolder="주소 검색"
                 />
               </CustomAutoCompleteContainer>
-              <VideoItemsContainer>{IterationItem()}</VideoItemsContainer>
+              <VideoItemsContainer>{itemArray}</VideoItemsContainer>
             </Container>
           </List>
         </Drawer>
         <Main open={open} theme={theme} $drawerWidth={drawerWidth}>
-          <MapFoodFiltering open={open} drawerWidth={drawerWidth} />
+          <MapFoodFiltering
+            open={open}
+            drawerWidth={drawerWidth}
+            setPinArrayReal={setPinArrayReal}
+          />
           <IconButton
             color="inherit"
             aria-label="open drawer"

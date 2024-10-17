@@ -12,9 +12,13 @@ import { Button } from '@/components/atomics/Button';
 import { custom_video_register_pixel } from '@/constants/size';
 import { fetchAddress } from '@/reactQuery/Search/addressSearch';
 import { useSearchInputStore } from '@/zustand/FoodSearchStore/InputStore';
-import { v4 as uuidv4 } from 'uuid';
 import CustomNotification from '@/components/atomics/Notification';
 import { foodListHastTable } from '@/constants/foodLists';
+import { DeleteIcon } from '@/components/atomics/Icon/delete';
+import { isNil } from 'lodash';
+import { useModalStore } from '@/zustand/modalStore/modalStore';
+import { fetchVideoRegister } from '@/reactQuery/VideoRegister/videoRegister';
+import { CustomSpinner } from '@/components/atomics/Spinner/indext';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,6 +35,7 @@ const TopContainer = styled.div`
     gap: 10px;
   }
 `;
+
 const TopRightContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,7 +66,11 @@ export const VideoRegister = () => {
   const [windowWitdth, setWindowWidth] = useState(window.innerWidth);
   const [userDescriptionInput, setUserDescriptionInput] = useState('');
   const { userInput, setUserInput } = useSearchInputStore();
+  const [videoUrl, setVideoUrl] = useState<string>();
   const [userAddressInput, setUserAddressInput] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 초기값을 false로 설정
+  const { closeModal } = useModalStore();
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -71,102 +80,136 @@ export const VideoRegister = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
   const isMobile = windowWitdth >= 611;
+
   const userInputValue = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setUserDescriptionInput(e.target.value);
   };
-  // const onSelect = (data: string) => {
-  //   console.log('onSelect', data);
-  //   setUserInput(data);
-  // };
-  const onClick = () => {
-    const submitTagName = document.querySelector(
-      '.active > .inner-container > .tag-description'
-    ).textContent;
-    const submitUserInput = userDescriptionInput;
-    let lat;
-    let lng;
-    let restaurant;
-    userInput.map(value => {
-      if (
-        value.title.toLowerCase().trim().replace(/\s+/g, '') ===
-        userAddressInput.toLowerCase().trim().replace(/\s+/g, '')
-      ) {
-        restaurant = value.title;
-        lat = value.mapx;
-        lng = value.mapy;
-      }
-    });
-    if (lat != undefined || lng != undefined) {
-      const submitUid = uuidv4();
-      const submitImageValue = {
-        uid: submitUid,
-        name: `video-${submitUid}`,
-        url: 'http://www.naver.com',
-        content: submitUserInput,
-        lat: lat,
-        lng: lng,
-        catergory: foodListHastTable[submitTagName],
-        restaurant: restaurant,
-      };
-      console.log('submitImageValue', submitImageValue);
-    } else {
+
+  const onSubmitClick = async () => {
+    if (
+      isNil(
+        document.querySelector('.active > .inner-container > .tag-description')
+      )
+    ) {
       CustomNotification({
-        message: '정확한 주소를 입력해주세요.',
+        message: '카테고리를 선택해주세요.',
         placement: 'top',
         type: 'warning',
       });
+    } else {
+      const submitTagName = document.querySelector(
+        '.active > .inner-container > .tag-description'
+      ).textContent;
+      const submitUserInput = userDescriptionInput;
+      let lat: number;
+      let lng: number;
+      let restaurant: string;
+      userInput.forEach(value => {
+        if (
+          value.title.toLowerCase().trim().replace(/\s+/g, '') ===
+          userAddressInput.toLowerCase().trim().replace(/\s+/g, '')
+        ) {
+          restaurant = value.title;
+          lat = value.mapx;
+          lng = value.mapy;
+        }
+      });
+
+      if (isNil(videoUrl)) {
+        CustomNotification({
+          message: '비디오 업로드 완료해주세요.',
+          placement: 'top',
+          type: 'warning',
+        });
+      } else if (isNil(lat) || isNil(lng)) {
+        CustomNotification({
+          message: '정확한 주소를 입력해주세요.',
+          placement: 'top',
+          type: 'warning',
+        });
+      } else {
+        const submitImageValue = {
+          url: videoUrl,
+          content: submitUserInput,
+          lat: lat,
+          lng: lng,
+          category: foodListHastTable[submitTagName] as string,
+          restaurant: restaurant,
+        };
+        setIsLoading(true);
+
+        const reponseData = await fetchVideoRegister({
+          jsonData: submitImageValue,
+        });
+
+        if (reponseData && reponseData.status === 200) {
+          setIsLoading(false);
+          setVideoUrl(null);
+          closeModal();
+        }
+      }
     }
   };
+
   const onChangeAddress = (e: string) => {
     setUserAddressInput(e);
   };
 
   return (
-    <Container>
-      <TopContainer>
-        <CustomUpload
-          listType="picture-card"
-          maxCount={1}
-          width={200}
-          height={200}
-          mobileHeight={155}
-          mobileWidth={130}
-        />
-        <TopRightContainer>
-          <CustomAutoComplete
-            width={330}
-            height={40}
-            customfont={12}
-            mobilefont={12}
-            mobileHeight={40}
-            mobileWidth={200}
-            query={fetchAddress}
-            placeHolder="주소 검색"
-            onChange={(e: string) => onChangeAddress(e)}
-          />
-          <CustomDescription
-            placeHolder="설명을 작성해주세요."
-            mobileHeight={100}
-            mobileWidth={200}
-            width={330}
-            height={145}
-            onChange={(
-              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-            ) => userInputValue(e)}
-          />
-        </TopRightContainer>
-      </TopContainer>
-      <SubTitleContainer>
-        <SubTitle label="분류" level={3} />
-      </SubTitleContainer>
-      <KindOfFoodContainer>
-        {(isMobile && SubKindOfFoodContainerReturn()) ||
-          MobileSubKindOfFoodContainerReturn()}
-      </KindOfFoodContainer>
-      <Button label="제출" width={150} onClick={onClick} />
-    </Container>
+    <>
+      {isLoading ? (
+        <CustomSpinner />
+      ) : (
+        <Container>
+          <TopContainer>
+            <CustomUpload
+              listType="picture-card"
+              maxCount={1}
+              width={200}
+              height={200}
+              mobileHeight={155}
+              mobileWidth={130}
+              videoUrl={videoUrl}
+              setVideoUrl={setVideoUrl}
+            />
+            <TopRightContainer>
+              <CustomAutoComplete
+                width={330}
+                height={40}
+                customfont={12}
+                mobilefont={12}
+                mobileHeight={40}
+                mobileWidth={200}
+                query={fetchAddress}
+                placeHolder="주소 검색"
+                onChange={(e: string) => onChangeAddress(e)}
+              />
+              <CustomDescription
+                placeHolder="설명을 작성해주세요."
+                mobileHeight={100}
+                mobileWidth={200}
+                width={330}
+                height={145}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                ) => userInputValue(e)}
+              />
+            </TopRightContainer>
+          </TopContainer>
+          <SubTitleContainer>
+            <SubTitle label="분류" level={3} />
+          </SubTitleContainer>
+          <KindOfFoodContainer>
+            {(isMobile && SubKindOfFoodContainerReturn()) ||
+              MobileSubKindOfFoodContainerReturn()}
+          </KindOfFoodContainer>
+          <Button label="제출" width={150} onClick={onSubmitClick} />
+        </Container>
+      )}
+    </>
   );
 };

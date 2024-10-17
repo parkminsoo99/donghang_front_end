@@ -39,7 +39,15 @@ interface InputProps {
   typeArray?: string[];
   label?: string;
 }
-
+const FormContainer = styled.form`
+  .ant-otp-input {
+    padding-inline: 8px !important;
+  }
+`;
+const FontContainer = styled(Font)`
+  text-decoration: underline;
+  cursor: pointer;
+`;
 export const LoginForm = ({
   idArray,
   placeholderArray,
@@ -155,7 +163,7 @@ export const PinCodeForm = ({ label }: Pick<InputProps, 'label'>) => {
           label="으로 인증번호 메일을 보냈습니다."
         />
       </EmailDisplayContainer>
-      <form
+      <FormContainer
         onSubmit={e => {
           e.preventDefault();
           handleSubmit(functionCatergory)(e);
@@ -164,11 +172,15 @@ export const PinCodeForm = ({ label }: Pick<InputProps, 'label'>) => {
         <Flex gap={10} align="center" vertical>
           <Input.OTP length={6} {...sharedProps} />
           <a href="text">
-            <Font font={13} color="#4F4F4F" label="인증번호가 오지 않았나요?" />
+            <FontContainer
+              font={13}
+              color="#4F4F4F"
+              label="인증번호가 오지 않았나요?"
+            />
           </a>
           <Button label="제출" />
         </Flex>
-      </form>
+      </FormContainer>
     </PinInputContainer>
   );
 };

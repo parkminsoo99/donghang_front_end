@@ -1,127 +1,95 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { LatLng, ZoomControlStyle, NaverMap, Marker } from '@/types/naverMap';
 import { useMyPositionStore } from '@/zustand/MyPositionStore/myPositionStore';
-import { Position } from '@/components/atomics/Icon';
 import { useIsMapClick } from '@/zustand/MapClickStore/IsMapClick';
+import { isNil } from 'lodash';
+import { foodImageHastTable } from '@/constants/foodLists';
+import { fetchGetRestaurantVideos } from '@/reactQuery/NaverMap/naverGetRestaurantVideos';
+import { AxiosResponse } from 'axios';
 interface useNaverMapProps {
-  pinArray: number[][];
+  pinArray: any;
   mapElement: HTMLElement;
   latlng: {
     lat: number;
     lng: number;
   };
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 export const useNaverMap = ({
   pinArray,
   mapElement,
   latlng,
+  open,
+  setOpen,
 }: useNaverMapProps) => {
-  const src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`;
   const markerList = [] as Marker[];
   const mapInstanceRef = useRef<NaverMap | null>(null);
-  const { isMapClick, setIsMapClick } = useIsMapClick();
-  const { LatLng, setLatLng } = useMyPositionStore();
-  const initialNaverMapScript = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = src;
-      script.onload = () => {
-        resolve();
-      };
-      script.onerror = () => {
-        reject(new Error('Script loading failed'));
-      };
-      document.head.appendChild(script);
-    });
-  };
-
-  const callNaverMap = async () => {
+  const { setLatLng } = useMyPositionStore();
+  const { setIsMapClick } = useIsMapClick();
+  const [restaurantVideos, setRestaurantVideos] =
+    useState<AxiosResponse<any, any>>();
+  const callNaverMap = useCallback(async () => {
     try {
-      await initialNaverMapScript();
       initNavermap();
     } catch (error) {
       console.error('Error loading script:', error);
     }
-  };
-  const showMarker = (map: naver.maps.Map, marker: naver.maps.Marker) => {
-    marker.setMap(map);
-  };
-  const hideMarker = (marker: naver.maps.Marker) => {
+  }, []);
+
+  const showMarker = useCallback(
+    (map: naver.maps.Map, marker: naver.maps.Marker) => {
+      marker.setMap(map);
+    },
+    []
+  );
+
+  const hideMarker = useCallback((marker: naver.maps.Marker) => {
     marker.setMap(null);
-  };
-  const updateMarkers = (map: naver.maps.Map, markers: naver.maps.Marker[]) => {
-    const mapBounds: any = map.getBounds();
+  }, []);
+  console.log('pinArray', pinArray);
+  const updateMarkers = useCallback(
+    (map: naver.maps.Map, markers: naver.maps.Marker[]) => {
+      const mapBounds: any = map.getBounds();
 
-    for (let i = 0; i < markers.length; i++) {
-      const position = markers[i].getPosition();
+      for (let i = 0; i < markers.length; i++) {
+        const position = markers[i].getPosition();
 
-      if (mapBounds.hasLatLng(position)) {
-        console.log('showMarker');
-        showMarker(map, markers[i]);
-      } else {
-        console.log('hideMarker');
-        hideMarker(markers[i]);
+        if (mapBounds.hasLatLng(position)) {
+          console.log('showMarker');
+          showMarker(map, markers[i]);
+        } else {
+          console.log('hideMarker');
+          hideMarker(markers[i]);
+        }
       }
-    }
-  };
+    },
+    [showMarker, hideMarker]
+  );
 
-  const initNavermap = () => {
-    if (typeof naver !== 'undefined' && mapElement && latlng) {
-      const userLat = latlng.lat || 37.5665;
-      const userLng = latlng.lng || 126.978;
+  const initNavermap = useCallback(async () => {
+    if (typeof naver !== 'undefined' && mapElement) {
+      let userLat;
+      let userLng;
+      if (!isNil(latlng)) {
+        userLat = latlng.lat;
+        userLng = latlng.lng;
+      } else {
+        userLat = 37.5665;
+        userLng = 126.978;
+      }
       const mapOptions = {
         center: new naver.maps.LatLng(userLat, userLng),
         zoom: 14,
         minZoom: 12,
         maxZoom: 17,
-        // zoomControl: true,
-        // zoomControlOptions: {
-        //   style: naver.maps.ZoomControlStyle.LARGE,
-        //   position: naver.maps.Position.RIGHT_CENTER,
-        //   top: 50,
-        // },
         draggable: true,
       };
-
       const mapInstance = new naver.maps.Map(mapElement, mapOptions);
       mapInstanceRef.current = mapInstance;
-      const locationBtnHtml = `<div style="background-color: #000; cursor:pointer"><p style="color: #fff;">GetMyPosition<p></div>`;
 
-      //   const customControl = new naver.maps.CustomControl(locationBtnHtml, {
-      //     position: naver.maps.Position.RIGHT_CENTER,
-      //   });
-      //   const customVideLost = '<VideoList />';
-
-      //   naver.maps.Event.once(mapInstance, 'init', function () {
-      //     customControl.setMap(mapInstance);
-
-      //     naver.maps.Event.addDOMListener(
-      //       customControl.getElement(),
-      //       'click',
-      //       function () {
-      //         const handleClick = async () => {
-      //           try {
-
-      //             const latLng = await setLatLng();
-      //             mapInstance.setCenter(
-      //               new naver.maps.LatLng(1269198601, 376184131)
-      //             );
-      //           } catch (error) {
-      //             console.error('Error fetching location:', error);
-      //           }
-      //         };
-
-      //         handleClick();
-      //       }
-      //     );
-      //   });
-      //   naver.maps.Event.addListener(mapInstance, 'click', function(e){
-      //     setIsMapClick()
-      //     console.log("isMapClick",isMapClick)
-      //   })
-
+      console.log('userPoint', userLat, userLng);
       new naver.maps.Marker({
         position: new naver.maps.LatLng(userLat, userLng),
         map: mapInstance,
@@ -129,40 +97,82 @@ export const useNaverMap = ({
           content: `
             <div class="food-pin" style="position: relative; box-sizing: border-box; width: 35px; height: 45px; display: flex; flex-direction: row;">
               <img 
-                src="/images/meatPin.png" 
+                src="/images/pins/userPin.png" 
                 style="z-index: 1; width: 35px; height: 45px;" 
                 alt="Picture of the author" 
               />
-              <div style="border-radius: 30px; background-color: #ffaaa4; width: 25px; height: 25px; display: flex; justify-content: center; color: #fff; align-items: center; position: absolute; top: -13px; right: -13px; z-index: 999; font-size:13px">
-                MyPosition
-              </div>
             </div>
           `,
         },
-        zIndex: 999,
       });
-
-      for (let i = 0; i < pinArray[0].length; i++) {
-        const position = new naver.maps.LatLng(pinArray[0][i], pinArray[1][i]);
+      console.log('pinArray', pinArray);
+      //음식점 위치 마커
+      for (let i = 0; i < pinArray.length; i++) {
+        console.log('pinArray[0]', pinArray[i]);
+        const lng = pinArray[i].longitude / 1e7;
+        const lat = pinArray[i].latitude / 1e7;
+        const restaurantPosition = new naver.maps.LatLng(lng, lat);
+        const CountOfVideo = pinArray[i].videoCount;
+        const imageSrc = foodImageHastTable[pinArray[i].category];
+        const restaurantId = pinArray[i].restaurantId;
+        const restaurantName = pinArray[i].name;
+        console.log('restaurantId', restaurantId, restaurantName);
         const marker = new naver.maps.Marker({
           icon: {
             content: `
                 <div class="food-pin" style="position: relative; box-sizing: border-box; width: 35px; height: 45px; display: flex; flex-direction: row;">
                   <img 
-                    src="/images/meatPin.png" 
+                     src=${imageSrc}
                     style="z-index: 1; width: 35px; height: 45px;" 
                     alt="Picture of the author" 
                   />
                   <div style="border-radius: 30px; background-color: #ffaaa4; width: 25px; height: 25px; display: flex; justify-content: center; color: #fff; align-items: center; position: absolute; top: -13px; right: -13px; z-index: 999; font-size:13px">
-                    ${pinArray[2][i]}
+                    ${CountOfVideo}
                   </div>
                 </div>
               `,
           },
-          position: position,
+          position: restaurantPosition,
           map: mapInstance,
         });
+
         markerList.push(marker);
+        naver.maps.Event.addListener(marker, 'click', async () => {
+          const data = await fetchGetRestaurantVideos(restaurantId);
+          setRestaurantVideos(data);
+          mapInstance.setCenter(restaurantPosition);
+          if (!open) {
+            setOpen(!open);
+          }
+        });
+
+        const contentEl = document.createElement('div');
+        contentEl.className = 'iw_inner';
+        contentEl.style.boxSizing = 'border-box';
+        contentEl.style.position = 'absolute';
+        contentEl.style.padding = '20px 50px';
+        contentEl.style.borderRadius = '25px';
+        contentEl.style.top = '100px';
+        contentEl.style.left = '50%';
+        contentEl.style.transform = 'translateX(-50%)';
+        contentEl.style.backgroundColor = '#fff';
+        contentEl.style.border = 'solid 1px #333';
+        contentEl.style.display = 'inline-block'; // 내부 글자에 맞게 width 설정
+        contentEl.innerHTML = `
+          <div style="display: inline-block; font-weight:bold;">${restaurantName}</div>
+        `;
+        /*웹*/
+        naver.maps.Event.addListener(marker, 'mouseover', async () => {
+          mapInstance.getElement().appendChild(contentEl);
+        });
+
+        naver.maps.Event.addListener(marker, 'mouseout', async () => {
+          const parent = mapInstance.getElement();
+          if (parent.contains(contentEl)) {
+            parent.removeChild(contentEl);
+          }
+        });
+
         naver.maps.Event.addListener(
           mapInstanceRef.current,
           'zoom_changed',
@@ -183,15 +193,12 @@ export const useNaverMap = ({
     } else {
       console.log('NAVER Maps is not defined');
     }
-  };
+  }, [mapElement, latlng, markerList, updateMarkers]);
 
   useEffect(() => {
-    if (typeof naver === 'undefined') {
-      callNaverMap();
-    } else {
-      initNavermap();
-    }
+    console.log('INMAP', pinArray);
+    initNavermap();
   }, [pinArray]);
 
-  return { markerList, callNaverMap, mapInstanceRef };
+  return { markerList, callNaverMap, mapInstanceRef, restaurantVideos };
 };
