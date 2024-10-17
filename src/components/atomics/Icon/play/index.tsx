@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const IconSizeContainer = styled.div`
   cursor: pointer;
   background-color: #000;
-  z-index: 9999!important;
+  z-index: 9999 !important;
   border-radius: 80px;
   width: 60px;
   height: 60px;
@@ -18,8 +18,8 @@ interface AccountProps {
 
 export const Play = ({ onClick }: AccountProps) => {
   return (
-    <IconSizeContainer className='PlayIcon'>
-      <PlayArrowIcon onClick={onClick} sx={{ fontSize: 48, color:'#fff'}} />
+    <IconSizeContainer className="PlayIcon">
+      <PlayArrowIcon onClick={onClick} sx={{ fontSize: 48, color: '#fff' }} />
     </IconSizeContainer>
   );
 };

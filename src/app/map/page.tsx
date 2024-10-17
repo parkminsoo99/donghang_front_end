@@ -43,23 +43,23 @@ export default function FoodMap() {
   const [open, setOpen] = useState(false);
   const { LatLng, setLatLng } = useMyPositionStore();
   const mapRef = useRef<HTMLDivElement | null>(null);
-  console.log("pinArrayReal",pinArrayReal)
+  console.log('pinArrayReal', pinArrayReal);
   useEffect(() => {
-      setPinArrayReal(restaurantsData);
-  }, [restaurantsData,setPinArrayReal]);
+    setPinArrayReal(restaurantsData);
+  }, [restaurantsData, setPinArrayReal]);
 
   const [isMapReady, setIsMapReady] = useState(false);
 
-  const { callNaverMap, restaurantVideos} = useNaverMap({
+  const { callNaverMap, restaurantVideos } = useNaverMap({
     pinArray: pinArrayReal,
-    mapElement: mapRef.current, 
+    mapElement: mapRef.current,
     latlng: LatLng,
-    open:open,
-    setOpen:setOpen,
+    open: open,
+    setOpen: setOpen,
   });
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     setLatLng();
 
     if (mapRef.current) {
@@ -70,7 +70,7 @@ export default function FoodMap() {
       initializeMap();
     }
   }, [callNaverMap]);
-  console.log("isMapReady",isMapReady)
+  console.log('isMapReady', isMapReady);
   if (isLoading)
     return (
       <Skeleton.Node active={isMapReady}>
@@ -78,10 +78,10 @@ export default function FoodMap() {
       </Skeleton.Node>
     );
   if (error) return <p>Error loading data</p>;
-  console.log("LATLNG", LatLng)
+  console.log('LATLNG', LatLng);
   return (
     <React.Fragment>
-      <MapContainer id="map" ref={mapRef} /> 
+      <MapContainer id="map" ref={mapRef} />
       {isMapReady ? (
         <Skeleton.Node active={isMapReady}>
           <GlobalStyle />
@@ -89,7 +89,12 @@ export default function FoodMap() {
       ) : (
         <SideBarWithFiltering>
           <GlobalStyle />
-          <MapSideContent setPinArrayReal={setPinArrayReal} open={open} setOpen={setOpen} videoArray={restaurantVideos}/>
+          <MapSideContent
+            setPinArrayReal={setPinArrayReal}
+            open={open}
+            setOpen={setOpen}
+            videoArray={restaurantVideos}
+          />
         </SideBarWithFiltering>
       )}
     </React.Fragment>

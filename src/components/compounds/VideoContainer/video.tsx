@@ -32,7 +32,7 @@ export const Video = ({ radius, src }: VideoProps) => {
 
   useEffect(() => {
     // 컴포넌트가 마운트된 후 videoRef가 초기화된 것을 확인
-    console.log("videoRef.current", videoRef.current);
+    console.log('videoRef.current', videoRef.current);
   }, []);
 
   const onPlayIconClick = () => {

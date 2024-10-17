@@ -47,15 +47,15 @@ const VideoBottomContainer = styled.div`
   bottom: 0;
   left: 0;
   z-index: 999;
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 0 0 40px 40px;
 `;
 const FontContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  gap:6px;
-`
+  gap: 6px;
+`;
 const SaveShareIconContainer = styled.div`
   gap: 5px;
   display: flex;
@@ -67,8 +67,8 @@ const NumberOfCountOntheIcon = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
-  gap:3px;
+  justify-content: center;
+  gap: 3px;
 `;
 
 const PauseChatPositionContainer = styled.div`
@@ -95,7 +95,7 @@ export const VideoTemplate = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    error,
+    error
   );
 
   useEffect(() => {
@@ -125,23 +125,26 @@ export const VideoTemplate = () => {
       {isLoading && <CustomSpinner />}
       {!isLoading && (
         <InfiniteScroll
-        pageStart={0}
-        loadMore={hasNextPage}
-        hasMore={hasNextPage}
-        loader={
-        <CustomSpinner />}
-        useWindow={false}
-      >
-        <Container className="Container">
+          pageStart={0}
+          loadMore={hasNextPage}
+          hasMore={hasNextPage}
+          loader={<CustomSpinner />}
+          useWindow={false}
+        >
+          <Container className="Container">
             <VideoContainer className="VideoContainer">
               <Video radius={40} />
               <VideoBottomContainer>
                 <FontContainer>
-                  <Font color="#fff" label="이름" font={12}/>
-                  <Font color="#fff" label="41234123412341234123412412412412421412412" font={10}/>
+                  <Font color="#fff" label="이름" font={12} />
+                  <Font
+                    color="#fff"
+                    label="41234123412341234123412412412412421412412"
+                    font={10}
+                  />
                 </FontContainer>
                 <SaveShareIconContainer>
-                  <Save size={32}/>
+                  <Save size={32} />
                   <Share size={32} />
                 </SaveShareIconContainer>
               </VideoBottomContainer>
@@ -164,8 +167,8 @@ export const VideoTemplate = () => {
               </NumberOfCountOntheIcon>
               <Position />
             </PauseChatPositionContainer>
-            </Container>
-          </InfiniteScroll>
+          </Container>
+        </InfiniteScroll>
       )}
     </>
   );

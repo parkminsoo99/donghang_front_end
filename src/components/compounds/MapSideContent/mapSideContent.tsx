@@ -88,50 +88,50 @@ const VideoItemsContainer = styled.div`
   padding: 10px 0;
   z-index: 99;
 `;
-interface MapSideContentProps{
-  videoArray:AxiosResponse<any,any>;
-  open:boolean;
-  setOpen:(open:boolean) => void;
-  setPinArrayReal: (PinArrayReal:any[]) => void
+interface MapSideContentProps {
+  videoArray: AxiosResponse<any, any>;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  setPinArrayReal: (PinArrayReal: any[]) => void;
 }
 export default function MapSideContent({
   videoArray,
   open,
   setOpen,
   setPinArrayReal,
-}:MapSideContentProps) {
+}: MapSideContentProps) {
   const theme = useTheme();
   const [drawerWidth, setDrawerWidth] = useState(230);
   const videoListarray = [];
   const [itemArray, setItemArray] = useState<JSX.Element[]>([]);
 
-useEffect(() => {
-  if (videoArray) {
-    console.log("videoArray",videoArray)
-    const videoListarray = videoArray.data.videos.map(value => ({
-      name: videoArray.data.name,
-      tag: swappedFoodListHastTable[value.category],
-      description: value.content,
-      url: value.url,
-      numberOfHeart: 312,
-    }));
-    console.log("videoListarray",videoListarray)
-    const items = videoListarray.map((video, index) => (
-      <React.Fragment key={`ItemArray-${index}`}>
-        <VideoItem
-          videoUrl={video.url}
-          tag={video.tag}
-          name={video.name}
-          description={video.description}
-          numberOfHeart={video.numberOfHeart}
-        />
-        <Divider />
-      </React.Fragment>
-    ));
-    
-    setItemArray(items);
-  }
-}, [videoArray]);
+  useEffect(() => {
+    if (videoArray) {
+      console.log('videoArray', videoArray);
+      const videoListarray = videoArray.data.videos.map(value => ({
+        name: videoArray.data.name,
+        tag: swappedFoodListHastTable[value.category],
+        description: value.content,
+        url: value.url,
+        numberOfHeart: 312,
+      }));
+      console.log('videoListarray', videoListarray);
+      const items = videoListarray.map((video, index) => (
+        <React.Fragment key={`ItemArray-${index}`}>
+          <VideoItem
+            videoUrl={video.url}
+            tag={video.tag}
+            name={video.name}
+            description={video.description}
+            numberOfHeart={video.numberOfHeart}
+          />
+          <Divider />
+        </React.Fragment>
+      ));
+
+      setItemArray(items);
+    }
+  }, [videoArray]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -141,7 +141,7 @@ useEffect(() => {
   };
   const updateDrawerWidth = () => {
     const width = window.innerWidth;
-    setDrawerWidth(width/2.5)
+    setDrawerWidth(width / 2.5);
   };
 
   useEffect(() => {
@@ -156,12 +156,14 @@ useEffect(() => {
   console.log('drawerWidth', drawerWidth);
   return (
     <>
-      <Box sx={{
-         display: 'flex',
-         '& .MuiDrawer-root':{
-              zIndex:999,
-          }
-       }}>
+      <Box
+        sx={{
+          display: 'flex',
+          '& .MuiDrawer-root': {
+            zIndex: 999,
+          },
+        }}
+      >
         <CssBaseline />
         <Drawer
           sx={{
@@ -174,7 +176,6 @@ useEffect(() => {
               overflow: 'scroll !important',
               height: '100vh !important',
             },
-            
           }}
           variant="persistent"
           anchor="left"
@@ -207,7 +208,11 @@ useEffect(() => {
           </List>
         </Drawer>
         <Main open={open} theme={theme} $drawerWidth={drawerWidth}>
-          <MapFoodFiltering open={open} drawerWidth={drawerWidth} setPinArrayReal={setPinArrayReal}/>
+          <MapFoodFiltering
+            open={open}
+            drawerWidth={drawerWidth}
+            setPinArrayReal={setPinArrayReal}
+          />
           <IconButton
             color="inherit"
             aria-label="open drawer"

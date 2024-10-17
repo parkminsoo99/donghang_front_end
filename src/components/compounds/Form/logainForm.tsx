@@ -39,15 +39,15 @@ interface InputProps {
   typeArray?: string[];
   label?: string;
 }
-const FormContainer  = styled.form`
-  .ant-otp-input{
+const FormContainer = styled.form`
+  .ant-otp-input {
     padding-inline: 8px !important;
   }
-`
+`;
 const FontContainer = styled(Font)`
   text-decoration: underline;
   cursor: pointer;
-`
+`;
 export const LoginForm = ({
   idArray,
   placeholderArray,
@@ -172,7 +172,11 @@ export const PinCodeForm = ({ label }: Pick<InputProps, 'label'>) => {
         <Flex gap={10} align="center" vertical>
           <Input.OTP length={6} {...sharedProps} />
           <a href="text">
-            <FontContainer font={13} color="#4F4F4F" label="인증번호가 오지 않았나요?" />
+            <FontContainer
+              font={13}
+              color="#4F4F4F"
+              label="인증번호가 오지 않았나요?"
+            />
           </a>
           <Button label="제출" />
         </Flex>

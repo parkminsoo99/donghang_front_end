@@ -16,7 +16,7 @@ export const foodLists = [
 ] as string[][];
 
 export const foodListHastTable = {
-  흑백요리사:'blackcooker',
+  흑백요리사: 'blackcooker',
   치킨: 'chicken',
   베이커리: 'bakery',
   '카페·디저트': 'cafeAndDesert',
@@ -33,7 +33,7 @@ export const foodListHastTable = {
 };
 
 export const foodImageHastTable = {
-  blackcooker : '/images/pins/blackcookerPin.png',
+  blackcooker: '/images/pins/blackcookerPin.png',
   chicken: '/images/pins/chickenPin.png',
   bakery: '/images/pins/bakeryPin.png',
   cafeAndDesert: '/images/pins/cafeAndDesertPin.png',
@@ -84,7 +84,7 @@ export const swappedFoodListHastTable = {
 };
 export const foodListsFirst = [
   ['fish', '해산물'],
-  ['blackcooker','흑백요리사'],
+  ['blackcooker', '흑백요리사'],
   ['westenFood', '양식'],
 ] as string[][];
 
@@ -125,9 +125,8 @@ export const mobileFoodFoodistsThird = [
 
 export const mobileFoodListsForth = [
   ['chinese', '중식'],
-  ['blackcooker','흑백요리사'],
+  ['blackcooker', '흑백요리사'],
   ['meat', '고기'],
-
 ] as string[][];
 
 export const mobileFoodListsFive = [

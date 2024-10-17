@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Font } from '@/components/atomics/Font';
 import { Heart, FilledHeart } from '@/components/atomics/Icon';
-import { custom_map_side_bar_pixel_large, custom_map_side_bar_pixel_medium, custom_map_side_bar_pixel_small} from '@/constants/size';
+import {
+  custom_map_side_bar_pixel_large,
+  custom_map_side_bar_pixel_medium,
+  custom_map_side_bar_pixel_small,
+} from '@/constants/size';
 import { useState } from 'react';
 import { Video } from '../VideoContainer/video';
 
@@ -21,13 +25,13 @@ const Container = styled.div`
 const UpperContainer = styled.div`
   width: 100%;
   height: 75%;
-  @media(max-width: ${custom_map_side_bar_pixel_large}){
+  @media (max-width: ${custom_map_side_bar_pixel_large}) {
     height: 55%;
   }
-  @media(max-width: ${custom_map_side_bar_pixel_medium}){
+  @media (max-width: ${custom_map_side_bar_pixel_medium}) {
     height: 40%;
   }
-  @media(max-width: ${custom_map_side_bar_pixel_small}){
+  @media (max-width: ${custom_map_side_bar_pixel_small}) {
     height: 20%;
   }
 `;
@@ -38,13 +42,13 @@ const DownContainer = styled.div`
   align-items: start;
   width: 97%;
   height: 25%;
-  @media(max-width: ${custom_map_side_bar_pixel_large}){
+  @media (max-width: ${custom_map_side_bar_pixel_large}) {
     height: 45%;
   }
-  @media(max-width: ${custom_map_side_bar_pixel_medium}){
+  @media (max-width: ${custom_map_side_bar_pixel_medium}) {
     height: 60%;
   }
-  @media(max-width: ${custom_map_side_bar_pixel_small}){
+  @media (max-width: ${custom_map_side_bar_pixel_small}) {
     height: 80%;
   }
 `;
@@ -64,7 +68,7 @@ const NumberOfHeartWithValue = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 `;
 const NameContainer = styled.div`
   display: inherit;
@@ -94,7 +98,7 @@ export const VideoItem = ({
   return (
     <Container>
       <UpperContainer>
-        <VideoContainer src={videoUrl}/>
+        <VideoContainer src={videoUrl} />
       </UpperContainer>
       <DownContainer>
         <NameWithTag>

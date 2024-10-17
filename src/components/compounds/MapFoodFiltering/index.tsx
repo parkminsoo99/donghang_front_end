@@ -20,7 +20,7 @@ interface Props {
   paddingvalue?: number;
   gapvalue?: number;
   isModal?: boolean;
-  setPinArrayReal?: (PinArrayReal:any[]) => void
+  setPinArrayReal?: (PinArrayReal: any[]) => void;
 }
 const DEFAULT_TOTAL_VALUE = 1900;
 const FoodFilteringContainer = styled.div<{ paddingvalue: number }>`
@@ -114,24 +114,26 @@ export const MapFood: FC<Props> = ({
 }) => {
   const { LatLng } = useMyPositionStore();
   const { distanceValue, setDistanceValue } = DistanceStore();
-  let lat:number;
-  let lng:number;
+  let lat: number;
+  let lng: number;
   const retrunFetchFoodFliteringData = () => {
-    const returnFoodList = Array.from(document.querySelectorAll('.active')).map((value) => {
-      const kindofFood = value.className.split(' ');
-      const foodItem = foodListHastTable[kindofFood[2]]; 
-      return foodItem;
-    }) as string[];
-    if(LatLng){
-      lat = LatLng.lat
-      lng = LatLng.lng
-    }else{
+    const returnFoodList = Array.from(document.querySelectorAll('.active')).map(
+      value => {
+        const kindofFood = value.className.split(' ');
+        const foodItem = foodListHastTable[kindofFood[2]];
+        return foodItem;
+      }
+    ) as string[];
+    if (LatLng) {
+      lat = LatLng.lat;
+      lng = LatLng.lng;
+    } else {
       lat = 37.5665;
       lng = 126.978;
     }
-   
-    return {returnFoodList};
-  }
+
+    return { returnFoodList };
+  };
   const onClickFoodTag = async () => {
     //모달에 있는 푸드리스트
     if (isModal) {
@@ -148,32 +150,31 @@ export const MapFood: FC<Props> = ({
           type: 'warning',
         });
       }
-    //모달에 없는 푸드 리스트 즉, 맵 푸드리스트
+      //모달에 없는 푸드 리스트 즉, 맵 푸드리스트
     } else {
       const foodTagClassName = document.querySelector(`.${alt}`);
-      if (foodTagClassName.classList.contains('active')){
+      if (foodTagClassName.classList.contains('active')) {
         foodTagClassName.classList.remove('active');
-        const foodItems = retrunFetchFoodFliteringData()
+        const foodItems = retrunFetchFoodFliteringData();
         const data = await fetchGetRestaurantsByFiltering({
-          lat:lat,
-          lng:lng,
-          distance:distanceValue,
-          foodList:foodItems.returnFoodList,
-        })
-        const filteredData:[] = data.data
-        setPinArrayReal(filteredData)
-      }
-      else{
+          lat: lat,
+          lng: lng,
+          distance: distanceValue,
+          foodList: foodItems.returnFoodList,
+        });
+        const filteredData: [] = data.data;
+        setPinArrayReal(filteredData);
+      } else {
         foodTagClassName.classList.add('active');
-        const foodItems = retrunFetchFoodFliteringData()
+        const foodItems = retrunFetchFoodFliteringData();
         const data = await fetchGetRestaurantsByFiltering({
-          lat:lat,
-          lng:lng,
-          distance:distanceValue,
-          foodList:foodItems.returnFoodList,
-        })
-        const filteredData:[] = data.data
-        setPinArrayReal(filteredData)
+          lat: lat,
+          lng: lng,
+          distance: distanceValue,
+          foodList: foodItems.returnFoodList,
+        });
+        const filteredData: [] = data.data;
+        setPinArrayReal(filteredData);
       }
     }
   };
@@ -255,12 +256,12 @@ type totalFoodContainerType = HTMLDivElement;
 interface MapFoodFilteringProps {
   open: boolean;
   drawerWidth: number;
-  setPinArrayReal: (PinArrayReal:any[]) => void
+  setPinArrayReal: (PinArrayReal: any[]) => void;
 }
 export const MapFoodFiltering: FC<MapFoodFilteringProps> = ({
   open,
   drawerWidth,
-  setPinArrayReal
+  setPinArrayReal,
 }) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
