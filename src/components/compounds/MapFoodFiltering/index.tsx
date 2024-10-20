@@ -206,7 +206,7 @@ const Container = styled.div<{ $open: boolean; $drawerWidth: number }>`
   align-items: center;
   width: 100% !important;
   gap: 14px;
-  z-index: 9999;
+  z-index: 555;
 `;
 
 const TotalContainer = styled.div`
