@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
         videoUrl: videoUrl,
       },
     });
-
     return NextResponse.json({ message: 'Delete Success', res });
   } catch (e) {
     console.log('Delete Error: ' + e);

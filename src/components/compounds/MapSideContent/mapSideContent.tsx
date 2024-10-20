@@ -10,6 +10,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { CustomList } from '@/components/atomics/Icon';
 import List from '@mui/material/List';
+import { Skeleton } from 'antd';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import { VideoItem } from '@/components/compounds/MapSideContent/videoItem';
@@ -20,6 +21,8 @@ import { fetchAddress } from '@/reactQuery/Search/addressSearch';
 import { FC } from 'react';
 import Collapse from '@mui/material/Collapse';
 import { useState } from 'react';
+import { useMapIsVideoListLoad } from '@/zustand/MapVideoLoadStore/mapIsVideoListLoad';
+
 import {
   custom_map_side_bar_pixel_large,
   custom_map_side_bar_pixel_medium,
@@ -104,7 +107,7 @@ export default function MapSideContent({
   const [drawerWidth, setDrawerWidth] = useState(230);
   const videoListarray = [];
   const [itemArray, setItemArray] = useState<JSX.Element[]>([]);
-
+  const [isVideoLoading, setIsVideoLoading] = useState<boolean>(false);
   useEffect(() => {
     if (videoArray) {
       console.log('videoArray', videoArray);
@@ -128,7 +131,6 @@ export default function MapSideContent({
           <Divider />
         </React.Fragment>
       ));
-
       setItemArray(items);
     }
   }, [videoArray]);
@@ -160,7 +162,7 @@ export default function MapSideContent({
         sx={{
           display: 'flex',
           '& .MuiDrawer-root': {
-            zIndex: 999,
+            zIndex: 499,
           },
         }}
       >

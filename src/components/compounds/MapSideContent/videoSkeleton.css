@@ -1,0 +1,18 @@
+.ant-skeleton-avatar.ant-skeleton-avatar-square {
+    width: 100% !important;
+    height: 400px !important; /* 기본 높이 설정 */
+
+    /* 최대 너비에 따른 미디어 쿼리 */
+    @media (max-width: 910px) {
+        height: 280px !important; /* 910px 이하일 때 높이 */
+    }
+
+    @media (max-width: 625px) {
+        height: 200px !important; /* 625px 이하일 때 높이 */
+    }
+
+    @media (max-width: 480px) {
+        height: 150px !important; /* 480px 이하일 때 높이 */
+    }
+
+}
