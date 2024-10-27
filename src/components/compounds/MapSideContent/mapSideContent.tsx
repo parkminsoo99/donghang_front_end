@@ -110,18 +110,22 @@ export default function MapSideContent({
   const [isVideoLoading, setIsVideoLoading] = useState<boolean>(false);
   useEffect(() => {
     if (videoArray) {
-      console.log('videoArray', videoArray);
+      console.log('videoArray123123', videoArray);
       const videoListarray = videoArray.data.videos.map(value => ({
+        id: videoArray.data.id,
         name: videoArray.data.name,
         tag: swappedFoodListHastTable[value.category],
         description: value.content,
         url: value.url,
-        numberOfHeart: 312,
+        numberOfHeart: value.likeCount,
+        isLike: value.like,
       }));
       console.log('videoListarray', videoListarray);
       const items = videoListarray.map((video, index) => (
         <React.Fragment key={`ItemArray-${index}`}>
           <VideoItem
+            isLike={video.isLike}
+            videoId={video.id}
             videoUrl={video.url}
             tag={video.tag}
             name={video.name}

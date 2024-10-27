@@ -18,3 +18,4 @@ export * from './dot';
 export * from './report';
 export * from './filledHeart';
 export * from './list';
+export * from './logout';

@@ -14,6 +14,7 @@ interface OpenNotificationProps {
   color?: string;
   type: 'success' | 'info' | 'warning' | 'error';
   message: string;
+  duration?: number;
 }
 
 export default function CustomNotification({
@@ -23,12 +24,13 @@ export default function CustomNotification({
   description,
   color,
   type,
+  duration,
 }: OpenNotificationProps) {
   notification[type]({
     message: message,
     description: description ? description : null,
     placement,
     icon: icon ? createElement(icon, { style: { color } }) : null,
-    duration: 1,
+    duration: duration | 1,
   });
 }

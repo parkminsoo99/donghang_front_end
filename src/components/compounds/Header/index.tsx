@@ -1,6 +1,4 @@
 'use client';
-
-import { ProfileIcon } from '@/components/atomics/Icon/profile';
 import { ThreeBars } from '@/components/atomics/Icon/threeBar';
 import styled from 'styled-components';
 import { CustomModal } from '@/hooks/useModal';
@@ -9,14 +7,26 @@ import { useModalContentStore } from '@/zustand/modalContentStore/modalContentSt
 import { useEffect } from 'react';
 import { useMenuStore } from '@/zustand/MenuStore/MenuStore';
 import { CustomMenu } from '@/components/atomics/Menu';
-import { Add, Home, Map, Video } from '@/components/atomics/Icon';
+import {
+  Add,
+  Home,
+  Map,
+  Video,
+  ProfileIcon,
+  Logout,
+} from '@/components/atomics/Icon';
 import { DistanceFiltering } from '@/components/compounds/DistanceFiltering';
 import { Font } from '@/components/atomics/Font';
 import Image from 'next/image';
 import Link from 'next/link';
 import { VideoRegister } from '@/components/compounds/VideoRegister';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
-
+import { useAuthStore } from '@/zustand/LoginStore/loginStore';
+import { isNil } from 'lodash';
+import {
+  LogOutNotification,
+  NeedToLogInNotification,
+} from '../Form/loginSubmitFunction';
 const Container = styled.div`
   display: flex;
   padding-left: 12px;
@@ -70,12 +80,17 @@ export const Header = () => {
   const { ContentArray } = useModalContentStore();
   const { setAnchorEl } = useMenuStore();
   const { openModal, setUniqueModal } = useModalStore();
+  const { userToken, logout } = useAuthStore();
   const menuKey = 'header-menu';
   const videoRegisterArray = [<VideoRegister key="videoRegister" />];
-
+  console.log('userToken', userToken);
   const VideoResiterModalOpen = () => {
-    setUniqueModal('');
-    openModal(videoRegisterArray, 0);
+    if (userToken) {
+      setUniqueModal('');
+      openModal(videoRegisterArray, 0);
+    } else {
+      NeedToLogInNotification();
+    }
   };
   const onClickProFileIcon = () => {
     setUniqueModal('');
@@ -123,10 +138,27 @@ export const Header = () => {
     />,
   ];
 
+  const renderIcon = () => {
+    if (isNil(userToken)) {
+      return <ProfileIcon onClick={onClickProFileIcon} />;
+    } else {
+      return (
+        <Logout
+          onClick={() => {
+            onClickLogoutIcon();
+          }}
+        />
+      );
+    }
+  };
+
   useEffect(() => {
     ContentArray(contentArray);
   }, []);
-
+  const onClickLogoutIcon = () => {
+    logout();
+    LogOutNotification();
+  };
   return (
     <Container>
       <FilteringContainer>
@@ -140,7 +172,7 @@ export const Header = () => {
         priority
       />
       <IconContainer>
-        <ProfileIcon onClick={onClickProFileIcon} />
+        {renderIcon()}
         <ThreeBars
           onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
             setAnchorEl(menuKey, e)

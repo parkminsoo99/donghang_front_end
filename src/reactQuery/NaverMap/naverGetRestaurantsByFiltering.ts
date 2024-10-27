@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-
 interface fetchGetRestaurantsByFilteringProps {
   lat: number;
   lng: number;

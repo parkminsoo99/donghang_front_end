@@ -9,6 +9,7 @@ import { ReactElement } from 'react';
 import { ProfileFormProps } from '@/types/formProps';
 import { CustomUpload } from '@/components/atomics/CustomUpload';
 import { xs } from '@/constants/size';
+import { useAuthStore } from '@/zustand/LoginStore/loginStore';
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -86,7 +87,7 @@ export const ProfileForm = ({
 }: InputProps) => {
   const inputs: ReactElement[] = [];
   const { register, handleSubmit } = useForm<ProfileFormProps>();
-
+  const { userToken } = useAuthStore();
   if (
     !isNil(registerArray) &&
     !isNil(idArray) &&
@@ -132,6 +133,7 @@ export const ProfileForm = ({
   return (
     <Container>
       <CustomUpload
+        token={userToken}
         listType="picture-circle"
         maxCount={1}
         action="test"
