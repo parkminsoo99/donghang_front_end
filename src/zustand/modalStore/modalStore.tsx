@@ -18,7 +18,8 @@ export const useModalStore = create<ModalStoreProps>((set, get) => ({
   isModalOpen: false,
   contentIndex: 0,
   contentModal: null,
-  closeModal: () => set(() => ({ isModalOpen: false, contentModal: null })),
+  closeModal: () =>
+    set(() => ({ contentIndex: 0, isModalOpen: false, contentModal: null })),
   openModal: (content, index) =>
     set(() => ({ isModalOpen: true, contentModal: content[index] })),
   nextContent: index => {

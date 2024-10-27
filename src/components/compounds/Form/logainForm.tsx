@@ -18,6 +18,17 @@ import { Font } from '@/components/atomics/Font';
 import './form.css';
 import type { GetProps } from 'antd';
 import { useUserInfoStore } from '@/zustand/UserInfoStore/userInfoStore';
+import {
+  fetchEmailValidate,
+  fetchUserRegister,
+  fetchPinCodeValidate,
+} from '@/reactQuery/Login/emailInputQuery';
+import { useState } from 'react';
+import {
+  LoginSuccessNotification,
+  RegisterFailNotification,
+  RegisterSuccessNotification,
+} from './loginSubmitFunction';
 const customWidth = '420px';
 const Container = styled.div`
   width: 100%;
@@ -28,7 +39,8 @@ const Container = styled.div`
   justify-content: center;
   gap: 75px;
 `;
-
+import { useClientAuthStore } from '@/hooks/useAuthStore';
+import { useRouter } from 'next/navigation';
 type registerString = 'name' | 'email' | 'nickname' | 'pincode';
 
 interface InputProps {
@@ -48,6 +60,7 @@ const FontContainer = styled(Font)`
   text-decoration: underline;
   cursor: pointer;
 `;
+
 export const LoginForm = ({
   idArray,
   placeholderArray,
@@ -60,17 +73,40 @@ export const LoginForm = ({
   const { register, handleSubmit, getValues } = useForm<LoginFormProps>();
   const { setContentIndex, nextContent } = useModalStore();
   const { closeModal } = useModalStore();
-  const { setEmail, setName, setNickName } = useUserInfoStore();
-  let functionCatergory: SubmitHandler<LoginFormProps> = loginOnSubmit(
-    nextContent,
-    setContentIndex
-  );
-
-  if (catergory === 'email') {
-    functionCatergory = loginOnSubmit(nextContent, setContentIndex);
-  } else if (catergory === 'user') {
-    functionCatergory = userOnSubmit(nextContent, setContentIndex);
-  }
+  const { email, setEmail, setName, setNickName } = useUserInfoStore();
+  const { setUserToken } = useClientAuthStore();
+  const functionCatergory: SubmitHandler<LoginFormProps> = async data => {
+    if (catergory === 'email') {
+      const result = loginOnSubmit(
+        nextContent,
+        setContentIndex
+      )(data) as boolean;
+      if (result) {
+        const data = await fetchEmailValidate({
+          userEmail: getValues('email'),
+        });
+      }
+    } else if (catergory === 'user') {
+      const result = userOnSubmit(nextContent, setContentIndex);
+      if (result) {
+        const data = await fetchUserRegister({
+          email: email,
+          name: getValues('name'),
+          nickName: getValues('nickname'),
+        });
+        //회원가입 성공
+        if (data.status === 201) {
+          const userToken = data.headers.authorization as string;
+          setUserToken(userToken);
+          RegisterSuccessNotification();
+        }
+        //회원가입 실패
+        else {
+          RegisterFailNotification();
+        }
+      }
+    }
+  };
   if (
     !isNil(registerArray) &&
     !isNil(idArray) &&
@@ -135,16 +171,37 @@ export const PinCodeForm = ({ label }: Pick<InputProps, 'label'>) => {
   const { setContentIndex, nextContent } = useModalStore();
   const { handleSubmit } = useForm<LoginFormProps>();
   const { email } = useUserInfoStore();
-  const functionCatergory: SubmitHandler<LoginFormProps> = PinCodeOnSubmit(
-    nextContent,
-    setContentIndex
-  );
-  let inputvalue;
+  const { setUserToken } = useClientAuthStore();
+  const { closeModal } = useModalStore();
+  const router = useRouter();
+  let inputvalue: string;
   const onChange: OTPProps['onChange'] = text => {
-    console.log('onChange:', text);
-    inputvalue = text;
+    inputvalue = text as string;
   };
-
+  const functionCatergory: SubmitHandler<LoginFormProps> = async data => {
+    const fetchedData = await fetchPinCodeValidate({
+      userEmail: email,
+      pinCode: inputvalue,
+    });
+    console.log('fetchedData', fetchedData);
+    if (fetchedData) {
+      //회원가입 안된 사용자 & but correct Pincode
+      if (fetchedData.status == 303) {
+        PinCodeOnSubmit(nextContent, setContentIndex, true)(data);
+      }
+      //회원가입 되어있는 사용자
+      else if (fetchedData.status == 200) {
+        const userToken = fetchedData.headers.authorization as string;
+        setUserToken(userToken);
+        LoginSuccessNotification();
+        closeModal();
+      }
+      //incorrect Pincode
+      else {
+        PinCodeOnSubmit(nextContent, setContentIndex, false)(data);
+      }
+    }
+  };
   const sharedProps: OTPProps = {
     onChange,
   };

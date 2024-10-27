@@ -19,6 +19,7 @@ import { isNil } from 'lodash';
 import { useModalStore } from '@/zustand/modalStore/modalStore';
 import { fetchVideoRegister } from '@/reactQuery/VideoRegister/videoRegister';
 import { CustomSpinner } from '@/components/atomics/Spinner/indext';
+import { useAuthStore } from '@/zustand/LoginStore/loginStore';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -70,7 +71,7 @@ export const VideoRegister = () => {
   const [userAddressInput, setUserAddressInput] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false); // 초기값을 false로 설정
   const { closeModal } = useModalStore();
-
+  const { userToken } = useAuthStore();
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -144,6 +145,7 @@ export const VideoRegister = () => {
 
         const reponseData = await fetchVideoRegister({
           jsonData: submitImageValue,
+          token: userToken,
         });
 
         if (reponseData && reponseData.status === 200) {
@@ -175,6 +177,7 @@ export const VideoRegister = () => {
               mobileWidth={130}
               videoUrl={videoUrl}
               setVideoUrl={setVideoUrl}
+              token={userToken}
             />
             <TopRightContainer>
               <CustomAutoComplete

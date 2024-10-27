@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Font } from '@/components/atomics/Font';
-import { Heart, FilledHeart } from '@/components/atomics/Icon';
 import { Skeleton } from 'antd';
 import { useState } from 'react';
 import { Video } from '../VideoContainer/video';
 import { useMapIsVideoListLoad } from '@/zustand/MapVideoLoadStore/mapIsVideoListLoad';
 import './videoSkeleton.css';
+import { VideoLikeButton } from '@/reactQuery/VideoLike/videoLike';
 
 const Container = styled.div`
   width: 100%;
@@ -47,13 +47,6 @@ const NameWithTag = styled.div`
   gap: 10px;
 `;
 
-const NumberOfHeartWithValue = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
 const NameContainer = styled.div`
   display: inherit;
   flex-direction: inherit;
@@ -63,25 +56,24 @@ const NameContainer = styled.div`
 `;
 
 interface VideoItemProps {
+  videoId: number;
   videoUrl: string;
   tag: string;
   name: string;
   description: string;
   numberOfHeart: number;
+  isLike: boolean;
 }
 
 export const VideoItem = ({
+  isLike,
+  videoId,
   videoUrl,
   name,
   tag,
   description,
   numberOfHeart,
 }: VideoItemProps) => {
-  const [isClickedHeart, setIsClickedHeart] = useState<boolean>(true);
-  const onClickHeart = () => {
-    setIsClickedHeart(!isClickedHeart);
-  };
-
   return (
     <Container>
       <UpperContainer>
@@ -93,27 +85,11 @@ export const VideoItem = ({
             <Font font={15} thick="bold" color="#000" label={name} />
             <Font font={12} color="#8E8E8E" thick="bold" label={tag} />
           </NameContainer>
-          {isClickedHeart ? (
-            <NumberOfHeartWithValue>
-              <Heart color="#FFAAA4" onClick={() => onClickHeart()} />
-              <Font
-                color="#8E8E8E"
-                thick="bold"
-                font={10}
-                label={numberOfHeart}
-              />
-            </NumberOfHeartWithValue>
-          ) : (
-            <NumberOfHeartWithValue>
-              <FilledHeart color="#FFAAA4" onClick={() => onClickHeart()} />
-              <Font
-                color="#8E8E8E"
-                thick="bold"
-                font={10}
-                label={numberOfHeart}
-              />
-            </NumberOfHeartWithValue>
-          )}
+          <VideoLikeButton
+            numberOfHeart={numberOfHeart}
+            isLike={isLike}
+            videoId={videoId}
+          />
         </NameWithTag>
         <Font font={13} color="#000" label={description} />
       </DownContainer>

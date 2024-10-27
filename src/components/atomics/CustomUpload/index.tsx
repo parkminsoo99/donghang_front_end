@@ -7,9 +7,9 @@ import './upload.css';
 import styled from 'styled-components';
 import { custom_video_register_pixel } from '@/constants/size';
 import { DeleteIcon } from '../Icon/delete';
-import axios from 'axios';
 import CustomNotification from '../Notification';
-import { set } from 'lodash';
+import { fetchVideoUpload } from '@/reactQuery/VideoRegister/videoUpload';
+
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 type listTypeType = 'picture-card' | 'picture-circle' | 'picture' | undefined;
 interface CustomUploadProps {
@@ -23,6 +23,7 @@ interface CustomUploadProps {
   mobileHeight?: number;
   videoUrl?: string;
   setVideoUrl?: (url: string) => void;
+  token: string;
 }
 const UploadContainer = styled(Upload)<{
   width: number;
@@ -79,6 +80,7 @@ export const CustomUpload = ({
   mobileHeight,
   videoUrl,
   setVideoUrl,
+  token,
 }: CustomUploadProps) => {
   const [loading, setLoading] = useState(false);
   const getBase64 = (img: FileType, callback: (url: string) => void) => {
@@ -98,10 +100,10 @@ export const CustomUpload = ({
   };
   const onClickDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    console.log('delete logic');
-    const res = await axios({
+    const res = await fetchVideoUpload({
       method: 'delete',
       url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/file/delete?url=${videoUrl}`,
+      token: token,
     });
     if (res.status === 200) {
       CustomNotification({
@@ -146,6 +148,9 @@ export const CustomUpload = ({
       height={height}
       $mobileheight={mobileHeight}
       $mobilewidth={mobileWidth}
+      headers={{
+        Authorization: `${token}`,
+      }}
     >
       {videoUrl ? (
         <Container>
