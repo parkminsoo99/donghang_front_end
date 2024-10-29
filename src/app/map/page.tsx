@@ -43,7 +43,6 @@ export default function FoodMap() {
   const [open, setOpen] = useState(false);
   const { LatLng, setLatLng } = useMyPositionStore();
   const mapRef = useRef<HTMLDivElement | null>(null);
-  console.log('pinArrayReal', pinArrayReal);
   useEffect(() => {
     setPinArrayReal(restaurantsData);
   }, [restaurantsData, setPinArrayReal]);

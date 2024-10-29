@@ -6,7 +6,7 @@ import { isNil } from 'lodash';
 import { foodImageHastTable } from '@/constants/foodLists';
 import { useGetRestaurantsByIdQuery } from '@/reactQuery/NaverMap/naverGetRestaurantVideos';
 import { AxiosResponse } from 'axios';
-
+import { useAuthStore } from '@/zustand/LoginStore/loginStore';
 interface useNaverMapProps {
   pinArray: any;
   mapElement: HTMLElement;
@@ -31,7 +31,11 @@ export const useNaverMap = ({
   const { setIsMapClick } = useIsMapClick();
   const [restaurantId, setRestaurantId] = useState<number | null>(null);
   console.log('restaurantId', restaurantId);
-  const { data: restaurantVideos } = useGetRestaurantsByIdQuery(restaurantId);
+  const { userToken } = useAuthStore();
+  const { data: restaurantVideos } = useGetRestaurantsByIdQuery(
+    restaurantId,
+    userToken
+  );
   const callNaverMap = useCallback(async () => {
     try {
       initNavermap();
@@ -155,7 +159,7 @@ export const useNaverMap = ({
         contentEl.style.padding = '20px 50px';
         contentEl.style.borderRadius = '25px';
         contentEl.style.top = '100px';
-        contentEl.style.left = '50%';
+        contentEl.style.left = '54%';
         contentEl.style.transform = 'translateX(-50%)';
         contentEl.style.backgroundColor = '#fff';
         contentEl.style.border = 'solid 1px #333';
@@ -163,6 +167,40 @@ export const useNaverMap = ({
         contentEl.innerHTML = `
           <div style="display: inline-block; font-weight:bold;">${restaurantName}</div>
         `;
+        const disPlayTitle = '릴스보기';
+        const contentElWatchVideoButton = document.createElement('div');
+        contentElWatchVideoButton.className = 'iw_inner';
+        contentElWatchVideoButton.style.boxSizing = 'border-box';
+        contentElWatchVideoButton.style.position = 'absolute';
+        contentElWatchVideoButton.style.padding = '15px 50px';
+        contentElWatchVideoButton.style.borderRadius = '25px';
+        contentElWatchVideoButton.style.bottom = '10px';
+        contentElWatchVideoButton.style.left = '50%';
+        contentElWatchVideoButton.style.transform = 'translateX(-50%)';
+        contentElWatchVideoButton.style.backgroundColor = '#FFA4A4';
+        contentElWatchVideoButton.style.border = 'solid 1px #333';
+        contentElWatchVideoButton.style.display = 'inline-block';
+        contentElWatchVideoButton.style.cursor = 'pointer';
+        contentElWatchVideoButton.style.transition =
+          'background-color 0.5s ease';
+        contentElWatchVideoButton.style.borderColor = '#fff';
+        contentElWatchVideoButton.innerHTML = `
+          <a href="/videos" style="text-decoration: none; color: #fff; font-weight: bold;">${disPlayTitle}</a>
+        `;
+
+        contentElWatchVideoButton.addEventListener('mouseenter', () => {
+          contentElWatchVideoButton.style.backgroundColor = '#8E8E8E';
+          contentElWatchVideoButton.style.borderColor = '#fff';
+          contentElWatchVideoButton.style.color = '#000';
+        });
+        contentElWatchVideoButton.addEventListener('mouseleave', () => {
+          contentElWatchVideoButton.style.backgroundColor = '#FFA4A4';
+          contentElWatchVideoButton.style.borderColor = '#fff';
+          contentElWatchVideoButton.style.color = '#fff';
+        });
+
+        // 부모 요소에 추가
+        mapInstance.getElement().appendChild(contentElWatchVideoButton);
 
         naver.maps.Event.addListener(marker, 'mouseover', () => {
           mapInstance.getElement().appendChild(contentEl);

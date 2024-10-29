@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Font } from '@/components/atomics/Font';
 import { Skeleton } from 'antd';
-import { useState } from 'react';
 import { Video } from '../VideoContainer/video';
 import { useMapIsVideoListLoad } from '@/zustand/MapVideoLoadStore/mapIsVideoListLoad';
-import './videoSkeleton.css';
-import { VideoLikeButton } from '@/reactQuery/VideoLike/videoLike';
+import { Heart, FilledHeart } from '@/components/atomics/Icon';
+import { NeedToLogInNotification } from '@/components/compounds/Form/loginSubmitFunction';
+import { fetchVideoLike } from '@/reactQuery/VideoLike/videoLike';
 
 const Container = styled.div`
   width: 100%;
@@ -55,6 +56,13 @@ const NameContainer = styled.div`
   justify-content: center;
 `;
 
+const NumberOfHeartWithValue = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 interface VideoItemProps {
   videoId: number;
   videoUrl: string;
@@ -63,6 +71,7 @@ interface VideoItemProps {
   description: string;
   numberOfHeart: number;
   isLike: boolean;
+  token: string;
 }
 
 export const VideoItem = ({
@@ -73,7 +82,32 @@ export const VideoItem = ({
   tag,
   description,
   numberOfHeart,
+  token,
 }: VideoItemProps) => {
+  const [likeCount, setLikeCount] = useState(numberOfHeart);
+  const [liked, setLiked] = useState(isLike);
+
+  const onClickHeart = async () => {
+    if (token) {
+      try {
+        // 좋아요 API 호출
+        const response = await fetchVideoLike({ videoId, token });
+        console.log('response', response);
+        setLiked(response.data.liked);
+        setLikeCount(response.data.likeCount);
+        // 성공적으로 호출되면 상태 업데이트
+        // if (response) {
+        //   setLiked(response.liked);
+        //   setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+        // }
+      } catch (error) {
+        console.error('Error liking the video:', error);
+      }
+    } else {
+      NeedToLogInNotification();
+    }
+  };
+  console.log('isLike', isLike);
   return (
     <Container>
       <UpperContainer>
@@ -85,11 +119,29 @@ export const VideoItem = ({
             <Font font={15} thick="bold" color="#000" label={name} />
             <Font font={12} color="#8E8E8E" thick="bold" label={tag} />
           </NameContainer>
-          <VideoLikeButton
-            numberOfHeart={numberOfHeart}
-            isLike={isLike}
-            videoId={videoId}
-          />
+          <NumberOfHeartWithValue>
+            {liked ? (
+              <>
+                <FilledHeart color="#FFAAA4" onClick={onClickHeart} />
+                <Font
+                  color="#8E8E8E"
+                  thick="bold"
+                  font={10}
+                  label={likeCount}
+                />
+              </>
+            ) : (
+              <>
+                <Heart color="#FFAAA4" onClick={onClickHeart} />
+                <Font
+                  color="#8E8E8E"
+                  thick="bold"
+                  font={10}
+                  label={likeCount}
+                />
+              </>
+            )}
+          </NumberOfHeartWithValue>
         </NameWithTag>
         <Font font={13} color="#000" label={description} />
       </DownContainer>

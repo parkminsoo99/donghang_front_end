@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Video } from './video';
 import { CustomSpinner } from '@/components/atomics/Spinner/indext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Chat,
   Pause,
@@ -13,40 +13,31 @@ import {
 } from '@/components/atomics/Icon';
 import { Font } from '@/components/atomics/Font';
 import CustomNotification from '@/components/atomics/Notification';
-import { useInfiniteVideoQuery } from '@/reactQuery/Video/infiniteVideoScroll';
-import InfiniteScroll from 'react-infinite-scroller';
-import {
-  custom_map_side_bar_pixel_large,
-  custom_map_side_bar_pixel_medium,
-  custom_map_side_bar_pixel_small,
-} from '@/constants/size';
+import { fetchVideoLike } from '@/reactQuery/VideoLike/videoLike';
+import { NeedToLogInNotification } from '../Form/loginSubmitFunction';
+import { isNil } from 'lodash';
 
 const Container = styled.div`
-  gap: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
 `;
+
 const VideoContainer = styled.div`
-  width: 30rem;
-  height: 45rem;
+  width: 25rem;
+  height: 40rem;
   flex-shrink: 0;
   background-color: none;
   position: relative;
   border-color: #fff;
   z-index: 1;
   border-radius: 40px;
-  @media (max-width: ${custom_map_side_bar_pixel_large}) {
-    width: 25rem;
-    height: 40rem;
-  }
-  @media (max-width: ${custom_map_side_bar_pixel_medium}) {
-    width: 25rem;
-    height: 40rem;
-  }
-  @media (max-width: ${custom_map_side_bar_pixel_small}) {
-    width: 20rem;
-    height: 35rem;
+  @media (max-width: 768px) {
+    width: 18rem;
+    height: 30rem;
   }
 `;
 
@@ -67,12 +58,14 @@ const VideoBottomContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 0 0 40px 40px;
 `;
+
 const FontContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 6px;
 `;
+
 const SaveShareIconContainer = styled.div`
   gap: 5px;
   display: flex;
@@ -100,30 +93,28 @@ const PauseChatPositionContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.2);
 `;
 
-export const VideoTemplate = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isClickedHeart, setIsClickedHeart] = useState<boolean>(true);
-  const { data, status, hasNextPage, isFetching, isFetchingNextPage, error } =
-    useInfiniteVideoQuery();
-  console.log(
-    'data, status, hasNextPage, isFetching, isFetchingNextPage, error',
-    data,
-    status,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    error
-  );
+const ContainerOfVideoNull = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
+interface VideoTemplateProps {
+  data: any;
+  userToken: string;
+}
+export const VideoTemplate = ({ data, userToken }: VideoTemplateProps) => {
+  const [likeCount, setLikeCount] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [isvideoData, setIsvideoData] = useState(false);
   useEffect(() => {
-    if (status === 'success') {
-      setIsLoading(false);
+    if (data) {
+      console.log('data', data);
+      setLikeCount(data.pages[0].data[0].likeCount);
+      setLiked(data.pages[0].data[0].like);
+      setIsvideoData(true);
     }
-  }, [status]);
-
-  if (status === 'error' || error) {
-    return <div>Error occurred while fetching data</div>;
-  }
+  }, [data]);
 
   const onClickChattingIcon = () => {
     CustomNotification({
@@ -133,59 +124,85 @@ export const VideoTemplate = () => {
     });
   };
 
-  const onClickHeart = () => {
-    setIsClickedHeart(!isClickedHeart);
-  };
+  const onClickHeart = async () => {
+    if (!userToken) {
+      NeedToLogInNotification();
+      return;
+    }
 
+    try {
+      const response = await fetchVideoLike({
+        videoId: data.pages[0].data[0].videoId,
+        token: userToken,
+      });
+      setLiked(response.data.liked);
+      setLikeCount(response.data.likeCount);
+    } catch (error) {
+      console.error('Error liking the video:', error);
+      CustomNotification({
+        message: '좋아요 처리 중 오류가 발생했습니다.',
+        type: 'error',
+        placement: 'top',
+      });
+    }
+  };
   return (
     <>
-      {isLoading && <CustomSpinner />}
-      {!isLoading && (
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={hasNextPage}
-          hasMore={hasNextPage}
-          loader={<CustomSpinner />}
-          useWindow={false}
-        >
-          <Container className="Container">
-            <VideoContainer className="VideoContainer">
-              <Video isMapVideo={false} radius={40} />
-              <VideoBottomContainer>
-                <FontContainer>
-                  <Font color="#fff" label="이름" thick="bold" font={14} />
-                  <Font
-                    color="#fff"
-                    label="41234123412341234123412412412412421412412"
-                    font={12}
-                  />
-                </FontContainer>
-                <SaveShareIconContainer>
-                  <Save size={32} />
-                  <Share size={32} />
-                </SaveShareIconContainer>
-              </VideoBottomContainer>
-            </VideoContainer>
-            <PauseChatPositionContainer>
-              {isClickedHeart ? (
-                <NumberOfCountOntheIcon>
-                  <Heart onClick={() => onClickHeart()} />
-                  <Font color="#fff" font={10} thick="bold" label="321" />
-                </NumberOfCountOntheIcon>
-              ) : (
-                <NumberOfCountOntheIcon>
-                  <FilledHeart color="#FFAAA4" onClick={() => onClickHeart()} />
-                  <Font color="#fff" font={10} thick="bold" label="321" />
-                </NumberOfCountOntheIcon>
-              )}
+      {isvideoData ? (
+        <Container className="Container">
+          <VideoContainer className="VideoContainer">
+            <Video
+              src={data.pages[0].data[0].url}
+              isMapVideo={false}
+              radius={40}
+            />
+            <VideoBottomContainer>
+              <FontContainer>
+                <Font
+                  color="#fff"
+                  label={data.pages[0].data[0].userNickname}
+                  thick="bold"
+                  font={14}
+                />
+                <Font
+                  color="#fff"
+                  label={data.pages[0].data[0].content}
+                  font={12}
+                />
+              </FontContainer>
+              <SaveShareIconContainer>
+                <Save size={32} />
+                <Share size={32} />
+              </SaveShareIconContainer>
+            </VideoBottomContainer>
+          </VideoContainer>
+          <PauseChatPositionContainer>
+            {liked ? (
               <NumberOfCountOntheIcon>
-                <Chat onClick={() => onClickChattingIcon()} />
-                <Font color="#fff" thick="bold" font={10} label="0" />
+                <FilledHeart color="#FFAAA4" onClick={onClickHeart} />
+                <Font color="#fff" font={10} thick="bold" label={likeCount} />
               </NumberOfCountOntheIcon>
-              <Position />
-            </PauseChatPositionContainer>
-          </Container>
-        </InfiniteScroll>
+            ) : (
+              <NumberOfCountOntheIcon>
+                <Heart onClick={onClickHeart} />
+                <Font color="#fff" font={10} thick="bold" label={likeCount} />
+              </NumberOfCountOntheIcon>
+            )}
+            <NumberOfCountOntheIcon>
+              <Chat onClick={onClickChattingIcon} />
+              <Font color="#fff" thick="bold" font={10} label="0" />
+            </NumberOfCountOntheIcon>
+            <Position />
+          </PauseChatPositionContainer>
+        </Container>
+      ) : (
+        <ContainerOfVideoNull>
+          <Font
+            color="#fff"
+            font={20}
+            label="더 이상 불러올 영상이 없습니다."
+          />
+        </ContainerOfVideoNull>
       )}
     </>
   );

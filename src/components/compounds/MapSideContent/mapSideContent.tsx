@@ -22,7 +22,7 @@ import { FC } from 'react';
 import Collapse from '@mui/material/Collapse';
 import { useState } from 'react';
 import { useMapIsVideoListLoad } from '@/zustand/MapVideoLoadStore/mapIsVideoListLoad';
-
+import { useAuthStore } from '@/zustand/LoginStore/loginStore';
 import {
   custom_map_side_bar_pixel_large,
   custom_map_side_bar_pixel_medium,
@@ -108,11 +108,12 @@ export default function MapSideContent({
   const videoListarray = [];
   const [itemArray, setItemArray] = useState<JSX.Element[]>([]);
   const [isVideoLoading, setIsVideoLoading] = useState<boolean>(false);
+  const { userToken } = useAuthStore();
   useEffect(() => {
     if (videoArray) {
       console.log('videoArray123123', videoArray);
       const videoListarray = videoArray.data.videos.map(value => ({
-        id: videoArray.data.id,
+        id: value.videoId,
         name: videoArray.data.name,
         tag: swappedFoodListHastTable[value.category],
         description: value.content,
@@ -124,6 +125,7 @@ export default function MapSideContent({
       const items = videoListarray.map((video, index) => (
         <React.Fragment key={`ItemArray-${index}`}>
           <VideoItem
+            token={userToken}
             isLike={video.isLike}
             videoId={video.id}
             videoUrl={video.url}

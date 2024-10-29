@@ -4,6 +4,7 @@ import { CustomSpinner } from '@/components/atomics/Spinner/indext';
 const fetchGetRestaurants = async (): Promise<AxiosResponse<any, any>> => {
   try {
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/restaurants`;
+    console.log('url', url);
     return await axios.get(url);
   } catch (e) {
     throw new Error('fetchGetRestaurant Erorr : ', e.message);
