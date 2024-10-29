@@ -16,7 +16,10 @@ interface AccountProps {
 export const Logout = ({ onClick }: AccountProps) => {
   return (
     <IconSizeContainer>
-      <LogoutOutlined onClick={onClick} style={{ fontSize: 24 }} />
+      <LogoutOutlined
+        onClick={onClick}
+        style={{ fontSize: 28, color: '#FFAAA4' }}
+      />
     </IconSizeContainer>
   );
 };

@@ -4,7 +4,8 @@ import { Search } from '@/components/atomics/Search';
 import { DistanceFilteringForHome } from '@/components/compounds/DistanceFiltering';
 import { SubTitle } from '@/components/atomics/Typography';
 import { custom_main_pixel, custom_main_input_pixel } from '@/constants/size';
-
+import { Button } from '@/components/atomics/Button';
+import { useRouter } from 'next/navigation';
 const InputAndFilteringContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -84,22 +85,39 @@ const RightImageContainer = styled.img`
   }
 `;
 export default function Home() {
+  const router = useRouter();
+  const onClickWatchButton = () => {
+    router.push('/map');
+  };
   return (
     <MainContainer className="MainContainer">
       <SubContainer className="SubContainer">
         <SubSubContainer className="SubSubContainer">
           <LeftContainer>
             <TypoContainer>
-              <SubTitle level={1} label="좋아하는 음식 영상" />
-              <SubTitle level={1} label="찾아보세요." />
+              <SubTitle level={1} label="근처 숨겨진 맛집이" />
+              <SubTitle level={1} label="궁금하지 않나요?" />
             </TypoContainer>
             <SubTitle
               level={4}
               color="rgba(37, 37, 37, 0.80)"
-              label="음식 키워드를 통해 검색하기"
+              label="숨겨진 영상 공유하고 보러하기"
             />
             <InputAndFilteringContainer>
-              <Search placeHolder="오늘 뭐 먹지?" />
+              <Button
+                label="보러가기!"
+                width={200}
+                height={60}
+                borderRadius={10}
+                backGroundColor="#FFAAA4"
+                color="#fff"
+                hoverbackGroundColor="#000"
+                fontSize={16}
+                onClick={() => {
+                  onClickWatchButton();
+                }}
+              />
+              {/* <Search placeHolder="오늘 뭐 먹지?" /> */}
               <FilteringContainer>
                 <DistanceFilteringForHome />
               </FilteringContainer>

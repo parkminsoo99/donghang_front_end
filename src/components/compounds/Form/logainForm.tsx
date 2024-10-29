@@ -141,7 +141,7 @@ export const LoginForm = ({
       >
         <Flex gap={10} align="center" vertical>
           {inputs}
-          <Button label="제출" />
+          <Button label="회원가입" />
         </Flex>
       </form>
     </Container>
@@ -235,7 +235,7 @@ export const PinCodeForm = ({ label }: Pick<InputProps, 'label'>) => {
               label="인증번호가 오지 않았나요?"
             />
           </a>
-          <Button label="제출" />
+          <Button label="로그인" />
         </Flex>
       </FormContainer>
     </PinInputContainer>

@@ -54,7 +54,6 @@ export const Video = ({ radius, src, isMapVideo }: VideoProps) => {
     if (isMapVideo) {
       setIsPlaying(!isPlaying);
     }
-    console.log('videoRef.current', videoRef.current);
   }, []);
 
   const onPlayIconClick = () => {
