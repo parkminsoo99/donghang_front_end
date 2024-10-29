@@ -23,10 +23,12 @@ export default function RootLayout({
         <AntdRegistry>
           <ThemeProvider theme={theme}>
             <html lang="en">
-              <Script
-                strategy="afterInteractive"
-                src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
-              />
+              <head>
+                <Script
+                  strategy="afterInteractive"
+                  src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
+                />
+              </head>
               <body className={inter.className}>
                 <Header />
                 <CustomModal />
