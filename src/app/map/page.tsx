@@ -56,7 +56,7 @@ export default function FoodMap() {
     open: open,
     setOpen: setOpen,
   });
-
+  console.log('rerendering', restaurantVideos);
   useEffect(() => {
     window.scrollTo(0, 0);
     setLatLng();

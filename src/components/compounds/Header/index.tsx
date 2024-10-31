@@ -36,7 +36,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
@@ -165,7 +164,7 @@ export const Header = () => {
         <DistanceFiltering />
       </FilteringContainer>
       <Image
-        src="/images/betaLogo.png"
+        src="/images/Logo.png"
         width={80}
         height={80}
         alt="Picture of the author"
