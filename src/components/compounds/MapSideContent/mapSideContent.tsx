@@ -123,7 +123,7 @@ export default function MapSideContent({
       }));
       console.log('videoListarray', videoListarray);
       const items = videoListarray.map((video, index) => (
-        <React.Fragment key={`ItemArray-${index}`}>
+        <React.Fragment key={`ItemArray-${video.id}`}>
           <VideoItem
             token={userToken}
             isLike={video.isLike}
@@ -149,7 +149,7 @@ export default function MapSideContent({
   };
   const updateDrawerWidth = () => {
     const width = window.innerWidth;
-    setDrawerWidth(width / 2.5);
+    setDrawerWidth(width / 4);
   };
 
   useEffect(() => {

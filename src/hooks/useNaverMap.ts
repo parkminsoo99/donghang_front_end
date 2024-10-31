@@ -30,12 +30,13 @@ export const useNaverMap = ({
   const { setLatLng } = useMyPositionStore();
   const { setIsMapClick } = useIsMapClick();
   const [restaurantId, setRestaurantId] = useState<number | null>(null);
-  console.log('restaurantId', restaurantId);
+
   const { userToken } = useAuthStore();
   const { data: restaurantVideos } = useGetRestaurantsByIdQuery(
     restaurantId,
     userToken
   );
+  console.log('restaurantId', restaurantId);
   const callNaverMap = useCallback(async () => {
     try {
       initNavermap();
@@ -94,7 +95,7 @@ export const useNaverMap = ({
 
       const mapInstance = new naver.maps.Map(mapElement, mapOptions);
       mapInstanceRef.current = mapInstance;
-
+      console.log('userpin', userLat, userLng);
       // 사용자 마커 생성
       new naver.maps.Marker({
         position: new naver.maps.LatLng(userLat, userLng),

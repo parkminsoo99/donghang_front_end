@@ -38,6 +38,7 @@ const TypoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 `;
 const SubContainer = styled.div`
   height: 100%;
@@ -95,24 +96,24 @@ export default function Home() {
         <SubSubContainer className="SubSubContainer">
           <LeftContainer>
             <TypoContainer>
-              <SubTitle level={1} label="근처 숨겨진 맛집이" />
+              <SubTitle level={1} label="당신만 모르는 근처 핫플," />
               <SubTitle level={1} label="궁금하지 않나요?" />
             </TypoContainer>
             <SubTitle
-              level={4}
+              level={5}
               color="rgba(37, 37, 37, 0.80)"
-              label="숨겨진 영상 공유하고 보러하기"
+              label="숨겨진 영상, 함께 보고 나만의 스토리로 공유해보세요!"
             />
             <InputAndFilteringContainer>
               <Button
-                label="보러가기!"
+                label="탐험하기 🍔"
                 width={200}
                 height={60}
                 borderRadius={10}
                 backGroundColor="#FFAAA4"
                 color="#fff"
                 hoverbackGroundColor="#000"
-                fontSize={16}
+                fontSize={17}
                 onClick={() => {
                   onClickWatchButton();
                 }}
@@ -123,7 +124,10 @@ export default function Home() {
               </FilteringContainer>
             </InputAndFilteringContainer>
           </LeftContainer>
-          <RightImageContainer src="/images/mainImage.png" alt="main image" />
+          <RightImageContainer
+            src="/images/mainImageWithMeat.jpg"
+            alt="main image"
+          />
         </SubSubContainer>
       </SubContainer>
     </MainContainer>
